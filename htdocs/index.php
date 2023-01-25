@@ -1,3 +1,3 @@
 <?php
 
-require_once "util/dependencies_util.php"; ?>
+require_once "util/router_util.php"; ?>
