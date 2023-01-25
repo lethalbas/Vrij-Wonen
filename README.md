@@ -9,7 +9,7 @@ Demo gebruiker login | Gebruiker1:Gebruiker01!
 
 Setup:
 
-1 - Import mysql db script vrijwonen.mysql to phpmyadmin
+1 - Import mysql db script vrijwonen.sql to phpmyadmin
 
 2 - Insert your db login info in /htdocs/util/db_connection_util.php
 
