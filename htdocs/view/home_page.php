@@ -15,10 +15,15 @@
             <div class="text-center mt-5">
                 <h1>Vrij Wonen</h1>
                 <p class="lead">Welkom op de startpagina van vrij wonen!</p>
-                <p>Klik hieronder om gratis door onze objecten te browsen.</p>
+                <p>Klik hieronder om vrijblijvend door onze objecten te browsen.</p>
                 <button type="button" class="btn btn-primary" onclick="window.location='/overzicht';">Overzicht</button>
             </div> 
         </div>         
     </div>
 </body>
 </html>
+
+<?php
+    $logging_util = new logging_util();
+    $logging_util->create_log("home_page.php");
+?>

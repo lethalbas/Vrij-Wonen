@@ -1,3 +1,7 @@
+<?php 
+    require_once "logging_util.php";
+?>
+
 <!-- include this util in your head tag to automatically require all base css and js includes -->
 
 <!-- cdn: -->
