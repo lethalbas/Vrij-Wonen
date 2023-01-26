@@ -13,10 +13,28 @@
 </head>
 <body>
     <?php require_once "header.php"; ?>
-    <?php 
-        $objects_controller = new objects_controller();
-        $table_data = $objects_controller->get_all();
-        require_once "data_table.php";
-    ?>
+    <div class="container">
+        <table class="table table_margin_top">
+            <thead>
+                <tr>
+                    <th scope="col" class="center_table">Titel</th>
+                    <th scope="col" class="center_table">Prijs</th>
+                    <th scope="col" class="center_table">Adres</th>
+                    <th scope="col" class="center_table">Verkoopstatus</th>
+                    <th scope="col" class="center_table">Acties</th>
+                </tr>
+            </thead>
+            <?php 
+                $objects_controller = new objects_controller();
+                $table_data = $objects_controller->get_all();
+                require_once "data_table.php";
+            ?>
+        </table>
+    </div>
 </body>
 </html>
+
+<?php
+    $logging_util = new logging_util();
+    $logging_util->create_log("object_overview.php");
+?>
