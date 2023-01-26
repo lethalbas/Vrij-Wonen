@@ -9,6 +9,9 @@ switch ($request) {
     case '/' :
         require __DIR__ . '/../view/home_page.php';
         break;
+    case '/api' :
+        require __DIR__ . '/../api/api.php';
+        break;
     case '/overzicht' :
         require __DIR__ . '/../view/object_overview.php';
         break;

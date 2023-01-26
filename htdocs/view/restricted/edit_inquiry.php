@@ -10,3 +10,8 @@
     
 </body>
 </html>
+
+<?php
+    $logging_util = new logging_util();
+    $logging_util->create_log("edit_inquiry.php");
+?>

@@ -11,3 +11,8 @@
     
 </body>
 </html>
+
+<?php
+    $logging_util = new logging_util();
+    $logging_util->create_log("overview_staff.php");
+?>
