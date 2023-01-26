@@ -11,6 +11,8 @@ Setup:
 
 1 - Import mysql db script vrijwonen.sql to phpmyadmin
 
-2 - Insert your db login info in /htdocs/util/db_connection_util.php
+2 - Insert your db login info in /app/util/db_connection_util.php
 
-3 - Add all files and folders in /htdocs/ to webroot directory
+3 - Add htdocs and app folders to the desired location in the file system
+
+4 - Set htdocs folder as the apache webroot
