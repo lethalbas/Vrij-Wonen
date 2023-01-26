@@ -10,4 +10,24 @@ abstract class model {
         $this->connection_util = new db_connection_util();
         $this->db = $this->connection_util->get_db();
     }
+
+    function get_all() {
+        return;
+    }
+
+    function get($id) {
+        return;
+    }
+
+    function delete($id) {
+        return;
+    }
+
+    function update($id, $data) {
+        return;
+    }
+
+    function create($data) {
+        return;
+    }
 }

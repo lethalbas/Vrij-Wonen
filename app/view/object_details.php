@@ -5,7 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Objectinformatie | Vrij Wonen</title>
-    <?php require_once __DIR__ . "/../util/dependencies_util.php"; ?>
+    <?php 
+    require_once __DIR__ . "/../util/dependencies_util.php"; 
+    $dep = new dependencies_util();
+    $dep->all_dependencies();
+    ?>
 </head>
 <body>
     

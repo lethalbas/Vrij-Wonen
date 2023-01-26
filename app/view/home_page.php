@@ -5,8 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home | Vrij Wonen</title>
-    <?php require_once __DIR__ . "/../util/dependencies_util.php"; ?>
-    <link rel="stylesheet" href="/../style/home_page.css">
+    <?php 
+    require_once __DIR__ . "/../util/dependencies_util.php"; 
+    $dependencies_util = new dependencies_util();
+    $dependencies_util->all_dependencies();
+    $file_handler_util = new file_handler_util();
+    ?>
+    <link rel="stylesheet" href=" <?php echo($file_handler_util->get_style_dir()); ?>/home_page.css">
 </head>
 <body>
     <?php require_once "header.php"; ?>
