@@ -11,8 +11,3 @@
     
 </body>
 </html>
-
-<?php
-    $logging_util = new logging_util();
-    $logging_util->create_log("log_in.php");
-?>
