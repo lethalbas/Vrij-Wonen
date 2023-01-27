@@ -13,7 +13,7 @@
                     <a class="nav-link" href="/objecten-overzicht">Objecten</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Log-in</a>
+                    <a class="nav-link" href="/log-in">Log-in</a>
                 </li>
             </ul>
         </div>

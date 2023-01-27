@@ -12,7 +12,34 @@
     ?>
 </head>
 <body>
-    
+    <?php require_once "header.php"; ?>
+    <div class="container mb-5">
+        <div class="text-center mt-5">
+            <h1>Inloggen als beheerder</h1>
+        </div> 
+        <div class="d-flex justify-content-center align-items-center mt-5">
+            <div class="w-50 p-3 border rounded">
+                <form method="post", action="/log-in">
+                    <!-- Username input -->
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="form2Example1">Gebruikersnaam</label>
+                        <input type="text" name="user" class="form-control" />
+                    </div>
+
+                    <!-- Password input -->
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="form2Example2">Wachtwoord</label>
+                        <input type="password" name="pass" class="form-control" />
+                    </div>
+
+                    <hr/>
+
+                    <!-- Submit button -->
+                    <button type="submit" class="btn btn-primary btn-block">Aanmelden</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
 
