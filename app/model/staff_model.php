@@ -10,4 +10,18 @@ class staff_model extends model {
         return $sth->fetchAll();
     }
 
+    function delete($id) {
+        $sth = $this->db->prepare("DELETE FROM staff WHERE id = $id;");
+        $sth->execute();
+    }
+
+    // change session key or password
+    function update($id, $data) {
+        return;
+    }
+
+    function create($data) {
+        return;
+    }
+
 }

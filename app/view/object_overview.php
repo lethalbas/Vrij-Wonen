@@ -1,6 +1,5 @@
 <?php 
     require_once __DIR__ . "/../controller/objects_controller.php"; 
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +22,7 @@
             <h1>Alle objecten</h1>
         </div> 
         <div class="mt-5">
-            <img src="<?php echo($file_handler_util->get_user_img_dir()); ?>/1.jpg" alt="Hoofdfoto" />
+            <img src="<?= $file_handler_util->get_cdn_user_img_dir(); ?>/1.jpg" alt="Hoofdfoto" />
         </div>
     </div>
 </body>

@@ -10,4 +10,13 @@ class api_model extends model {
         return $sth->fetchAll();
     }
 
+    function delete($id) {
+        $sth = $this->db->prepare("DELETE FROM apikeys WHERE id = $id;");
+        $sth->execute();
+    }
+
+    function create($data) {
+        return;
+    }
+
 }

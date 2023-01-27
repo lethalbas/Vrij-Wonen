@@ -15,6 +15,10 @@ abstract class model {
         return;
     }
 
+    function get_all_filtered($filters) {
+        return;
+    }
+
     function get($id) {
         return;
     }

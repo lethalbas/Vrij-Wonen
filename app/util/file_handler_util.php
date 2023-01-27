@@ -1,32 +1,43 @@
 <?php
 
 class file_handler_util {
-    private $style_dir;
-    private $script_dir;
-    private $img_dir;
-    private $user_img_dir;
+    // variables for cdn paths
+    private $cdn_style_dir;
+    private $cdn_script_dir;
+    private $cdn_img_dir;
+    private $cdn_user_img_dir;
 
+    // set all required variables
     function __construct() {
-        $domain = "http://" . $_SERVER['HTTP_HOST'];
-        $this->style_dir = $domain . "/style";
-        $this->script_dir = $domain . "/script";
-        $this->img_dir = $domain . "/img";
-        $this->user_img_dir = $this->img_dir . "/user_image_uploads";
+        if(isset($_SERVER['HTTPS'])){
+            $cdn_url = "https://" . $_SERVER['HTTP_HOST'];
+        }
+        else{
+            $cdn_url = "http://" . $_SERVER['HTTP_HOST'];
+        }
+        $this->cdn_style_dir = $cdn_url . "/style";
+        $this->cdn_script_dir = $cdn_url . "/script";
+        $this->cdn_img_dir = $cdn_url . "/img";
+        $this->cdn_user_img_dir = $this->cdn_img_dir . "/user_image_uploads";
     }
 
-    function get_style_dir () {
-        return $this->style_dir;
+    // get the directory for stylesheets
+    function get_cdn_style_dir () {
+        return $this->cdn_style_dir;
     }
 
-    function get_script_dir () {
-        return $this->script_dir;
+    // get the directory for javascript files
+    function get_cdn_script_dir () {
+        return $this->cdn_script_dir;
     }
 
-    function get_img_dir () {
-        return $this->img_dir;
+    // get the directory for static images
+    function get_cdn_img_dir () {
+        return $this->cdn_img_dir;
     }
 
-    function get_user_img_dir () {
-        return $this->user_img_dir;
+    // get the directory for user submitted images
+    function get_cdn_user_img_dir () {
+        return $this->cdn_user_img_dir;
     }
 }

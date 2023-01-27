@@ -1,6 +1,7 @@
 <?php
 
 class router_util {
+    // use this method in index.php to route to the desired views
     function route($request) {
         switch ($request) {
             case '' :

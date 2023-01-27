@@ -6,6 +6,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbar1">
             <ul class="navbar-nav">
+            <li class="nav-item active">
+                    <a class="nav-link" href="/">Startpagina</a>
+                </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="/overzicht">Objecten</a>
                 </li>
