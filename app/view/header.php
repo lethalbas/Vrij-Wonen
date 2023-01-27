@@ -10,7 +10,7 @@
                     <a class="nav-link" href="/">Startpagina</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="/overzicht">Objecten</a>
+                    <a class="nav-link" href="/objecten-overzicht">Objecten</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Log-in</a>

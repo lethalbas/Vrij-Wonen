@@ -11,7 +11,7 @@
     $dependencies_util->all_dependencies();
     $file_handler_util = new file_handler_util();
     ?>
-    <link rel="stylesheet" href=" <?php echo($file_handler_util->get_cdn_style_dir()); ?>/home_page.css">
+    <link rel="stylesheet" href="<?=$file_handler_util->get_cdn_style_dir(); ?>/home_page.css">
 </head>
 <body>
     <?php require_once "header.php"; ?>
@@ -21,7 +21,7 @@
                 <h1>Vrij Wonen</h1>
                 <p class="lead">Welkom op de startpagina van vrij wonen!</p>
                 <p>Klik hieronder om vrijblijvend door onze objecten te browsen.</p>
-                <button type="button" class="btn btn-primary" onclick="window.location='/overzicht';">Overzicht</button>
+                <button type="button" class="btn btn-primary" onclick="window.location='/objecten-overzicht';">Overzicht</button>
             </div> 
         </div>         
     </div>

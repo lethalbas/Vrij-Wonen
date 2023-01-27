@@ -15,9 +15,9 @@ class file_handler_util {
         else{
             $cdn_url = "http://" . $_SERVER['HTTP_HOST'];
         }
-        $this->cdn_style_dir = $cdn_url . "/style";
-        $this->cdn_script_dir = $cdn_url . "/script";
-        $this->cdn_img_dir = $cdn_url . "/img";
+        $this->cdn_style_dir = $cdn_url . "/cdn/style";
+        $this->cdn_script_dir = $cdn_url . "/cdn/script";
+        $this->cdn_img_dir = $cdn_url . "/cdn/img";
         $this->cdn_user_img_dir = $this->cdn_img_dir . "/user_image_uploads";
     }
 
