@@ -9,7 +9,9 @@
     require_once __DIR__ . "/../util/dependencies_util.php"; 
     $dep = new dependencies_util();
     $dep->all_dependencies();
+    $file_handler_util = new file_handler_util();
     ?>
+    <script src="<?= $file_handler_util->get_cdn_script_dir(); ?>/log_in.js"></script>
 </head>
 <body>
     <?php require_once "header.php"; ?>
@@ -18,7 +20,7 @@
             <h1>Inloggen als beheerder</h1>
         </div> 
         <div class="d-flex justify-content-center align-items-center mt-5">
-            <div class="w-50 p-3 border rounded">
+            <div id="form-container-responsive" class="w-50 p-3 border rounded">
                 <form method="post", action="/log-in">
                     <!-- Username input -->
                     <div class="form-outline mb-4">
