@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 27 jan 2023 om 19:00
+-- Gegenereerd op: 28 jan 2023 om 16:11
 -- Serverversie: 10.4.25-MariaDB
 -- PHP-versie: 7.4.30
 
@@ -399,18 +399,6 @@ INSERT INTO `cities` (`id`, `citiename`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `connectnearfac`
---
-
-CREATE TABLE `connectnearfac` (
-  `id` int(11) NOT NULL,
-  `objectid` int(11) NOT NULL,
-  `nearfacilitieid` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Tabelstructuur voor tabel `connectprop`
 --
 
@@ -437,17 +425,6 @@ CREATE TABLE `inquiries` (
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `nearfacilities`
---
-
-CREATE TABLE `nearfacilities` (
-  `id` int(11) NOT NULL,
-  `facilitie` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Tabelstructuur voor tabel `objects`
 --
 
@@ -456,7 +433,8 @@ CREATE TABLE `objects` (
   `title` varchar(255) NOT NULL,
   `price` decimal(8,2) NOT NULL,
   `adress` varchar(255) NOT NULL,
-  `postcodeid` int(11) NOT NULL,
+  `postcode` char(6) NOT NULL,
+  `cityid` int(11) NOT NULL,
   `description` varchar(1020) NOT NULL,
   `mainimage` varchar(255) NOT NULL,
   `image2` varchar(255) NOT NULL,
@@ -464,18 +442,6 @@ CREATE TABLE `objects` (
   `image4` varchar(255) NOT NULL,
   `image5` varchar(255) NOT NULL,
   `sold` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Tabelstructuur voor tabel `postcodes`
---
-
-CREATE TABLE `postcodes` (
-  `id` int(11) NOT NULL,
-  `citieid` int(11) NOT NULL,
-  `postcode` varchar(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -539,14 +505,6 @@ ALTER TABLE `cities`
   ADD UNIQUE KEY `citiename` (`citiename`);
 
 --
--- Indexen voor tabel `connectnearfac`
---
-ALTER TABLE `connectnearfac`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_object` (`objectid`),
-  ADD KEY `fk_nearfacilitie` (`nearfacilitieid`);
-
---
 -- Indexen voor tabel `connectprop`
 --
 ALTER TABLE `connectprop`
@@ -561,26 +519,12 @@ ALTER TABLE `inquiries`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexen voor tabel `nearfacilities`
---
-ALTER TABLE `nearfacilities`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexen voor tabel `objects`
 --
 ALTER TABLE `objects`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `adress` (`adress`),
-  ADD KEY `fk_postcode` (`postcodeid`);
-
---
--- Indexen voor tabel `postcodes`
---
-ALTER TABLE `postcodes`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `postcode` (`postcode`),
-  ADD KEY `fk_citieid` (`citieid`);
+  ADD KEY `fk_city` (`cityid`);
 
 --
 -- Indexen voor tabel `properties`
@@ -613,16 +557,10 @@ ALTER TABLE `cities`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=347;
 
 --
--- AUTO_INCREMENT voor een tabel `connectnearfac`
---
-ALTER TABLE `connectnearfac`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT voor een tabel `connectprop`
 --
 ALTER TABLE `connectprop`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT voor een tabel `inquiries`
@@ -631,21 +569,9 @@ ALTER TABLE `inquiries`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT voor een tabel `nearfacilities`
---
-ALTER TABLE `nearfacilities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT voor een tabel `objects`
 --
 ALTER TABLE `objects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT voor een tabel `postcodes`
---
-ALTER TABLE `postcodes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
@@ -665,13 +591,6 @@ ALTER TABLE `staff`
 --
 
 --
--- Beperkingen voor tabel `connectnearfac`
---
-ALTER TABLE `connectnearfac`
-  ADD CONSTRAINT `fk_nearfacilitie` FOREIGN KEY (`nearfacilitieid`) REFERENCES `nearfacilities` (`id`),
-  ADD CONSTRAINT `fk_object` FOREIGN KEY (`objectid`) REFERENCES `objects` (`id`);
-
---
 -- Beperkingen voor tabel `connectprop`
 --
 ALTER TABLE `connectprop`
@@ -682,13 +601,7 @@ ALTER TABLE `connectprop`
 -- Beperkingen voor tabel `objects`
 --
 ALTER TABLE `objects`
-  ADD CONSTRAINT `fk_postcode` FOREIGN KEY (`postcodeid`) REFERENCES `postcodes` (`id`);
-
---
--- Beperkingen voor tabel `postcodes`
---
-ALTER TABLE `postcodes`
-  ADD CONSTRAINT `fk_citieid` FOREIGN KEY (`citieid`) REFERENCES `cities` (`id`);
+  ADD CONSTRAINT `fk_city` FOREIGN KEY (`cityid`) REFERENCES `cities` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

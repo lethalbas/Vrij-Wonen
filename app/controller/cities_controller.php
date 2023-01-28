@@ -9,4 +9,8 @@ class cities_controller extends controller {
         $this->model = new cities_model();
     }
 
+    function get_all() {
+        return $this->model->get_all();
+    }
+
 }

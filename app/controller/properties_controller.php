@@ -9,4 +9,8 @@ class properties_controller extends controller {
         $this->model = new properties_model();
     }
 
+    function get_all() {
+        return $this->model->get_all();
+    }
+
 }
