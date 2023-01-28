@@ -7,8 +7,7 @@ class objects_model extends model {
     function get_all() {
         $sth = $this->db->prepare("SELECT objects.id, objects.title, objects.adress, cities.citiename, objects.mainimage
             FROM objects
-            INNER JOIN postcodes ON objects.postcodeid = postcodes.id
-            INNER JOIN cities ON postcodes.citieid = cities.id;");
+            INNER JOIN cities ON objects.cityid = cities.id");
         $sth->execute();
         return $sth->fetchAll();
     }
@@ -49,8 +48,7 @@ class objects_model extends model {
         }
         $sth = $this->db->prepare("SELECT objects.id, objects.title, objects.adress, cities.citiename, objects.mainimage
         FROM objects
-        INNER JOIN postcodes ON objects.postcodeid = postcodes.id
-        INNER JOIN cities ON postcodes.citieid = cities.id
+        INNER JOIN cities ON objects.cityid = cities.id
         LEFT JOIN connectprop ON objects.id = connectprop.objectid
         $filterstring
         GROUP BY objects.id;");
