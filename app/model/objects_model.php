@@ -59,18 +59,22 @@ class objects_model extends model {
     function get($id) {
         $sth = $this->db->prepare("SELECT objects.title, objects.adress, cities.citiename, objects.mainimage, objects.image2, objects.image3, objects.image4, objects.image5
             FROM objects
-            INNER JOIN postcodes ON objects.postcodeid = postcodes.id
-            INNER JOIN cities ON postcodes.citieid = cities.id
+            INNER JOIN cities ON objects.cityid = cities.id
             LEFT JOIN connectprop ON objects.id = connectprop.objectid
             LEFT JOIN properties ON connectprop.propertieid = properties.id
+            WHERE objects.id = $id
             GROUP BY objects.id;");
         $sth->execute();
         return $sth->fetch();
     }
 
     function delete($id) {
+        $this->db->beginTransaction();
+        $sth = $this->db->prepare("DELETE FROM connectprop WHERE objectid = $id;");
+        $sth->execute();
         $sth = $this->db->prepare("DELETE FROM objects WHERE id = $id;");
         $sth->execute();
+        $this->db->commit();
     }
 
     function update($id, $data) {

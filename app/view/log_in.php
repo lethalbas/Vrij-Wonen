@@ -17,8 +17,28 @@ session_start();
     <script src="<?= $file_handler_util->get_cdn_script_dir(); ?>/log_in.js"></script>
 </head>
 <body>
-    <?php require_once "header.php"; ?>
-    <div class="container mb-5">
+    <?php
+    require_once "header.php";
+    $ulsu = new user_login_session_util();
+    if($ulsu->get_login_status() > 0){
+        print_logged_in(false);
+    }
+    else if(isset($_POST["user"]) && isset($_POST["pass"])){
+        if($ulsu->login_user($_POST["user"], $_POST["pass"])){
+            print_logged_in(true);
+        }
+        else {
+            print_form("De inloggegevens waren niet correct.");
+        }
+    }
+    else{
+        print_form();
+    }
+
+    ?> <div class="container mb-5"> <?php
+
+    function print_form($error = ""){
+    ?>
         <div class="text-center mt-5">
             <h1>Inloggen als beheerder</h1>
         </div> 
@@ -44,6 +64,33 @@ session_start();
                 </form>
             </div>
         </div>
+    </div>
+    <?php 
+    }
+
+    function print_logged_in($new_login){
+        if($new_login){ ?>
+        <div class="row align-items-center">
+            <div class="text-center mt-5">
+                <h1>Ingelogd</h1>
+                <p class="lead">U bent nu ingelogd!</p>
+                <p>Klik hieronder om terug naar de startpagina te gaan.</p>
+                <button type="button" class="btn btn-primary" onclick="window.location='/';">Home</button>
+            </div> 
+        </div>   
+        <?php  }
+        else{ ?>
+        <div class="row align-items-center">
+            <div class="text-center mt-5">
+                <h1>Ingelogd</h1>
+                <p class="lead">U bent al ingelogd!</p>
+                <p>Klik hieronder om terug naar de startpagina te gaan.</p>
+                <button type="button" class="btn btn-primary" onclick="window.location='/';">Home</button>
+            </div> 
+        </div>   
+        <?php  }
+    }
+    ?>
     </div>
 </body>
 </html>

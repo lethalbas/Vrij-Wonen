@@ -17,21 +17,32 @@ class user_login_session_util {
         $this->sc = new staff_controller();
 
         // set the current login status
-        if(isset($_SESSION["session_key"])){
-            $sess_info = $this->sc->get_by_session($_SESSION["session_key"]);
-            if (count($sess_info) > 0){
-                if ($sess_info["admin"] == 1){
-                    $this->current_login_status = 2;
-                }
-                else{
-                    $this->current_login_status = 1;
-                }
+        $sess_info = $this->sc->get_by_session(session_id());
+        if ($sess_info != ""){
+            if ($sess_info["admin"] == 1){
+                $this->current_login_status = 2;
             }
+            else{
+                $this->current_login_status = 1;
+            }
+        }
+        else{
+            $this->current_login_status = 0;
         }
     }
 
     // return login status for restricting views to certain moderation levels
     function get_login_status(){
         return $this->current_login_status;
+    }
+
+    // log in and create session
+    function login_user($username, $password){
+        if($this->sc->log_in($username, $password)){
+            session_create_id();
+            $this->sc->set_session($username, session_id());
+            return true;
+        }
+        return false;
     }
 }
