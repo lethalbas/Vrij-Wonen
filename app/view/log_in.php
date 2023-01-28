@@ -13,13 +13,16 @@ session_start();
     $dep = new dependencies_util();
     $dep->all_dependencies();
     $file_handler_util = new file_handler_util();
+    $ulsu = new user_login_session_util();
+    if(isset($_POST["logout"])){
+        $ulsu->log_out();
+    }
     ?>
     <script src="<?= $file_handler_util->get_cdn_script_dir(); ?>/log_in.js"></script>
 </head>
 <body>
     <?php
     require_once "header.php";
-    $ulsu = new user_login_session_util();
     if($ulsu->get_login_status() > 0){
         print_logged_in(false);
     }
@@ -34,9 +37,9 @@ session_start();
     else{
         print_form();
     }
-
-    ?> <div class="container mb-5"> <?php
-
+    ?> 
+    <div class="container mb-5"> 
+    <?php
     function print_form($error = ""){
     ?>
         <div class="text-center mt-5">

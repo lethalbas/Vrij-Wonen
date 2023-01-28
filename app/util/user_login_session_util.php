@@ -45,4 +45,9 @@ class user_login_session_util {
         }
         return false;
     }
+
+    // starts a new session id to log out
+    function log_out() {
+        session_regenerate_id();
+    }
 }

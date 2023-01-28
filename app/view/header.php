@@ -1,3 +1,7 @@
+<?php
+$ulsu = new user_login_session_util();
+?>
+
 <nav class="navbar navbar-expand-sm sticky-top navbar-light bg-light shadow-sm border-bottom">
     <div class="container">
         <a class="navbar-brand" href="/">Vrij Wonen</a>
@@ -12,9 +16,15 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="/objecten-overzicht">Objecten</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/log-in">Log-in</a>
-                </li>
+                <?php if($ulsu->get_login_status() > 0){ ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="log_out()">Uitloggen</a>
+                    </li>
+                <?php } else{ ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/log-in">Log-in</a>
+                    </li>
+                <?php } ?>
             </ul>
         </div>
     </div>

@@ -12,6 +12,7 @@ class dependencies_util {
         // get cdn urls
         $file_handler_util = new file_handler_util();
         $cdn_style_path = $file_handler_util->get_cdn_style_dir();
+        $cdn_script_path = $file_handler_util->get_cdn_script_dir();
 
         // dependencies from vendor cdns to include on each page
         $this->cdn = [
@@ -27,7 +28,9 @@ class dependencies_util {
         $this->custom = [
             '<link rel="stylesheet" href="' . $cdn_style_path . '/reset.css">',
             '<link rel="stylesheet" href="' . $cdn_style_path . '/font_reset.css">',
-            '<link rel="stylesheet" href="' . $cdn_style_path . '/main_styles.css">'
+            '<link rel="stylesheet" href="' . $cdn_style_path . '/main_styles.css">',
+            '<script src="' . $cdn_script_path . '/vendor/jquery.redirect.js"></script>',
+            '<script src="' . $cdn_script_path . '/header.js"></script>'
         ];
 
         // php util dependencies to include on each page
