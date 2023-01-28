@@ -45,7 +45,7 @@
                 <form method="post", action="/objecten-overzicht">
                     <!-- Username input -->
                     <div class="form-outline mb-4">
-                        <label class="form-label" for="form2Example1">Eigenschappen</label>
+                        <label class="form-label" for="form2Example1">Eigenschappen </label>
                         <select id="js-properties-multiple" class="form-select" data-control="select2" name="properties[]" multiple="multiple">
                         <?php
                             $pc = new properties_controller();
@@ -59,7 +59,7 @@
 
                     <!-- Password input -->
                     <div class="form-outline mb-4">
-                        <label class="form-label" for="form2Example2">Stad</label>
+                        <label class="form-label" for="form2Example2">Stad </label>
                         <select id="js-citie-single" class="form-select" data-control="select2" name="citie">
                             <option></option>
                             <?php

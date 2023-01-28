@@ -25,7 +25,7 @@ class objects_model extends model {
                 INNER JOIN cities ON postcodes.citieid = cities.id
                 LEFT JOIN connectprop ON objects.id = connectprop.objectid
                 LEFT JOIN properties ON connectprop.propertieid = properties.id
-                WHERE properties.propertie IN ($filters) AND cities.id = $citie
+                WHERE properties.id IN ($filters) AND cities.id = $citie
                 GROUP BY objects.id;");
         }
         else if ($citie != "") {
@@ -45,7 +45,7 @@ class objects_model extends model {
                 INNER JOIN cities ON postcodes.citieid = cities.id
                 LEFT JOIN connectprop ON objects.id = connectprop.objectid
                 LEFT JOIN properties ON connectprop.propertieid = properties.id
-                WHERE properties.propertie IN ($filters)
+                WHERE properties.id IN ($filters)
                 GROUP BY objects.id;");
         }
         $sth->execute();
