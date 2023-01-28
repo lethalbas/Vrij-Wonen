@@ -53,13 +53,13 @@ session_start();
                     <!-- Username input -->
                     <div class="form-outline mb-4">
                         <label class="form-label" for="form2Example1">Gebruikersnaam</label>
-                        <input type="text" name="user" class="form-control" />
+                        <input type="text" name="user" class="form-control" required />
                     </div>
 
                     <!-- Password input -->
                     <div class="form-outline mb-4">
                         <label class="form-label" for="form2Example2">Wachtwoord</label>
-                        <input type="password" name="pass" class="form-control" />
+                        <input type="password" name="pass" class="form-control" required />
                     </div>
 
                     <hr/>

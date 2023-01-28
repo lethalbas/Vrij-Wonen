@@ -22,11 +22,13 @@ session_start();
 </head>
 <body>
     <?php require_once __DIR__ . "/../header.php"; ?>
-    <div class="container">
+    <div class="container mb-5">
         <div class="row align-items-center">
             <div class="text-center mt-5">
                 <h1>Beheerdersdashboard</h1>
                 <p class="lead">Welkom op het beheerdersdashboard van Vrij Wonen!</p>
+                <p>Klik hieronder om een object aan te maken.</p>
+                <button type="button" class="btn btn-primary" onclick="window.location='/beheerder/object-aanmaken';">Object toevoegen</button>
             </div> 
         </div>
     </div>

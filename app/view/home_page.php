@@ -18,7 +18,7 @@ session_start();
 </head>
 <body>
     <?php require_once "header.php"; ?>
-    <div class="container">
+    <div class="container mb-5">
         <div class="row align-items-center">
             <div class="text-center mt-5">
                 <h1>Vrij Wonen</h1>

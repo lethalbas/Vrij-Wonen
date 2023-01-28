@@ -15,7 +15,10 @@ session_start();
     ?>
 </head>
 <body>
-    
+    <?php require_once "header.php"; ?>
+    <div class="container mb-5">
+
+    </div>
 </body>
 </html>
 

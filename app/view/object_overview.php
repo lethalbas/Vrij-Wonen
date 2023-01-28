@@ -1,23 +1,21 @@
 <?php
 session_start();
-?>
-<?php 
-    require_once __DIR__ . "/../controller/objects_controller.php"; 
-    require_once __DIR__ . "/../controller/properties_controller.php"; 
-    require_once __DIR__ . "/../controller/cities_controller.php"; 
-    $searched = isset($_POST["properties"]) || isset($_POST["citie"]);
+require_once __DIR__ . "/../controller/objects_controller.php"; 
+require_once __DIR__ . "/../controller/properties_controller.php"; 
+require_once __DIR__ . "/../controller/cities_controller.php"; 
+$searched = isset($_POST["properties"]) || isset($_POST["citie"]);
+if(isset($_POST["properties"])){
+    $prop = implode(",", $_POST["properties"]);
+}
+if($searched){
+    $searchfilters = array();
     if(isset($_POST["properties"])){
-        $prop = implode(",", $_POST["properties"]);
+        $searchfilters["connectprop.propertieid"]= $prop;
     }
-    if($searched){
-        $searchfilters = array();
-        if(isset($_POST["properties"])){
-            $searchfilters["connectprop.propertieid"]= $prop;
-        }
-        if(isset($_POST["citie"])){
-            $searchfilters["cities.id"]= $_POST["citie"];
-        }
+    if(isset($_POST["citie"])){
+        $searchfilters["cities.id"]= $_POST["citie"];
     }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,7 +56,7 @@ session_start();
         <div class="d-flex justify-content-center align-items-center mt-5">
             <div id="form-container-responsive" class="shadow w-50 p-3 border rounded">
                 <form method="post", action="/objecten-overzicht">
-                    <!-- Username input -->
+                    
                     <div class="form-outline mb-4">
                         <label class="form-label" for="form2Example1">Eigenschappen </label>
                         <select id="js-properties-multiple" class="form-select" data-control="select2" name="properties[]" multiple="multiple">
@@ -72,7 +70,6 @@ session_start();
                         </select>
                     </div>
 
-                    <!-- Password input -->
                     <div class="form-outline mb-4">
                         <label class="form-label" for="form2Example2">Stad </label>
                         <select id="js-citie-single" class="form-select" data-control="select2" name="citie">

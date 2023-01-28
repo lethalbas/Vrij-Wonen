@@ -57,13 +57,7 @@ class objects_model extends model {
     }
 
     function get($id) {
-        $sth = $this->db->prepare("SELECT objects.title, objects.adress, cities.citiename, objects.mainimage, objects.image2, objects.image3, objects.image4, objects.image5
-            FROM objects
-            INNER JOIN cities ON objects.cityid = cities.id
-            LEFT JOIN connectprop ON objects.id = connectprop.objectid
-            LEFT JOIN properties ON connectprop.propertieid = properties.id
-            WHERE objects.id = $id
-            GROUP BY objects.id;");
+        $sth = $this->db->prepare("SELECT * FROM objects WHERE objects.id = $id;");
         $sth->execute();
         return $sth->fetch();
     }
@@ -78,11 +72,32 @@ class objects_model extends model {
     }
 
     function update($id, $data) {
-        return;
+        $object_data = $data["object"];
+        $object_properties = $data["properties"];
+        $this->db->beginTransaction();
+        $sth = $this->db->prepare("DELETE FROM connectprop WHERE objectid = $id;");
+        $sth->execute();
+        $sth = $this->db->prepare("UPDATE objects SET title=?,price=?,adress=?,postcode=?,cityid=?,`description`=?,mainimage=?,image2=?,image3=?,image4=?,image5=?,sold=?) WHERE id=?;");
+        $sth->execute([$object_data["title"],$object_data["price"],$object_data["adress"],$object_data["postcode"],$object_data["cityid"],$object_data["description"],$object_data["mainimage"],$object_data["image2"],$object_data["image3"],$object_data["image4"],$object_data["image5"],$object_data["sold"], $id]);
+        foreach($object_properties as $propertie){
+            $sth = $this->db->prepare("INSERT INTO connectprop(objectid,propertieid) VALUES(?,?);");
+            $sth->execute([$id, $propertie]);
+        }
+        $this->db->commit();
     }
 
     function create($data) {
-        return;
+        $object_data = $data["object"];
+        $object_properties = $data["properties"];
+        $this->db->beginTransaction();
+        $sth = $this->db->prepare("INSERT INTO objects(title,price,adress,postcode,cityid,`description`,mainimage,image2,image3,image4,image5,sold) VALUES(?,?,?,?,?,?,?,?,?,?,?,?);");
+        $sth->execute([$object_data["title"],$object_data["price"],$object_data["adress"],$object_data["postcode"],$object_data["cityid"],$object_data["description"],$object_data["mainimage"],$object_data["image2"],$object_data["image3"],$object_data["image4"],$object_data["image5"],$object_data["sold"]]);
+        $last_id = $this->db->lastInsertId();
+        foreach($object_properties as $propertie){
+            $sth = $this->db->prepare("INSERT INTO connectprop(objectid,propertieid) VALUES(?,?);");
+            $sth->execute([$last_id, $propertie]);
+        }
+        $this->db->commit();
     }
 
 }

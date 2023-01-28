@@ -40,4 +40,19 @@ class file_handler_util {
     function get_cdn_user_img_dir () {
         return $this->cdn_user_img_dir;
     }
+
+    // upload image to cdn and return filename without extension
+    function upload($image) {
+        $upload_dir = __DIR__ . "\..\..\htdocs\cdn\img\user_image_uploads\\";
+        $glob = glob("$upload_dir\\*.jpg");
+        array_push($glob, 0);
+        $highest = max(preg_replace("|[^0-9]|", "", $glob));
+        $newfile = $highest + 1;
+        $destination  = "$upload_dir/$newfile.jpg";
+        $src = $image["tmp_name"];
+        move_uploaded_file( $src, $destination );
+        return $newfile;
+    }
+
+    
 }
