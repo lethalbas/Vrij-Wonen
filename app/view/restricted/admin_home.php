@@ -14,7 +14,7 @@ session_start();
     $dep->all_dependencies();
     $ulsu = new user_login_session_util();
     // restricted page
-    if($ulsu->get_login_status < 1){
+    if($ulsu->get_login_status() < 1){
         header('Location: /forbidden'); 
         exit;
     }

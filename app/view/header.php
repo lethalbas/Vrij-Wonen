@@ -1,5 +1,5 @@
 <?php
-$ulsu = new user_login_session_util();
+$header_ulsu = new user_login_session_util();
 ?>
 
 <nav class="navbar navbar-expand-sm sticky-top navbar-light bg-light shadow-sm border-bottom">
@@ -16,9 +16,9 @@ $ulsu = new user_login_session_util();
                 <li class="nav-item active">
                     <a class="nav-link" href="/objecten-overzicht">Objecten</a>
                 </li>
-                <?php if($ulsu->get_login_status() > 0){ ?>
+                <?php if($header_ulsu->get_login_status() > 0){ ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="/beheerder/startpagina">Beheerdersdashboard</a>
+                        <a class="nav-link" href="/beheerder">Beheerdersdashboard</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="log_out()">Uitloggen</a>

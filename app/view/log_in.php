@@ -16,6 +16,8 @@ session_start();
     $ulsu = new user_login_session_util();
     if(isset($_POST["logout"])){
         $ulsu->log_out();
+        header('Location: /'); 
+        exit;
     }
     ?>
     <script src="<?= $file_handler_util->get_cdn_script_dir(); ?>/log_in.js"></script>

@@ -1,3 +1,11 @@
+// credit attribution
+$( window ).on("load", function() {
+  console.log("Credit attribution:");
+  console.log("Multiple functionalities on this site are partially powered by jQuery Redirect v1.2.0");
+  console.log("Licence: http://creativecommons.org/licenses/by-sa/4.0/");
+  console.log("More at: https://github.com/mgalante/jquery.redirect");
+});
+
 /*
 jQuery Redirect v1.2.0
 

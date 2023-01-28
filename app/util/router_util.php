@@ -17,7 +17,7 @@ class router_util {
             case '/log-in' :
                 require_once  __DIR__ . '/../view/log_in.php';
                 break;
-            case '/beheerder/startpagina' :
+            case '/beheerder' :
                 require_once  __DIR__ . '/../view/restricted/admin_home.php';
                 break;
             case '/beheerder/api-key-aanmaken' :
