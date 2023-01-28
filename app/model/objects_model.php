@@ -15,14 +15,39 @@ class objects_model extends model {
 
     // filter by properties
     function get_all_filtered($filters) {
-        $sth = $this->db->prepare("SELECT objects.title, objects.price, objects.adress, postcodes.postcode, cities.citiename, objects.mainimage, objects.sold
-            FROM objects
-            INNER JOIN postcodes ON objects.postcodeid = postcodes.id
-            INNER JOIN cities ON postcodes.citieid = cities.id
-            LEFT JOIN connectprop ON objects.id = connectprop.objectid
-            LEFT JOIN properties ON connectprop.propertieid = properties.id
-            WHERE properties.propertie IN ($filters)
-            GROUP BY objects.id;");
+        $citie = $filters["citie"];
+        $filters = $filters["properties"];
+        $sth = "";
+        if($citie != "" && $filters != "") {
+            $sth = $this->db->prepare("SELECT objects.title, objects.price, objects.adress, postcodes.postcode, cities.citiename, objects.mainimage, objects.sold
+                FROM objects
+                INNER JOIN postcodes ON objects.postcodeid = postcodes.id
+                INNER JOIN cities ON postcodes.citieid = cities.id
+                LEFT JOIN connectprop ON objects.id = connectprop.objectid
+                LEFT JOIN properties ON connectprop.propertieid = properties.id
+                WHERE properties.propertie IN ($filters) AND cities.citiename = '$citie'
+                GROUP BY objects.id;");
+        }
+        else if ($citie != "") {
+            $sth = $this->db->prepare("SELECT objects.title, objects.price, objects.adress, postcodes.postcode, cities.citiename, objects.mainimage, objects.sold
+                FROM objects
+                INNER JOIN postcodes ON objects.postcodeid = postcodes.id
+                INNER JOIN cities ON postcodes.citieid = cities.id
+                LEFT JOIN connectprop ON objects.id = connectprop.objectid
+                LEFT JOIN properties ON connectprop.propertieid = properties.id
+                WHERE cities.citiename = '$citie'
+                GROUP BY objects.id;");
+        }
+        else {
+            $sth = $this->db->prepare("SELECT objects.title, objects.price, objects.adress, postcodes.postcode, cities.citiename, objects.mainimage, objects.sold
+                FROM objects
+                INNER JOIN postcodes ON objects.postcodeid = postcodes.id
+                INNER JOIN cities ON postcodes.citieid = cities.id
+                LEFT JOIN connectprop ON objects.id = connectprop.objectid
+                LEFT JOIN properties ON connectprop.propertieid = properties.id
+                WHERE properties.propertie IN ($filters)
+                GROUP BY objects.id;");
+        }
         $sth->execute();
         return $sth->fetchAll();
     }
