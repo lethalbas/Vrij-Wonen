@@ -3,6 +3,18 @@
     require_once __DIR__ . "/../controller/properties_controller.php"; 
     require_once __DIR__ . "/../controller/cities_controller.php"; 
     $searched = isset($_POST["properties"]) || isset($_POST["citie"]);
+    if(isset($_POST["properties"])){
+        $prop = implode(",", $_POST["properties"]);
+    }
+    if($searched){
+        $searchfilters = array();
+        if(isset($_POST["properties"])){
+            $searchfilters["connectprop.propertieid"]= $prop;
+        }
+        if(isset($_POST["citie"])){
+            $searchfilters["cities.id"]= $_POST["citie"];
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -85,10 +97,7 @@
             if($searched){
                 $objects_controller = new objects_controller();
                 $query = "";
-                if(isset($_POST["properties"])){
-                    $query = implode(",", $_POST["properties"]);
-                }
-                $results = $objects_controller->get_all($query, $_POST["citie"]);
+                $results = $objects_controller->get_all($searchfilters);
                 if(count($results) > 0){
                     print_results($results, $file_handler_util);
                 }

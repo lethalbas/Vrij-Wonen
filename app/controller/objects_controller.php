@@ -9,12 +9,12 @@ class objects_controller extends controller {
         $this->model = new objects_model();
     }
 
-    function get_all($filters = "", $citie = "") {
-        if($filters == "" && $citie == ""){
+    function get_all($filters = NULL) {
+        if($filters == NULL){
             return $this->model->get_all();
         }
         else{
-            return $this->model->get_all_filtered(array("properties"=> $filters, "citie"=> $citie));
+            return $this->model->get_all_filtered($filters);
         }
     }
 

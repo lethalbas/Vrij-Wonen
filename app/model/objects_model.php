@@ -15,39 +15,45 @@ class objects_model extends model {
 
     // filter by properties
     function get_all_filtered($filters) {
-        $citie = $filters["citie"];
-        $filters = $filters["properties"];
-        $sth = "";
-        if($citie != "" && $filters != "") {
-            $sth = $this->db->prepare("SELECT objects.id, objects.title, objects.adress, cities.citiename, objects.mainimage
-                FROM objects
-                INNER JOIN postcodes ON objects.postcodeid = postcodes.id
-                INNER JOIN cities ON postcodes.citieid = cities.id
-                LEFT JOIN connectprop ON objects.id = connectprop.objectid
-                LEFT JOIN properties ON connectprop.propertieid = properties.id
-                WHERE properties.id IN ($filters) AND cities.id = $citie
-                GROUP BY objects.id;");
+        $filterstring = "";
+        if(count($filters) > 0){
+            $filterstring = $filterstring . "WHERE";
+            foreach($filters as $filter => $val) {
+                // arrays
+                if(is_array($val)){
+                    foreach($val as $arr_item){
+                        // strings in arrays
+                        if(is_string($val)){
+                            $newstr = " $filter = '$arr_item' AND";
+                            $filterstring = $filterstring . $newstr;
+                        }
+                        // integers in arrays (used for id)
+                        else{
+                            $newstr = " $filter = $arr_item AND";
+                            $filterstring = $filterstring . $newstr;
+                        }
+                    }
+                }
+                // strings
+                if(is_string($val)){
+                    $newstr = " $filter = '$val' AND";
+                    $filterstring = $filterstring . $newstr;
+                }
+                // integers (used for id)
+                else{
+                    $newstr = " $filter = $val AND";
+                    $filterstring = $filterstring . $newstr;
+                }
+            }
+            $filterstring = rtrim($filterstring, ' AND');
         }
-        else if ($citie != "") {
-            $sth = $this->db->prepare("SELECT objects.id, objects.title, objects.adress, cities.citiename, objects.mainimage
-                FROM objects
-                INNER JOIN postcodes ON objects.postcodeid = postcodes.id
-                INNER JOIN cities ON postcodes.citieid = cities.id
-                LEFT JOIN connectprop ON objects.id = connectprop.objectid
-                LEFT JOIN properties ON connectprop.propertieid = properties.id
-                WHERE cities.id = $citie
-                GROUP BY objects.id;");
-        }
-        else {
-            $sth = $this->db->prepare("SELECT objects.id, objects.title, objects.adress, cities.citiename, objects.mainimage
-                FROM objects
-                INNER JOIN postcodes ON objects.postcodeid = postcodes.id
-                INNER JOIN cities ON postcodes.citieid = cities.id
-                LEFT JOIN connectprop ON objects.id = connectprop.objectid
-                LEFT JOIN properties ON connectprop.propertieid = properties.id
-                WHERE properties.id IN ($filters)
-                GROUP BY objects.id;");
-        }
+        $sth = $this->db->prepare("SELECT objects.id, objects.title, objects.adress, cities.citiename, objects.mainimage
+        FROM objects
+        INNER JOIN postcodes ON objects.postcodeid = postcodes.id
+        INNER JOIN cities ON postcodes.citieid = cities.id
+        LEFT JOIN connectprop ON objects.id = connectprop.objectid
+        $filterstring
+        GROUP BY objects.id;");
         $sth->execute();
         return $sth->fetchAll();
     }
