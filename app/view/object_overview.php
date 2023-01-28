@@ -1,5 +1,7 @@
 <?php 
     require_once __DIR__ . "/../controller/objects_controller.php"; 
+    require_once __DIR__ . "/../controller/properties_controller.php"; 
+    require_once __DIR__ . "/../controller/cities_controller.php"; 
     $searched = isset($_POST["properties"]) || isset($_POST["citie"]);
 ?>
 <!DOCTYPE html>
@@ -36,7 +38,8 @@
             }
             ?>
         </div> 
-        <!-- filters form -->
+
+        <!-- search form -->
         <div class="d-flex justify-content-center align-items-center mt-5">
             <div id="form-container-responsive" class="shadow w-50 p-3 border rounded">
                 <form method="post", action="/objecten-overzicht">
@@ -44,8 +47,13 @@
                     <div class="form-outline mb-4">
                         <label class="form-label" for="form2Example1">Eigenschappen</label>
                         <select id="js-properties-multiple" class="form-select" data-control="select2" name="properties[]" multiple="multiple">
-                            <option value="Dicht bij zee">Dicht bij zee</option>
-                            <option value="Dicht bij stad">Dicht bij stad</option>
+                        <?php
+                            $pc = new properties_controller();
+                            $options = $pc->get_all();
+                            foreach($options as $option) {
+                                ?> <option value="<?= $option["id"]; ?>"><?= $option["propertie"]; ?></option> <?php
+                            }
+                            ?>
                         </select>
                     </div>
 
@@ -54,19 +62,25 @@
                         <label class="form-label" for="form2Example2">Stad</label>
                         <select id="js-citie-single" class="form-select" data-control="select2" name="citie">
                             <option></option>
-                            <option value="Amersfoort">Amersfoort</option>
-                            <option value="Utrecht">Utrecht</option>
+                            <?php
+                            $cc = new cities_controller();
+                            $options = $cc->get_all();
+                            foreach($options as $option) {
+                                ?> <option value="<?= $option["id"]; ?>"><?= $option["citiename"]; ?></option> <?php
+                            }
+                            ?>
                         </select>
                     </div>
 
                     <hr/>
 
                     <!-- Submit button -->
-                    <button type="submit" class="btn btn-primary btn-block">Zoeken</button>
+                    <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-search"></i> Zoeken</button>
                 </form>
             </div>
         </div>
-        <!-- print all object cards -->
+
+        <!-- handle object data -->
         <?php
             if($searched){
                 $objects_controller = new objects_controller();
@@ -101,12 +115,15 @@
                 }
             }
 
+            // print cards based on data
+            // TODO: look into $fhu variable
             function print_results($data, $fhu){
                 ?> <div class="d-flex flex-wrap g-3 mt-5 justify-content-center align-items-center"> <?php
                 foreach($data as $card){
                     $main_img = $card["mainimage"];
                     $title = $card["title"];
                     $adress = $card["adress"] . ", " . $card["citiename"];
+                    $id = $card["id"];
                     ?>
                     <div class="shadow card m-2">
                         <img class="card-img-top" src="<?= $fhu->get_cdn_user_img_dir() . "/" . $main_img . ".jpg"; ?>" alt="Hoofdfoto">
@@ -115,7 +132,7 @@
                             <p class="card-text"><i class="fa-solid fa-location-dot"></i> <?= $adress; ?></p>
                         </div>
                         <div class="card-footer">  
-                            <button class="btn btn-primary"><i class="fa-solid fa-circle-info"></i>Meer details</button>
+                            <button onclick="open_details($id)" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i> Meer details</button>
                         </div>
                     </div>
                     <?php

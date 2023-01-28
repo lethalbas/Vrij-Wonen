@@ -37,7 +37,7 @@
                     <hr/>
 
                     <!-- Submit button -->
-                    <button type="submit" class="btn btn-primary btn-block">Aanmelden</button>
+                    <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-sign-in-alt"></i> Aanmelden</button>
                 </form>
             </div>
         </div>
