@@ -7,7 +7,7 @@ session_start();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Object aanmaken & bewerken | Vrij Wonen</title>
+    <title>Aanvraag details | Vrij Wonen</title>
     <?php 
     require_once __DIR__ . "/../../util/dependencies_util.php"; 
     $dep = new dependencies_util();
@@ -23,12 +23,12 @@ session_start();
 <body>
     <?php require_once __DIR__ . "/../header.php"; ?>
     <div class="container">
-        
+
     </div>
 </body>
 </html>
 
 <?php
     $logging_util = new logging_util();
-    $logging_util->create_log("create_edit_object.php");
+    $logging_util->create_log("admin_home.php");
 ?>

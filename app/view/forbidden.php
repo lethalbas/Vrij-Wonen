@@ -20,7 +20,7 @@ session_start();
         <div class="row align-items-center">
             <div class="text-center mt-5">
                 <h1>Forbidden</h1>
-                <p class="lead">U heeft geen rechten om deze pagina te bezoeken!</p>
+                <p class="lead">U heeft geen rechten om de opgevraagde pagina te bezoeken!</p>
                 <p>Klik hieronder om terug naar de startpagina te gaan.</p>
                 <button type="button" class="btn btn-primary" onclick="window.location='/';">Home</button>
             </div> 

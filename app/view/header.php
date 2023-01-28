@@ -18,6 +18,9 @@ $ulsu = new user_login_session_util();
                 </li>
                 <?php if($ulsu->get_login_status() > 0){ ?>
                     <li class="nav-item">
+                        <a class="nav-link" href="/beheerder/startpagina">Beheerdersdashboard</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="#" onclick="log_out()">Uitloggen</a>
                     </li>
                 <?php } else{ ?>

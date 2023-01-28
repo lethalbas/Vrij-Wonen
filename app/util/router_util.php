@@ -17,31 +17,31 @@ class router_util {
             case '/log-in' :
                 require_once  __DIR__ . '/../view/log_in.php';
                 break;
-            case '/beheerder-startpagina' :
+            case '/beheerder/startpagina' :
                 require_once  __DIR__ . '/../view/restricted/admin_home.php';
                 break;
-            case '/api-key-aanmaken' :
+            case '/beheerder/api-key-aanmaken' :
                 require_once  __DIR__ . '/../view/restricted/create_api_key.php';
                 break;
-            case '/object-aanmaken' :
-            case '/object-bewerken' :
+            case '/beheerder/object-aanmaken' :
+            case '/beheerder/object-bewerken' :
                 require_once  __DIR__ . '/../view/restricted/create_edit_object.php';
                 break;
-            case '/medewerker-aanmaken' :
-            case '/medewerker-bewerken' :
+            case '/beheerder/medewerker-aanmaken' :
+            case '/beheerder/medewerker-bewerken' :
                 require_once  __DIR__ . '/../view/restricted/create_edit_staff.php';
                 break;
-            case '/api-overzicht' :
+            case '/beheerder/api-overzicht' :
                 require_once  __DIR__ . '/../view/restricted/overview_api.php';
                 break;
-            case '/contact-aanvragen-overzicht' :
+            case '/beheerder/contact-aanvragen-overzicht' :
                 require_once  __DIR__ . '/../view/restricted/overview_inquiries.php';
                 break;
-            case '/medewerkers-overzicht' :
+            case '/beheerder/medewerkers-overzicht' :
                 require_once  __DIR__ . '/../view/restricted/overview_staff.php';
                 break;
-            case '/inquiry' :
-                require_once  __DIR__ . '/../view/restricted/create_edit_object.php';
+            case '/beheerder/aanvraag-details' :
+                require_once  __DIR__ . '/../view/restricted/inquiry_details.php';
                 break;
             case '/api' :
                 require_once  __DIR__ . '/../api/api.php';

@@ -73,14 +73,7 @@ session_start();
 
     function print_logged_in($new_login){
         if($new_login){ ?>
-        <div class="row align-items-center">
-            <div class="text-center mt-5">
-                <h1>Ingelogd</h1>
-                <p class="lead">U bent nu ingelogd!</p>
-                <p>Klik hieronder om terug naar de startpagina te gaan.</p>
-                <button type="button" class="btn btn-primary" onclick="window.location='/';">Home</button>
-            </div> 
-        </div>   
+        <script>window.location.href = "/"</script>  
         <?php  }
         else{ ?>
         <div class="row align-items-center">
