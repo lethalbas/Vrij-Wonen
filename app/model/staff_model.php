@@ -10,6 +10,12 @@ class staff_model extends model {
         return $sth->fetchAll();
     }
 
+    function get_by_session($sess) {
+        $sth = $this->db->prepare("SELECT `admin` FROM staff WHERE sessionkey = $sess LIMIT 1;");
+        $sth->execute();
+        return $sth->fetch();
+    }
+
     function delete($id) {
         $sth = $this->db->prepare("DELETE FROM staff WHERE id = $id;");
         $sth->execute();

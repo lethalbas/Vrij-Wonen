@@ -33,7 +33,8 @@ class dependencies_util {
         // php util dependencies to include on each page
         $this->require = [
             "logging_util.php",
-            "file_handler_util.php"
+            "file_handler_util.php",
+            "user_login_session_util.php"
         ];
     }
 

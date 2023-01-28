@@ -7,7 +7,7 @@ session_start();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 | Vrij Wonen</title>
+    <title>Forbidden | Vrij Wonen</title>
     <?php 
     require_once __DIR__ . "/../util/dependencies_util.php"; 
     $dep = new dependencies_util();
@@ -19,8 +19,8 @@ session_start();
     <div class="container">
         <div class="row align-items-center">
             <div class="text-center mt-5">
-                <h1>404 Error</h1>
-                <p class="lead">Deze pagina bestaat niet!</p>
+                <h1>Forbidden</h1>
+                <p class="lead">U heeft geen rechten om deze pagina te bezoeken!</p>
                 <p>Klik hieronder om terug naar de startpagina te gaan.</p>
                 <button type="button" class="btn btn-primary" onclick="window.location='/';">Home</button>
             </div> 

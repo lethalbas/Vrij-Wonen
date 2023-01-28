@@ -8,5 +8,9 @@ class staff_controller extends controller {
     function __construct() {
         $this->model = new staff_model();
     }
+
+    function get_by_session($key) {
+        return $this->model->get_by_session($key);
+    }
     
 }
