@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm sticky-top navbar-light bg-light">
+<nav class="navbar navbar-expand-sm sticky-top navbar-light bg-light shadow-sm border-bottom">
     <div class="container">
         <a class="navbar-brand" href="/">Vrij Wonen</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar1">

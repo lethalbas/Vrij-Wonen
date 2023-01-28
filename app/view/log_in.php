@@ -20,7 +20,7 @@
             <h1>Inloggen als beheerder</h1>
         </div> 
         <div class="d-flex justify-content-center align-items-center mt-5">
-            <div id="form-container-responsive" class="w-50 p-3 border rounded">
+            <div id="form-container-responsive" class="shadow w-50 p-3 border rounded">
                 <form method="post", action="/log-in">
                     <!-- Username input -->
                     <div class="form-outline mb-4">
