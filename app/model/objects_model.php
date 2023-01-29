@@ -5,7 +5,7 @@ require_once "model.php";
 class objects_model extends model {
 
     function get_all() {
-        $sth = $this->db->prepare("SELECT objects.id, objects.title, objects.adress, cities.citiename, objects.mainimage
+        $sth = $this->db->prepare("SELECT objects.id, objects.title, objects.price, objects.adress, cities.citiename, objects.mainimage
             FROM objects
             INNER JOIN cities ON objects.cityid = cities.id");
         $sth->execute();
@@ -46,7 +46,7 @@ class objects_model extends model {
             }
             $filterstring = rtrim($filterstring, ' AND');
         }
-        $sth = $this->db->prepare("SELECT objects.id, objects.title, objects.adress, cities.citiename, objects.mainimage
+        $sth = $this->db->prepare("SELECT objects.id, objects.title, objects.price, objects.adress, cities.citiename, objects.mainimage
         FROM objects
         INNER JOIN cities ON objects.cityid = cities.id
         LEFT JOIN connectprop ON objects.id = connectprop.objectid
