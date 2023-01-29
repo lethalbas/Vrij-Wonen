@@ -33,7 +33,6 @@ session_start();
                     <p>Klik hieronder om een alle contactaanvragen te bekijken of medewerkers en api keys te beheren.</p>
                     <button type="button" class="btn btn-primary" onclick="window.location='/beheerder/contact-aanvragen-overzicht';">Contactaanvragen</button>
                     <button type="button" class="btn btn-primary" onclick="window.location='/beheerder/medewerkers-overzicht';">Medewerkers</button>
-                    <button type="button" class="btn btn-primary" onclick="window.location='/beheerder/api-overzicht';">API keys</button>
                     <?php
                 } else {
                     ?>

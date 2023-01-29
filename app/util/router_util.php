@@ -45,9 +45,6 @@ class router_util {
             case '/beheerder/aanvraag-details' :
                 require_once  __DIR__ . '/../view/restricted/inquiry_details.php';
                 break;
-            case '/api' :
-                require_once  __DIR__ . '/../api/api.php';
-                break;
             case '/forbidden' :
                 require_once  __DIR__ . '/../view/forbidden.php';
                 break;
