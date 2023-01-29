@@ -49,7 +49,17 @@ class objects_controller extends controller {
             "object" => $formatted_object,
             "properties" => $data["properties"]
         );
-        $this->model->create($formatted_data);
+        if($this->model->create($formatted_data)){
+            return true;
+        }
+        else{
+            $fhu->delete($formatted_object["mainimage"]);
+            $fhu->delete($formatted_object["image2"]);
+            $fhu->delete($formatted_object["image3"]);
+            $fhu->delete($formatted_object["image4"]);
+            $fhu->delete($formatted_object["image5"]);
+            throw new Exception("Error: couldn't insert data");
+        }
     }
 
     function update($id, $data) {
@@ -93,6 +103,7 @@ class objects_controller extends controller {
             $fhu->delete($formatted_object["image3"]);
             $fhu->delete($formatted_object["image4"]);
             $fhu->delete($formatted_object["image5"]);
+            throw new Exception("Error: couldn't update data");
         }
     }
 

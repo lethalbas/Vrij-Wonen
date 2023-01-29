@@ -54,7 +54,7 @@ require_once __DIR__ . "/../../controller/cities_controller.php";
                 $oc->create($data_array);
                 $note->notify("Voltooid", "Het object is succesvol aangemaakt.");
             } catch (Throwable $e) { 
-                $note->notify("Fout bij het aanmaken", "$e");
+                $note->notify("Fout bij het aanmaken van het object", "$e");
             }
             header('Location: /objecten-overzicht');
             exit;
@@ -87,7 +87,7 @@ require_once __DIR__ . "/../../controller/cities_controller.php";
                 $oc->update($_POST["update_id"], $data_array);
                 $note->notify("Voltooid", "Het object is succesvol bijgewerkt.");
             } catch (Throwable $e) { 
-                $note->notify("Fout bij het bijwerken", "$e");
+                $note->notify("Fout bij het bijwerken van het object", "$e");
             }
             header('Location: /objecten-overzicht');
             exit;
