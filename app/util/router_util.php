@@ -14,6 +14,9 @@ class router_util {
             case '/object-details' :
                 require_once  __DIR__ . '/../view/object_details.php';
                 break;
+            case '/contact-aanvraag-aanmaken' :
+                require_once  __DIR__ . '/../view/create_inquiry.php';
+                break;
             case '/log-in' :
                 require_once  __DIR__ . '/../view/log_in.php';
                 break;

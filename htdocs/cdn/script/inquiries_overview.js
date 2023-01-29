@@ -22,3 +22,9 @@ function view_details(msg, fullname, email){
         content: msg
     });
 }
+
+function object_details(id){
+    $.redirect('/object-details', {
+        "id": id
+    }, "POST", "_blank");
+}

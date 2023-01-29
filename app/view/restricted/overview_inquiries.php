@@ -48,6 +48,7 @@ require_once __DIR__ . "/../../controller/inquiries_controller.php";
                         <thead>
                             <tr>
                                 <th scope="col"></th>
+                                <th scope="col">Betr. object</th>
                                 <th scope="col">Contact email</th>
                                 <th scope="col">Volledige naam</th>
                                 <th scope="col">Status</th>
@@ -58,15 +59,17 @@ require_once __DIR__ . "/../../controller/inquiries_controller.php";
                         <?php
                         foreach ($data as $row){
                             $id = $row["id"];
+                            $object = $row["objectid"];
                             $msg = $row["message"];
                             $name = $row["fullname"];
                             $email = $row["replyemail"]; 
                             $status = $row["handled"]; ?>
                             <tr>
                                 <th scope="row"><img src="<?= $gravatar_util->get_gravatar_url($email) ?>" alt="Na" class="avatar"></th>
+                                <td><a href="#" onclick="object_details('<?= $object; ?>')">refnr: <?= $object; ?></a></td>
                                 <td><?= $email; ?></td>
                                 <td><?= $name; ?></td>
-                                <td><?php if($status=='1'){ echo "voltooid"; }else{echo "lopend";} ?></td>
+                                <td><?php if($status=='1'){ echo "voltooid"; }else{echo "open";} ?></td>
                                 <td>
                                     <!-- complete inquiry -->
                                     <?php if($status=='0'){ ?> 

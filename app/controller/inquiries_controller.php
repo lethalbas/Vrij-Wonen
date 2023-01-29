@@ -17,4 +17,8 @@ class inquiries_controller extends controller {
         $this->model->complete_inquiry($id);
     }
 
+    function create($data){
+        return $this->model->create($data);
+    }
+
 }

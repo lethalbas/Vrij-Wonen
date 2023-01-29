@@ -28,3 +28,8 @@ session_start();
     </div>
 </body>
 </html>
+
+<?php
+    $logging_util = new logging_util();
+    $logging_util->create_log("forbidden.php");
+?>

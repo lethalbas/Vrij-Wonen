@@ -16,6 +16,7 @@ require_once __DIR__ . "/../controller/objects_controller.php";
     $file_handler_util = new file_handler_util();
     ?>
     <link rel="stylesheet" href="<?= $file_handler_util->get_cdn_style_dir(); ?>/object_details.css">
+    <script src="<?= $file_handler_util->get_cdn_script_dir(); ?>/object_details.js"></script>
 </head>
 <body>
     <?php require_once "header.php"; ?>
@@ -25,6 +26,7 @@ require_once __DIR__ . "/../controller/objects_controller.php";
             $data = $oc->get($_POST["id"]);
             $properties = $data["properties"];
             $data = $data["object"];
+            $id = $data["id"];
             ?>
             <div class="card mt-5 shadow">
                 <div class="container-fluid">
@@ -58,7 +60,7 @@ require_once __DIR__ . "/../controller/objects_controller.php";
                                     <li><span class="size"><?= $prop["propertie"]; ?></span></li>
                                 <?php } ?>
                             </ul>
-                            <button class="btn btn-primary mt-3 mb-5" type="button">Neem contact op over dit object</button>
+                            <button class="btn btn-primary mt-3 mb-5" type="button" onclick="(open_details('<?= $id; ?>'))">Neem contact op over dit object</button>
                         </div>
                     </div>
                 </div>
