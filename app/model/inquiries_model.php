@@ -11,12 +11,16 @@ class inquiries_model extends model {
         return $sth->fetchAll();
     }
 
-    function get($id) {
-        return;
-    }
-
     function create($data) {
-        return;
+        $sth = $this->db->prepare("INSERT INTO inquiries(`objectid`,`fullname`,`replyemail`,`message`) VALUES(?,?,?,?);");
+        try{
+            $sth->execute([$data["object"], $data["fullname"], $data["replyemail"], $data["message"]]);
+            return true;
+        }
+        catch (PDOException $e)
+        {
+            return false;
+        }
     }
 
     // set handled to true so the inquiry stays archived but doesn't show up on the site anymore
