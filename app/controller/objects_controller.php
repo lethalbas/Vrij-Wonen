@@ -27,6 +27,9 @@ class objects_controller extends controller {
         $fhu = new file_handler_util();
         foreach($data["images"] as $key => $image){
             $imgname = $fhu->upload($image);
+            if($imgname == false){
+                throw new Exception("Error: wrong image filetype");
+            }
             switch ($key){
                 case "1":
                     $formatted_object["mainimage"] = $imgname;
@@ -68,6 +71,9 @@ class objects_controller extends controller {
         $fhu = new file_handler_util();
         foreach($data["images"] as $key => $image){
             $imgname = $fhu->upload($image);
+            if($imgname == false){
+                throw new Exception("Error: wrong image filetype");
+            }
             switch ($key){
                 case "1":
                     $formatted_object["mainimage"] = $imgname;
