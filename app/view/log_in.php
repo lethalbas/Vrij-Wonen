@@ -14,9 +14,11 @@ session_start();
     $dep->all_dependencies();
     $file_handler_util = new file_handler_util();
     $ulsu = new user_login_session_util();
+    $note = new notification_util();
     if(isset($_POST["logout"])){
         $ulsu->log_out();
-        header('Location: /'); 
+        $note->notify("Uitgelogd", "U bent succesvol uitgelogd");
+        header('Location: /log-in'); 
         exit;
     }
     ?>
@@ -26,14 +28,18 @@ session_start();
     <?php
     require_once "header.php";
     if($ulsu->get_login_status() > 0){
-        print_logged_in(false);
+        print_logged_in();
     }
     else if(isset($_POST["user"]) && isset($_POST["pass"])){
         if($ulsu->login_user($_POST["user"], $_POST["pass"])){
-            print_logged_in(true);
+            header('Location: /beheerder'); 
+            $note->notify("Ingelogd", "U bent succesvol ingelogd");
+            exit;
         }
         else {
-            print_form("De inloggegevens waren niet correct.");
+            $note->notify("Fout", "Helaas waren de inloggegevens niet correct");
+            header('Location: /log-in'); 
+            exit;
         }
     }
     else{
@@ -42,7 +48,7 @@ session_start();
     ?> 
     <div class="container mb-5"> 
     <?php
-    function print_form($error = ""){
+    function print_form(){
     ?>
         <div class="text-center mt-5">
             <h1>Inloggen als beheerder</h1>
@@ -73,11 +79,7 @@ session_start();
     <?php 
     }
 
-    function print_logged_in($new_login){
-        if($new_login){ ?>
-        <script>window.location.href = "/"</script>  
-        <?php  }
-        else{ ?>
+    function print_logged_in(){?>
         <div class="row align-items-center">
             <div class="text-center mt-5">
                 <h1>Ingelogd</h1>
@@ -86,9 +88,7 @@ session_start();
                 <button type="button" class="btn btn-primary" onclick="window.location='/';">Home</button>
             </div> 
         </div>   
-        <?php  }
-    }
-    ?>
+        <?php  } ?>
     </div>
 </body>
 </html>

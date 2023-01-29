@@ -14,7 +14,8 @@ session_start();
     $dep->all_dependencies();
     $ulsu = new user_login_session_util();
     // restricted page
-    if($ulsu->get_login_status() < 1){
+    $status = $ulsu->get_login_status();
+    if($status < 1){
         header('Location: /forbidden'); 
         exit;
     }
@@ -27,8 +28,19 @@ session_start();
             <div class="text-center mt-5">
                 <h1>Beheerdersdashboard</h1>
                 <p class="lead">Welkom op het beheerdersdashboard van Vrij Wonen!</p>
-                <p>Klik hieronder om een object aan te maken.</p>
-                <button type="button" class="btn btn-primary" onclick="window.location='/beheerder/object-aanmaken';">Object toevoegen</button>
+                <?php if($ulsu->get_login_status() > 1){
+                    ?>
+                    <p>Klik hieronder om een alle contactaanvragen te bekijken of medewerkers en api keys te beheren.</p>
+                    <button type="button" class="btn btn-primary" onclick="window.location='/beheerder/contact-aanvragen-overzicht';">Contactaanvragen</button>
+                    <button type="button" class="btn btn-primary" onclick="window.location='/beheerder/medewerkers-overzicht';">Medewerkers</button>
+                    <button type="button" class="btn btn-primary" onclick="window.location='/beheerder/api-overzicht';">API keys</button>
+                    <?php
+                } else {
+                    ?>
+                    <p>Klik hieronder om een alle contactaanvragen te bekijken.</p>
+                    <button type="button" class="btn btn-primary" onclick="window.location='/beheerder/contact-aanvragen-overzicht';">Contactaanvragen</button>
+                    <?php
+                } ?>
             </div> 
         </div>
     </div>
