@@ -6,7 +6,7 @@ class inquiries_model extends model {
 
     // get all unhandled inquiries
     function get_all() {
-        $sth = $this->db->prepare("SELECT * FROM inquiries WHERE handled = 0;");
+        $sth = $this->db->prepare("SELECT * FROM inquiries;");
         $sth->execute();
         return $sth->fetchAll();
     }
@@ -15,14 +15,14 @@ class inquiries_model extends model {
         return;
     }
 
-    // set handled to true so the inquiry stays archived but doesn't show up on the site anymore
-    function delete($id) {
-        $sth = $this->db->prepare("UPDATE inquiries SET handled = 1 WHERE id = $id;");
-        $sth->execute();
-    }
-
     function create($data) {
         return;
+    }
+
+    // set handled to true so the inquiry stays archived but doesn't show up on the site anymore
+    function complete_inquiry($id){
+        $sth = $this->db->prepare("UPDATE inquiries SET handled = 1 WHERE id = $id;");
+        $sth->execute();
     }
 
 }
