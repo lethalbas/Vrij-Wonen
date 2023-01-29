@@ -41,7 +41,8 @@ class dependencies_util {
             "logging_util.php",
             "file_handler_util.php",
             "user_login_session_util.php",
-            "notification_util.php"
+            "notification_util.php",
+            "gravatar_util.php"
         ];
     }
 

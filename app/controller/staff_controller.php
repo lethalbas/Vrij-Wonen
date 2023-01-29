@@ -9,6 +9,10 @@ class staff_controller extends controller {
         $this->model = new staff_model();
     }
 
+    function get_all() {
+        return $this->model->get_all();
+    }
+
     function get_by_session($key) {
         return $this->model->get_by_session($key);
     }
