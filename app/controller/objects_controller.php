@@ -27,6 +27,9 @@ class objects_controller extends controller {
         $fhu = new file_handler_util();
         foreach($data["images"] as $key => $image){
             $imgname = $fhu->upload($image);
+            if($imgname == false){
+                throw new Exception("Error: wrong image filetype");
+            }
             switch ($key){
                 case "1":
                     $formatted_object["mainimage"] = $imgname;
@@ -49,7 +52,17 @@ class objects_controller extends controller {
             "object" => $formatted_object,
             "properties" => $data["properties"]
         );
-        $this->model->create($formatted_data);
+        if($this->model->create($formatted_data)){
+            return true;
+        }
+        else{
+            $fhu->delete($formatted_object["mainimage"]);
+            $fhu->delete($formatted_object["image2"]);
+            $fhu->delete($formatted_object["image3"]);
+            $fhu->delete($formatted_object["image4"]);
+            $fhu->delete($formatted_object["image5"]);
+            throw new Exception("Error: couldn't insert data");
+        }
     }
 
     function update($id, $data) {
@@ -58,6 +71,9 @@ class objects_controller extends controller {
         $fhu = new file_handler_util();
         foreach($data["images"] as $key => $image){
             $imgname = $fhu->upload($image);
+            if($imgname == false){
+                throw new Exception("Error: wrong image filetype");
+            }
             switch ($key){
                 case "1":
                     $formatted_object["mainimage"] = $imgname;
@@ -82,8 +98,6 @@ class objects_controller extends controller {
             "object" => $formatted_object,
             "properties" => $data["properties"]
         );
-        echo $id . "<br>";
-        var_dump($formatted_data);
         if($this->model->update($id, $formatted_data)){
             foreach($old_images as $image){
                 $fhu->delete($image);
@@ -95,6 +109,7 @@ class objects_controller extends controller {
             $fhu->delete($formatted_object["image3"]);
             $fhu->delete($formatted_object["image4"]);
             $fhu->delete($formatted_object["image5"]);
+            throw new Exception("Error: couldn't update data");
         }
     }
 

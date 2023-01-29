@@ -54,7 +54,7 @@ require_once __DIR__ . "/../../controller/cities_controller.php";
                 $oc->create($data_array);
                 $note->notify("Voltooid", "Het object is succesvol aangemaakt.");
             } catch (Throwable $e) { 
-                $note->notify("Fout bij het aanmaken", "$e");
+                $note->notify("Fout bij het aanmaken van het object", "$e");
             }
             header('Location: /objecten-overzicht');
             exit;
@@ -87,7 +87,7 @@ require_once __DIR__ . "/../../controller/cities_controller.php";
                 $oc->update($_POST["update_id"], $data_array);
                 $note->notify("Voltooid", "Het object is succesvol bijgewerkt.");
             } catch (Throwable $e) { 
-                $note->notify("Fout bij het bijwerken", "$e");
+                $note->notify("Fout bij het bijwerken van het object", "$e");
             }
             header('Location: /objecten-overzicht');
             exit;
@@ -147,12 +147,12 @@ require_once __DIR__ . "/../../controller/cities_controller.php";
                     </div>
 
                     <div class="form-outline mb-4">
-                        <label class="form-label" for="form2Example1">Hoofdafbeelding</label>
+                        <label class="form-label" for="form2Example1">Hoofdafbeelding (.jpg)</label>
                         <input type="file" name="mainimage" class="form-control" accept="image/jpeg" required />
                     </div>
 
                     <div class="form-outline mb-4">
-                        <label class="form-label" for="form2Example1">Detail-afbeeldingen</label>
+                        <label class="form-label" for="form2Example1">Detail-afbeeldingen (.jpg)</label>
                         <input type="file" name="image2" class="form-control" accept="image/jpeg" required />
                         <input type="file" name="image3" class="form-control mt-1" accept="image/jpeg" required />
                         <input type="file" name="image4" class="form-control mt-1" accept="image/jpeg" required />
@@ -236,12 +236,12 @@ require_once __DIR__ . "/../../controller/cities_controller.php";
                     </div>
 
                     <div class="form-outline mb-4">
-                        <label class="form-label" for="form2Example1">Hoofdafbeelding</label>
+                        <label class="form-label" for="form2Example1">Hoofdafbeelding (.jpg)</label>
                         <input type="file" name="mainimage" class="form-control" accept="image/jpeg" required />
                     </div>
 
                     <div class="form-outline mb-4">
-                        <label class="form-label" for="form2Example1">Detail-afbeeldingen</label>
+                        <label class="form-label" for="form2Example1">Detail-afbeeldingen (.jpg)</label>
                         <input type="file" name="image2" class="form-control" accept="image/jpeg" required />
                         <input type="file" name="image3" class="form-control mt-1" accept="image/jpeg" required />
                         <input type="file" name="image4" class="form-control mt-1" accept="image/jpeg" required />

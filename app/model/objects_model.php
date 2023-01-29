@@ -117,13 +117,28 @@ class objects_model extends model {
         $object_properties = $data["properties"];
         $this->db->beginTransaction();
         $sth = $this->db->prepare("INSERT INTO objects(title,price,adress,postcode,cityid,`description`,mainimage,image2,image3,image4,image5,sold) VALUES(?,?,?,?,?,?,?,?,?,?,?,?);");
-        $sth->execute([$object_data["title"],$object_data["price"],$object_data["adress"],$object_data["postcode"],$object_data["cityid"],$object_data["description"],$object_data["mainimage"],$object_data["image2"],$object_data["image3"],$object_data["image4"],$object_data["image5"],$object_data["sold"]]);
+        try{
+            $sth->execute([$object_data["title"],$object_data["price"],$object_data["adress"],$object_data["postcode"],$object_data["cityid"],$object_data["description"],$object_data["mainimage"],$object_data["image2"],$object_data["image3"],$object_data["image4"],$object_data["image5"],$object_data["sold"]]);
+        }
+        catch (PDOException $e)
+        {
+            $this->db->rollback();
+            return false;
+        }
         $last_id = $this->db->lastInsertId();
         foreach($object_properties as $propertie){
             $sth = $this->db->prepare("INSERT INTO connectprop(objectid,propertieid) VALUES(?,?);");
-            $sth->execute([$last_id, $propertie]);
+            try{
+                $sth->execute([$last_id, $propertie]);
+            }
+            catch (PDOException $e)
+            {
+                $this->db->rollback();
+                return false;
+            }
         }
         $this->db->commit();
+        return true;
     }
 
 }

@@ -5,6 +5,9 @@ require_once __DIR__ . "/../model/staff_model.php";
 
 class staff_controller extends controller {
 
+    // TODO: use real random salt
+    private $temporary_salt = "salt";
+
     function __construct() {
         $this->model = new staff_model();
     }
@@ -22,9 +25,7 @@ class staff_controller extends controller {
     }
 
     function log_in($user, $pass){
-        // TODO: use real random salt
-        $temporary_salt = "salt";
-        $hashed = crypt($pass, $temporary_salt);
+        $hashed = crypt($pass, $this->temporary_salt);
         $data = $this->model->get_by_user($user);
         if($data["passwordhash"] == $hashed){
             return true;
@@ -33,5 +34,24 @@ class staff_controller extends controller {
             return false;
         }
     }
+
+    function delete($id){
+        $this->model->delete($id);
+    }
     
+    function create($data){
+        $hashed = crypt($data["password"], $this->temporary_salt);
+        $formatted_data = array(
+            "username" => $data["username"],
+            "email" => $data["email"],
+            "passwordhash" => $hashed,
+            "admin" => $data["admin"]
+        );
+        if($this->model->create($formatted_data)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }

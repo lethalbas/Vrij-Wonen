@@ -4,4 +4,6 @@
     width: 30px;
     height: 30px;
     object-fit: cover;
+    display: block;
+    text-align: center;
 }

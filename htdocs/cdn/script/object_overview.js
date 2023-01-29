@@ -29,3 +29,8 @@ function edit(id) {
         "object_id": id
     });
 }
+
+// open details page
+function open_details(id){
+    console.log("open: " + id + " when pressing this button");
+}

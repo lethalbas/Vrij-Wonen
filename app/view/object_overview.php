@@ -36,7 +36,7 @@ if($searched){
     $file_handler_util = new file_handler_util();
     $ulsu = new user_login_session_util();
     ?>
-    <link rel="stylesheet" href="<?= $file_handler_util->get_cdn_style_dir(); ?>/object_overview.css"/>
+    <link rel="stylesheet" href="<?= $file_handler_util->get_cdn_style_dir(); ?>/object_overview.css">
     <script src="<?= $file_handler_util->get_cdn_script_dir(); ?>/object_overview.js"></script>
 </head>
 <body>
