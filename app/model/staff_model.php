@@ -23,7 +23,7 @@ class staff_model extends model {
     }
 
     function delete($id) {
-        $sth = $this->db->prepare("DELETE FROM staff WHERE id = $id;");
+        $sth = $this->db->prepare("DELETE FROM staff WHERE id = $id AND `admin` = 0;");
         $sth->execute();
     }
 

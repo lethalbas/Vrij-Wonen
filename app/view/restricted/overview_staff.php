@@ -21,9 +21,17 @@ require_once __DIR__ . "/../../controller/staff_controller.php";
     }
     $file_handler_util = new file_handler_util();
     $gravatar_util = new gravatar_util();
+    $note = new notification_util();
     $sc = new staff_controller();
+    if(isset($_POST["delete_id"])){
+        $sc->delete($_POST["delete_id"]);
+        $note->notify("Voltooid", "De medewerker is succesvol verwijderd.");
+        header('Location: /beheerder/medewerkers-overzicht');
+        exit;
+    }
     ?>
-    <link rel="stylesheet" href="<?=$file_handler_util->get_cdn_style_dir(); ?>/overview_staff.css"/>
+    <link rel="stylesheet" href="<?=$file_handler_util->get_cdn_style_dir(); ?>/overview_staff.css">
+    <script src="<?= $file_handler_util->get_cdn_script_dir(); ?>/staff_overview.js"></script>
 </head>
 <body>
     <?php require_once __DIR__ . "/../header.php"; ?>
@@ -50,13 +58,16 @@ require_once __DIR__ . "/../../controller/staff_controller.php";
                 <?php 
                 $data = $sc->get_all();
                 foreach ($data as $row){
-                ?>
+                    $id = $row["id"]; ?>
                     <tr>
-                        <th scope="row"><img src="<?= $gravatar_util->get_gravatar_url($row["email"]) ?>" alt="Na" class="avatar" /></th>
+                        <th scope="row"><img src="<?= $gravatar_util->get_gravatar_url($row["email"]) ?>" alt="Na" class="avatar"></th>
                         <td><?= $row["username"]; ?></td>
                         <td><?= $row["email"]; ?></td>
-                        <td><?php if($row["admin"]=='1'){echo "true";}else{echo "false";} ?></td>
-                        <td><?php if($row["admin"]=='0'){ ?><button class="btn btn-sm btn-primary" onlick="verwijderen(<?= $row["id"]; ?>)"><i class="fas fa-trash"></i> Verwijderen</button><?php }else{echo "-";} ?></td>
+                        <td><?php if($row["admin"]=='1'){ ?> <i class="fa fa-check" aria-hidden="true"></i> <?php }else{echo "-";} ?></td>
+                        <td><?php if($row["admin"]=='0'){ ?>
+                            <button class="btn btn-sm btn-primary btn_trash" onclick="trash(<?= $id; ?>)"><i class="fas fa-trash"></i></button>
+                            <?php }else{echo "-";} ?>
+                        </td>
                     </tr>
                 <?php } ?>
             </tbody>

@@ -33,5 +33,9 @@ class staff_controller extends controller {
             return false;
         }
     }
+
+    function delete($id){
+        $this->model->delete($id);
+    }
     
 }

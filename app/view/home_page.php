@@ -14,7 +14,7 @@ session_start();
     $dependencies_util->all_dependencies();
     $file_handler_util = new file_handler_util();
     ?>
-    <link rel="stylesheet" href="<?=$file_handler_util->get_cdn_style_dir(); ?>/home_page.css"/>
+    <link rel="stylesheet" href="<?=$file_handler_util->get_cdn_style_dir(); ?>/home_page.css">
 </head>
 <body>
     <?php require_once "header.php"; ?>
