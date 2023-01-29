@@ -57,7 +57,10 @@ class objects_model extends model {
     }
 
     function get($id) {
-        $sth = $this->db->prepare("SELECT * FROM objects WHERE objects.id = $id;");
+        $sth = $this->db->prepare("SELECT objects.*, cities.citiename
+        FROM objects
+        INNER JOIN cities ON objects.cityid = cities.id
+        WHERE objects.id = $id;");
         $sth->execute();
         return $sth->fetch();
     }

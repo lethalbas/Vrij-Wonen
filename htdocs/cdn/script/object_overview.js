@@ -32,5 +32,7 @@ function edit(id) {
 
 // open details page
 function open_details(id){
-    console.log("open: " + id + " when pressing this button");
+    $.redirect('/object-details', {
+        "id": id
+    });
 }
