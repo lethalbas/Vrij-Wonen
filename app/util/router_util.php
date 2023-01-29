@@ -28,8 +28,7 @@ class router_util {
                 require_once  __DIR__ . '/../view/restricted/create_edit_object.php';
                 break;
             case '/beheerder/medewerker-aanmaken' :
-            case '/beheerder/medewerker-bewerken' :
-                require_once  __DIR__ . '/../view/restricted/create_edit_staff.php';
+                require_once  __DIR__ . '/../view/restricted/create_staff.php';
                 break;
             case '/beheerder/api-overzicht' :
                 require_once  __DIR__ . '/../view/restricted/overview_api.php';
