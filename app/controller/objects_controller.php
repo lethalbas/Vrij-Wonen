@@ -82,8 +82,6 @@ class objects_controller extends controller {
             "object" => $formatted_object,
             "properties" => $data["properties"]
         );
-        echo $id . "<br>";
-        var_dump($formatted_data);
         if($this->model->update($id, $formatted_data)){
             foreach($old_images as $image){
                 $fhu->delete($image);

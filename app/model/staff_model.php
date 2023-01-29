@@ -33,7 +33,15 @@ class staff_model extends model {
     }
 
     function create($data) {
-        return;
+        $sth = $this->db->prepare("INSERT INTO staff(username,email,passwordhash,`admin`) VALUES(?,?,?,?);");
+        try{
+            $sth->execute([$data["username"], $data["email"], $data["passwordhash"], $data["admin"]]);
+        }
+        catch (PDOException $e)
+        {
+            return false;
+        }
+        return true;
     }
 
 }
