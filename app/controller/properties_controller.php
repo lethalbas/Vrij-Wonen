@@ -13,4 +13,9 @@ class properties_controller extends controller {
         return $this->model->get_all();
     }
 
+    function get_by_object($id) {
+        $data = array("id" => $id);
+        return $this->model->get_all_filtered($data);
+    }
+
 }

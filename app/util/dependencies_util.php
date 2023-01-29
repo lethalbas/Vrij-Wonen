@@ -26,18 +26,22 @@ class dependencies_util {
 
         // dependencies from the local cdn  to include on each page
         $this->custom = [
+            '<link rel="stylesheet" href="' . $cdn_style_path . '/vendor/toast.min.css">',
             '<link rel="stylesheet" href="' . $cdn_style_path . '/reset.css">',
             '<link rel="stylesheet" href="' . $cdn_style_path . '/font_reset.css">',
             '<link rel="stylesheet" href="' . $cdn_style_path . '/main_styles.css">',
             '<script src="' . $cdn_script_path . '/vendor/jquery.redirect.js"></script>',
-            '<script src="' . $cdn_script_path . '/header.js"></script>'
+            '<script src="' . $cdn_script_path . '/vendor/toast.min.js"></script>',
+            '<script src="' . $cdn_script_path . '/header.js"></script>',
+            '<script src="' . $cdn_script_path . '/main.js"></script>'
         ];
 
         // php util dependencies to include on each page
         $this->require = [
             "logging_util.php",
             "file_handler_util.php",
-            "user_login_session_util.php"
+            "user_login_session_util.php",
+            "notification_util.php"
         ];
     }
 

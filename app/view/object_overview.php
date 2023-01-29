@@ -34,6 +34,7 @@ if($searched){
     $dep = new dependencies_util();
     $dep->all_dependencies();
     $file_handler_util = new file_handler_util();
+    $ulsu = new user_login_session_util();
     ?>
     <link rel="stylesheet" href="<?= $file_handler_util->get_cdn_style_dir(); ?>/object_overview.css"/>
     <script src="<?= $file_handler_util->get_cdn_script_dir(); ?>/object_overview.js"></script>
@@ -47,7 +48,10 @@ if($searched){
                 ?> <h1>Uw zoekresultaten</h1> <?php
             }
             else{
-                ?> <h1>Alle objecten</h1> <?php
+                ?> 
+                <h1>Alle objecten</h1>
+                <p>U kunt de resultaten filteren via onderstaand formulier.</p>
+                <?php
             }
             ?>
         </div> 
@@ -86,8 +90,17 @@ if($searched){
 
                     <hr/>
 
-                    <!-- Submit button -->
-                    <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-search"></i> Zoeken</button>
+                    <?php if($ulsu->get_login_status() > 0){ ?>
+                    <div class="d-flex justify-content-between">
+                        <!-- Submit button -->
+                        <button type="submit" class="btn btn-primary btn-block float-left "><i class="fas fa-search"></i> Zoeken</button>
+
+                        <!-- Create button -->
+                        <button id="add_btn" class="btn btn-primary btn-block float-right"><i class="fas fa-plus"></i> Object aanmaken</button>
+                    </div>
+                    <?php } else{ ?>
+                    <button type="submit" class="btn btn-primary btn-block float-left "><i class="fas fa-search"></i> Zoeken</button>
+                    <?php } ?>
                 </form>
             </div>
         </div>
@@ -99,7 +112,7 @@ if($searched){
                 $query = "";
                 $results = $objects_controller->get_all($searchfilters);
                 if(count($results) > 0){
-                    print_results($results, $file_handler_util);
+                    print_results($results, $file_handler_util, $ulsu);
                 }
                 else{
                     ?> 
@@ -113,7 +126,7 @@ if($searched){
                 $objects_controller = new objects_controller();
                 $results = $objects_controller->get_all();
                 if(count($results) > 0){
-                    print_results($results, $file_handler_util);
+                    print_results($results, $file_handler_util, $ulsu);
                 }
                 else{
                     ?> 
@@ -126,7 +139,7 @@ if($searched){
 
             // print cards based on data
             // TODO: look into $fhu variable
-            function print_results($data, $fhu){
+            function print_results($data, $fhu, $ulsu){
                 ?> <div class="d-flex flex-wrap g-3 mt-5 justify-content-center align-items-center"> <?php
                 foreach($data as $card){
                     $main_img = $card["mainimage"];
@@ -140,8 +153,13 @@ if($searched){
                             <h5 class="card-title"><?= $title; ?></h5>
                             <p class="card-text"><i class="fa-solid fa-location-dot"></i> <?= $adress; ?></p>
                         </div>
-                        <div class="card-footer">  
-                            <button onclick="open_details($id)" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i> Meer details</button>
+                        <div class="card-footer">
+                            <!-- detail page button -->
+                            <button onclick="open_details(<?= $id; ?>)" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i> Meer details</button>
+                            <!-- edit object button -->
+                            <?php if($ulsu->get_login_status() > 0){ ?>
+                                <button onclick="edit(<?= $id; ?>)" class="btn btn-primary"><i class="fas fa-edit"></i> Bijwerken</button>
+                            <?php } ?>
                         </div>
                     </div>
                     <?php

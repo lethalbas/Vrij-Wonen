@@ -54,5 +54,11 @@ class file_handler_util {
         return $newfile;
     }
 
+    // delete image from cdn user uploaded images dir
+    function delete($name){
+        $upload_dir = $_SERVER['DOCUMENT_ROOT']  . "/cdn/img/user_image_uploads/";
+        $img = realpath($upload_dir . $name . ".jpg");
+        unlink($img);
+    }
     
 }
