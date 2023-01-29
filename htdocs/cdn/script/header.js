@@ -1,3 +1,14 @@
 function log_out(){
-    $.redirect('/log-in', {'logout': 'true'});
+    $.confirm({
+        title: 'Uitloggen',
+        content: 'Weet u zeker dat u wilt uitloggen?',
+        buttons: {
+            uitloggen: function () {
+                $.redirect('/log-in', {'logout': 'true'});
+            },
+            annuleren: function () {
+                $.alert('Het uitloggen is geannuleerd.');
+            }
+        }
+    });
 }
