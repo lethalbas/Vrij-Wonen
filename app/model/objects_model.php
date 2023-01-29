@@ -76,14 +76,40 @@ class objects_model extends model {
         $object_properties = $data["properties"];
         $this->db->beginTransaction();
         $sth = $this->db->prepare("DELETE FROM connectprop WHERE objectid = $id;");
-        $sth->execute();
-        $sth = $this->db->prepare("UPDATE objects SET title=?,price=?,adress=?,postcode=?,cityid=?,`description`=?,mainimage=?,image2=?,image3=?,image4=?,image5=?,sold=?) WHERE id=?;");
-        $sth->execute([$object_data["title"],$object_data["price"],$object_data["adress"],$object_data["postcode"],$object_data["cityid"],$object_data["description"],$object_data["mainimage"],$object_data["image2"],$object_data["image3"],$object_data["image4"],$object_data["image5"],$object_data["sold"], $id]);
+        try{
+            $sth->execute();
+        }
+        catch (PDOException $e)
+        {
+            $this->db->rollback();
+            return false;
+        }
+        $sth = $this->db->prepare("UPDATE objects SET title=?,price=?,adress=?,postcode=?,cityid=?,`description`=?,mainimage=?,image2=?,image3=?,image4=?,image5=?,sold=? WHERE id=?;");
+        $sold = 0;
+        if($object_data["sold"] == true){
+            $sold = 1;
+        }
+        try{
+            $sth->execute([$object_data["title"],$object_data["price"],$object_data["adress"],$object_data["postcode"],$object_data["cityid"],$object_data["description"],$object_data["mainimage"],$object_data["image2"],$object_data["image3"],$object_data["image4"],$object_data["image5"],$sold, $id]);
+        }
+        catch (PDOException $e)
+        {
+            $this->db->rollback();
+            return false;
+        }
         foreach($object_properties as $propertie){
             $sth = $this->db->prepare("INSERT INTO connectprop(objectid,propertieid) VALUES(?,?);");
-            $sth->execute([$id, $propertie]);
+            try{
+                $sth->execute([$id, $propertie]);
+            }
+            catch (PDOException $e)
+            {
+                $this->db->rollback();
+                return false;
+            }
         }
         $this->db->commit();
+        return true;
     }
 
     function create($data) {

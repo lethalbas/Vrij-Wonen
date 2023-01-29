@@ -112,7 +112,7 @@ if($searched){
                 $query = "";
                 $results = $objects_controller->get_all($searchfilters);
                 if(count($results) > 0){
-                    print_results($results, $file_handler_util);
+                    print_results($results, $file_handler_util, $ulsu);
                 }
                 else{
                     ?> 
@@ -126,7 +126,7 @@ if($searched){
                 $objects_controller = new objects_controller();
                 $results = $objects_controller->get_all();
                 if(count($results) > 0){
-                    print_results($results, $file_handler_util);
+                    print_results($results, $file_handler_util, $ulsu);
                 }
                 else{
                     ?> 
@@ -139,7 +139,7 @@ if($searched){
 
             // print cards based on data
             // TODO: look into $fhu variable
-            function print_results($data, $fhu){
+            function print_results($data, $fhu, $ulsu){
                 ?> <div class="d-flex flex-wrap g-3 mt-5 justify-content-center align-items-center"> <?php
                 foreach($data as $card){
                     $main_img = $card["mainimage"];
@@ -153,8 +153,13 @@ if($searched){
                             <h5 class="card-title"><?= $title; ?></h5>
                             <p class="card-text"><i class="fa-solid fa-location-dot"></i> <?= $adress; ?></p>
                         </div>
-                        <div class="card-footer">  
-                            <button onclick="open_details($id)" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i> Meer details</button>
+                        <div class="card-footer">
+                            <!-- detail page button -->
+                            <button onclick="open_details(<?= $id; ?>)" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i> Meer details</button>
+                            <!-- edit object button -->
+                            <?php if($ulsu->get_login_status() > 0){ ?>
+                                <button onclick="edit(<?= $id; ?>)" class="btn btn-primary"><i class="fas fa-edit"></i> Bijwerken</button>
+                            <?php } ?>
                         </div>
                     </div>
                     <?php

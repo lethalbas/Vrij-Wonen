@@ -3,6 +3,7 @@
 require_once "controller.php";
 require_once __DIR__ . "/../util/file_handler_util.php";
 require_once __DIR__ . "/../model/objects_model.php";
+require_once "properties_controller.php";
 
 class objects_controller extends controller {
 
@@ -49,6 +50,59 @@ class objects_controller extends controller {
             "properties" => $data["properties"]
         );
         $this->model->create($formatted_data);
+    }
+
+    function update($id, $data) {
+        $formatted_object = array();
+        $formatted_object = $data["object"];
+        $fhu = new file_handler_util();
+        foreach($data["images"] as $key => $image){
+            $imgname = $fhu->upload($image);
+            switch ($key){
+                case "1":
+                    $formatted_object["mainimage"] = $imgname;
+                    break;
+                case "2":
+                    $formatted_object["image2"] = $imgname;
+                    break;
+                case "3":
+                    $formatted_object["image3"] = $imgname;
+                    break;
+                case "4":
+                    $formatted_object["image4"] = $imgname;
+                    break;
+                case "5":
+                    $formatted_object["image5"] = $imgname;
+                    break;
+            }
+        }
+        $old_object = $this->model->get($id);
+        $old_images = [$old_object["mainimage"], $old_object["image2"], $old_object["image3"], $old_object["image4"], $old_object["image5"]];
+        $formatted_data = array(
+            "object" => $formatted_object,
+            "properties" => $data["properties"]
+        );
+        echo $id . "<br>";
+        var_dump($formatted_data);
+        if($this->model->update($id, $formatted_data)){
+            foreach($old_images as $image){
+                $fhu->delete($image);
+            }
+        }
+        else{
+            $fhu->delete($formatted_object["mainimage"]);
+            $fhu->delete($formatted_object["image2"]);
+            $fhu->delete($formatted_object["image3"]);
+            $fhu->delete($formatted_object["image4"]);
+            $fhu->delete($formatted_object["image5"]);
+        }
+    }
+
+    function get($id) {
+        $pc = new properties_controller();
+        $object_data = $this->model->get($id);
+        $properties = $pc->get_by_object($id);
+        return array("object" => $object_data, "properties" => $properties);
     }
 
 }

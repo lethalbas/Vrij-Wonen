@@ -6,7 +6,7 @@ $(function () {
     $('#js-properties-multiple').select2({
         placeholder: "Selecteer eigenschappen"
     });
-    $( "#add_btn" ).click(function( event ) {
+    $("#add_btn").click(function (event) {
         event.preventDefault();
         $.redirect('/beheerder/object-aanmaken');
     });
@@ -22,3 +22,10 @@ $(window).on("load", function () {
         cont.addClass("w-100");
     }
 });
+
+// edit object
+function edit(id) {
+    $.redirect('/beheerder/object-aanmaken', {
+        "object_id": id
+    });
+}
