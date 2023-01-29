@@ -145,13 +145,14 @@ if($searched){
                     $main_img = $card["mainimage"];
                     $title = $card["title"];
                     $adress = $card["adress"] . ", " . $card["citiename"];
+                    $price = $card["price"];
                     $id = $card["id"];
                     ?>
                     <div class="shadow card m-2">
                         <img class="card-img-top" src="<?= $fhu->get_cdn_user_img_dir() . "/" . $main_img . ".jpg"; ?>" alt="Hoofdfoto">
                         <div class="card-body col d-flex flex-column justify-content-between">
                             <h5 class="card-title"><?= $title; ?></h5>
-                            <p class="card-text"><i class="fa-solid fa-location-dot"></i> <?= $adress; ?></p>
+                            <div class="card-text"><span class="d-block"><i class="fa-solid fa-location-dot"></i> <?= $adress; ?></span><span class="mt-2 d-block"><i class="fas fa-euro-sign"></i> <?= $price; ?></span></div>
                         </div>
                         <div class="card-footer">
                             <!-- detail page button -->

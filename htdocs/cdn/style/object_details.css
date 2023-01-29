@@ -1,0 +1,13 @@
+.main_image {
+    width: 100%;
+    max-width: 400px;
+    height: 300px;
+    object-fit: cover;
+}
+
+.detail_image {
+    width: 100%;
+    max-width: 200px;
+    height: 150px;
+    object-fit: cover;
+}
