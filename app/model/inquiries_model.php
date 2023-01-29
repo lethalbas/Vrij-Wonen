@@ -6,7 +6,7 @@ class inquiries_model extends model {
 
     // get all unhandled inquiries
     function get_all() {
-        $sth = $this->db->prepare("SELECT * FROM inquiries;");
+        $sth = $this->db->prepare("SELECT * FROM inquiries ORDER BY handled;");
         $sth->execute();
         return $sth->fetchAll();
     }
