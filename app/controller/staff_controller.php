@@ -40,7 +40,7 @@ class staff_controller extends controller {
     }
     
     function create($data){
-        $hashed = crypt($data["pass"], $this->temporary_salt);
+        $hashed = crypt($data["password"], $this->temporary_salt);
         $formatted_data = array(
             "username" => $data["username"],
             "email" => $data["email"],
