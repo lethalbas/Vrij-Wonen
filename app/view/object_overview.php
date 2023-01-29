@@ -34,6 +34,7 @@ if($searched){
     $dep = new dependencies_util();
     $dep->all_dependencies();
     $file_handler_util = new file_handler_util();
+    $ulsu = new user_login_session_util();
     ?>
     <link rel="stylesheet" href="<?= $file_handler_util->get_cdn_style_dir(); ?>/object_overview.css"/>
     <script src="<?= $file_handler_util->get_cdn_script_dir(); ?>/object_overview.js"></script>
@@ -47,7 +48,10 @@ if($searched){
                 ?> <h1>Uw zoekresultaten</h1> <?php
             }
             else{
-                ?> <h1>Alle objecten</h1> <?php
+                ?> 
+                <h1>Alle objecten</h1>
+                <p>U kunt de resultaten filteren via onderstaand formulier.</p>
+                <?php
             }
             ?>
         </div> 
@@ -86,8 +90,17 @@ if($searched){
 
                     <hr/>
 
-                    <!-- Submit button -->
-                    <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-search"></i> Zoeken</button>
+                    <?php if($ulsu->get_login_status() > 0){ ?>
+                    <div class="d-flex justify-content-between">
+                        <!-- Submit button -->
+                        <button type="submit" class="btn btn-primary btn-block float-left "><i class="fas fa-search"></i> Zoeken</button>
+
+                        <!-- Create button -->
+                        <button id="add_btn" class="btn btn-primary btn-block float-right"><i class="fas fa-plus"></i> Object aanmaken</button>
+                    </div>
+                    <?php } else{ ?>
+                    <button type="submit" class="btn btn-primary btn-block float-left "><i class="fas fa-search"></i> Zoeken</button>
+                    <?php } ?>
                 </form>
             </div>
         </div>

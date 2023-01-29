@@ -6,6 +6,10 @@ $(function () {
     $('#js-properties-multiple').select2({
         placeholder: "Selecteer eigenschappen"
     });
+    $( "#add_btn" ).click(function( event ) {
+        event.preventDefault();
+        $.redirect('/beheerder/object-aanmaken');
+    });
 });
 
 let cont = $("#form-container-responsive");
