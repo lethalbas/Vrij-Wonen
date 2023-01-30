@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 28 jan 2023 om 16:11
+-- Gegenereerd op: 30 jan 2023 om 22:00
 -- Serverversie: 10.4.25-MariaDB
 -- PHP-versie: 7.4.30
 
@@ -18,21 +18,8 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `vrijwonen`
+-- Database: `vrijwonen_public`
 --
-
--- --------------------------------------------------------
-
---
--- Tabelstructuur voor tabel `apikeys`
---
-
-CREATE TABLE `apikeys` (
-  `id` int(11) NOT NULL,
-  `apikey` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `expires` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -416,6 +403,7 @@ CREATE TABLE `connectprop` (
 
 CREATE TABLE `inquiries` (
   `id` int(11) NOT NULL,
+  `objectid` int(11) NOT NULL,
   `fullname` varchar(255) NOT NULL,
   `replyemail` varchar(255) NOT NULL,
   `message` varchar(1020) NOT NULL,
@@ -487,15 +475,16 @@ CREATE TABLE `staff` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Indexen voor geëxporteerde tabellen
+-- Gegevens worden geëxporteerd voor tabel `staff`
 --
 
+INSERT INTO `staff` (`id`, `username`, `email`, `passwordhash`, `sessionkey`, `admin`) VALUES
+(1, 'Admin1', 'admin@example.com', '$2y$10$A2DliPh8T237e0JzSBSIae2KiweLfFqbKIxbqDbPKjD5PJSzTQ7.C', '', 1),
+(7, 'User1', 'user@example.com', '$2y$10$MhXn/2WWQj6eQLTRcjajAeSHHeMT5uQDoULApWOL1otG8GBUm8yDK', '', 0);
+
 --
--- Indexen voor tabel `apikeys`
+-- Indexen voor geëxporteerde tabellen
 --
-ALTER TABLE `apikeys`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `apikey` (`apikey`);
 
 --
 -- Indexen voor tabel `cities`
@@ -516,7 +505,8 @@ ALTER TABLE `connectprop`
 -- Indexen voor tabel `inquiries`
 --
 ALTER TABLE `inquiries`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_OBJECT_ID` (`objectid`);
 
 --
 -- Indexen voor tabel `objects`
@@ -545,12 +535,6 @@ ALTER TABLE `staff`
 --
 
 --
--- AUTO_INCREMENT voor een tabel `apikeys`
---
-ALTER TABLE `apikeys`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT voor een tabel `cities`
 --
 ALTER TABLE `cities`
@@ -560,19 +544,19 @@ ALTER TABLE `cities`
 -- AUTO_INCREMENT voor een tabel `connectprop`
 --
 ALTER TABLE `connectprop`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=181;
 
 --
 -- AUTO_INCREMENT voor een tabel `inquiries`
 --
 ALTER TABLE `inquiries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT voor een tabel `objects`
 --
 ALTER TABLE `objects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT voor een tabel `properties`
@@ -584,7 +568,7 @@ ALTER TABLE `properties`
 -- AUTO_INCREMENT voor een tabel `staff`
 --
 ALTER TABLE `staff`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Beperkingen voor geëxporteerde tabellen
@@ -596,6 +580,12 @@ ALTER TABLE `staff`
 ALTER TABLE `connectprop`
   ADD CONSTRAINT `fk_objects` FOREIGN KEY (`objectid`) REFERENCES `objects` (`id`),
   ADD CONSTRAINT `fk_propertie` FOREIGN KEY (`propertieid`) REFERENCES `properties` (`id`);
+
+--
+-- Beperkingen voor tabel `inquiries`
+--
+ALTER TABLE `inquiries`
+  ADD CONSTRAINT `FK_OBJECT_ID` FOREIGN KEY (`objectid`) REFERENCES `objects` (`id`) ON DELETE CASCADE;
 
 --
 -- Beperkingen voor tabel `objects`
