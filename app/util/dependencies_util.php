@@ -35,7 +35,7 @@ class dependencies_util {
             '<script src="' . $cdn_script_path . '/vendor/toast.min.js"></script>',
             '<script src="' . $cdn_script_path . '/vendor/jquery-confirm.min.js"></script>',
             '<script src="' . $cdn_script_path . '/header.js"></script>',
-            '<script src="' . $cdn_script_path . '/main.js"></script>'
+            '<script src="' . $cdn_script_path . '/notifications.js"></script>'
         ];
 
         // php util dependencies to include on each page
