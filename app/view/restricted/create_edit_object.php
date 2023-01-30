@@ -293,6 +293,7 @@ require_once __DIR__ . "/../../controller/cities_controller.php";
                                 echo "<script>push_select('" . $new_prop["id"] . "');</script>";
                             }
                         ?>
+                        <script>commit_select();</script>
                     </div>
 
                     <div class="form-outline mb-4">

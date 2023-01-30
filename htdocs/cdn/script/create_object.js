@@ -28,6 +28,13 @@ function preview(image){
     });
 }
 
+// add values to the properties select box in edit mode
+let select_values = [];
+
 function push_select(value){
-    $('#js-properties-multiple').val(value);
+    select_values.push(value);
+}
+
+function commit_select(){
+    $('#js-properties-multiple').val(select_values);
 }
