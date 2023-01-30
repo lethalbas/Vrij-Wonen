@@ -1,3 +1,4 @@
+// create select2 object
 $(function () {
     $('#js-citie-single').select2({
         placeholder: "Selecteer stad",
@@ -25,7 +26,7 @@ $(window).on("load", function () {
 
 // edit object
 function edit(id) {
-    $.redirect('/beheerder/object-aanmaken', {
+    $.redirect('/beheerder/object-bewerken', {
         "object_id": id
     });
 }

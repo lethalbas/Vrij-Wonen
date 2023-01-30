@@ -1,4 +1,4 @@
-// delete object
+// delete inquiry
 function trash(id){
     $.confirm({
         title: 'Onomkeerbare actie!',
@@ -16,6 +16,7 @@ function trash(id){
     });
 }
 
+// view inquiry details
 function view_details(msg, fullname, email){
     $.alert({
         title: fullname + ", " + email,
@@ -23,6 +24,7 @@ function view_details(msg, fullname, email){
     });
 }
 
+// view inquiry object details
 function object_details(id){
     $.redirect('/object-details', {
         "id": id

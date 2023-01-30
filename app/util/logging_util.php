@@ -20,4 +20,13 @@ class logging_util {
         fwrite($file, $log_txt);  
         fclose($file);
     }
+
+    // create custom error log
+    function create_custom_log($log) {
+        $date_time = date('d-m-y H:i:s');
+        $log_txt = "IP Adress: " . $_SERVER['REMOTE_ADDR'] . "triggered log creation: '" . $log . "' at: $date_time\n";
+        $file = fopen($this->log_file_location, 'a');
+        fwrite($file, $log_txt);  
+        fclose($file);
+    }
 }

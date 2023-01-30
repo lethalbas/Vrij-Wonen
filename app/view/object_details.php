@@ -13,6 +13,7 @@ require_once __DIR__ . "/../controller/objects_controller.php";
     require_once __DIR__ . "/../util/dependencies_util.php"; 
     $dep = new dependencies_util();
     $dep->all_dependencies();
+    $ulsu = new user_login_session_util();
     $file_handler_util = new file_handler_util();
     ?>
     <link rel="stylesheet" href="<?= $file_handler_util->get_cdn_style_dir(); ?>/object_details.css">
@@ -60,7 +61,14 @@ require_once __DIR__ . "/../controller/objects_controller.php";
                                     <li><span class="size"><?= $prop["propertie"]; ?></span></li>
                                 <?php } ?>
                             </ul>
-                            <button class="btn btn-primary mt-3 mb-5" type="button" onclick="(open_details('<?= $id; ?>'))">Neem contact op over dit object</button>
+                            <div class="mt-3 mb-5">
+                                <button class="btn btn-primary" type="button" onclick="(open_details('<?= $id; ?>'))">Neem contact op over dit object</button>
+                                <!-- edit object button -->
+                                <?php if($ulsu->get_login_status() > 0){ ?>
+                                    <button onclick="edit(<?= $id; ?>)" class="btn btn-primary"><i class="fas fa-edit"></i></button>
+                                    <button onclick="trash(<?= $id; ?>)" class="btn btn-primary"><i class="fas fa-trash"></i></button>
+                                <?php } ?>
+                            </div>
                         </div>
                     </div>
                 </div>

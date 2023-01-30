@@ -4,6 +4,7 @@ require_once "model.php";
 
 class objects_model extends model {
 
+    // select all objects for the overview
     function get_all() {
         $sth = $this->db->prepare("SELECT objects.id, objects.title, objects.price, objects.adress, cities.citiename, objects.mainimage
             FROM objects
@@ -12,8 +13,9 @@ class objects_model extends model {
         return $sth->fetchAll();
     }
 
-    // filter by properties
+    // filter by properties and citie
     function get_all_filtered($filters) {
+        // build filter string to add to the query
         $filterstring = "";
         if(count($filters) > 0){
             $filterstring = $filterstring . "WHERE";
@@ -46,6 +48,7 @@ class objects_model extends model {
             }
             $filterstring = rtrim($filterstring, ' AND');
         }
+        // build query
         $sth = $this->db->prepare("SELECT objects.id, objects.title, objects.price, objects.adress, cities.citiename, objects.mainimage
         FROM objects
         INNER JOIN cities ON objects.cityid = cities.id
@@ -56,6 +59,7 @@ class objects_model extends model {
         return $sth->fetchAll();
     }
 
+    // get object details
     function get($id) {
         $sth = $this->db->prepare("SELECT objects.*, cities.citiename
         FROM objects
@@ -65,15 +69,38 @@ class objects_model extends model {
         return $sth->fetch();
     }
 
+    // delete object
     function delete($id) {
         $this->db->beginTransaction();
         $sth = $this->db->prepare("DELETE FROM connectprop WHERE objectid = $id;");
-        $sth->execute();
+        try{
+            $sth->execute();
+        }
+        catch (PDOException $e) {
+            $this->db->rollback();
+            return false;
+        }
+        $sth = $this->db->prepare("DELETE FROM inquiries WHERE objectid = $id;");
+        try{
+            $sth->execute();
+        }
+        catch (PDOException $e) {
+            $this->db->rollback();
+            return false;
+        }
         $sth = $this->db->prepare("DELETE FROM objects WHERE id = $id;");
-        $sth->execute();
+        try {
+            $sth->execute();
+        }
+        catch (PDOException $e) {
+            $this->db->rollback();
+            return false;
+        }
         $this->db->commit();
+        return true;
     }
 
+    // update object
     function update($id, $data) {
         $object_data = $data["object"];
         $object_properties = $data["properties"];
@@ -115,6 +142,7 @@ class objects_model extends model {
         return true;
     }
 
+    // create object
     function create($data) {
         $object_data = $data["object"];
         $object_properties = $data["properties"];

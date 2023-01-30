@@ -4,6 +4,7 @@ require_once "model.php";
 
 class properties_model extends model {
 
+    // get all properties for select box
     function get_all() {
         $sth = $this->db->prepare("SELECT * from properties;");
         $sth->execute();

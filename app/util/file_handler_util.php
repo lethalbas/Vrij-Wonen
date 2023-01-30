@@ -44,9 +44,10 @@ class file_handler_util {
     // upload image to cdn and return filename without extension
     function upload($image) {
         $name = $image["name"];
-        $ext = end((explode(".", $name)));
+        $ext = substr(strrchr($name, '.'), 1);
+        // check for correct file extension
         if ($ext != 'jpg') {
-            return false;
+            return "error";
         }
         $upload_dir = __DIR__ . "\..\..\htdocs\cdn\img\user_image_uploads\\";
         $glob = glob("$upload_dir\\*.jpg");

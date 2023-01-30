@@ -9,14 +9,17 @@ class inquiries_controller extends controller {
         $this->model = new inquiries_model();
     }
 
+    // get all inquiries
     function get_all() {
         return $this->model->get_all();
     }
 
+    // complete inquiry
     function complete($id){
         $this->model->complete_inquiry($id);
     }
 
+    // create inquiry
     function create($data){
         return $this->model->create($data);
     }

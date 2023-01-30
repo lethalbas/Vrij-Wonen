@@ -1,3 +1,4 @@
+// create select2 object
 $(function() {
     $('#js-citie-single').select2({
         placeholder: "Selecteer stad",
@@ -18,3 +19,22 @@ $( window ).on("load", function() {
         cont.addClass("w-100");
     }
 });
+
+// preview image in edit mode
+function preview(image){
+    $.alert({
+        title: 'Huidige afbeelding:',
+        content: '<img src="' + image + '" alt="preview" />'
+    });
+}
+
+// add values to the properties select box in edit mode
+let select_values = [];
+
+function push_select(value){
+    select_values.push(value);
+}
+
+function commit_select(){
+    $('#js-properties-multiple').val(select_values);
+}

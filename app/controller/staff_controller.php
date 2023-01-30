@@ -12,22 +12,25 @@ class staff_controller extends controller {
         $this->model = new staff_model();
     }
 
+    // get all staff members
     function get_all() {
         return $this->model->get_all();
     }
 
+    // get by session key 
     function get_by_session($key) {
         return $this->model->get_by_session($key);
     }
 
+    // set session key in db
     function set_session($user, $session){
         $this->model->set_session($user, $session);
     }
 
+    // log in check
     function log_in($user, $pass){
-        $hashed = crypt($pass, $this->temporary_salt);
         $data = $this->model->get_by_user($user);
-        if($data["passwordhash"] == $hashed){
+        if(password_verify($pass, $data["passwordhash"])){
             return true;
         }
         else{
@@ -35,12 +38,15 @@ class staff_controller extends controller {
         }
     }
 
+    // delete staff member
     function delete($id){
         $this->model->delete($id);
     }
     
+    // create staff member
     function create($data){
-        $hashed = crypt($data["password"], $this->temporary_salt);
+        // hash password
+        $hashed = password_hash($data["password"], PASSWORD_DEFAULT);
         $formatted_data = array(
             "username" => $data["username"],
             "email" => $data["email"],
@@ -51,7 +57,8 @@ class staff_controller extends controller {
             return true;
         }
         else{
-            return false;
+            // error inserting staff member
+            throw new Exception("Error: couldn't insert data");
         }
     }
 }

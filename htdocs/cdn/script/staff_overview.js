@@ -1,4 +1,4 @@
-// delete object
+// delete staff member
 function trash(id){
     $.confirm({
         title: 'Onomkeerbare actie!',
