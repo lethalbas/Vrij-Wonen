@@ -26,7 +26,19 @@ require_once __DIR__ . "/../../controller/cities_controller.php";
     }
 
     // handle post data below
-    if(isset($_POST["action-create-edit"])){
+    if(isset($_POST["delete_id"])){
+        // delete object
+        try{
+            $oc->delete($_POST["delete_id"]);
+            $note->notify("Voltooid", "Het object is succesvol verwijderd.");
+        } catch (Throwable $e) { 
+            $note->notify("Error", "Fout bij het verwijderen van het object.");
+        }
+        header('Location: /objecten-overzicht');
+        exit;
+    }
+    else if(isset($_POST["action-create-edit"])){
+        // create object
         if($_POST["action-create-edit"] == "create"){
             try{
                 $object_data = array(
@@ -60,6 +72,7 @@ require_once __DIR__ . "/../../controller/cities_controller.php";
             exit;
         }
         else{
+            // edit object
             try{
                 $object_data = array(
                     "title" => $_POST["title"],

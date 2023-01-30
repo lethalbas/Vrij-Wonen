@@ -28,6 +28,7 @@ class router_util {
                 break;
             case '/beheerder/object-aanmaken' :
             case '/beheerder/object-bewerken' :
+            case '/beheerder/object_verwijderen':
                 require_once  __DIR__ . '/../view/restricted/create_edit_object.php';
                 break;
             case '/beheerder/medewerker-aanmaken' :

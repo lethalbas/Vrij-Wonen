@@ -30,7 +30,7 @@ session_start();
                 <p class="lead">Welkom op het beheerdersdashboard van Vrij Wonen!</p>
                 <?php if($ulsu->get_login_status() > 1){
                     ?>
-                    <p>Klik hieronder om een alle contactaanvragen te bekijken of medewerkers en api keys te beheren.</p>
+                    <p>Klik hieronder om een alle contactaanvragen te bekijken en medewerkers te beheren.</p>
                     <button type="button" class="btn btn-primary" onclick="window.location='/beheerder/contact-aanvragen-overzicht';">Contactaanvragen</button>
                     <button type="button" class="btn btn-primary" onclick="window.location='/beheerder/medewerkers-overzicht';">Medewerkers</button>
                     <?php

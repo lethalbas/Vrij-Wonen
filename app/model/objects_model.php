@@ -68,10 +68,31 @@ class objects_model extends model {
     function delete($id) {
         $this->db->beginTransaction();
         $sth = $this->db->prepare("DELETE FROM connectprop WHERE objectid = $id;");
-        $sth->execute();
+        try{
+            $sth->execute();
+        }
+        catch (PDOException $e) {
+            $this->db->rollback();
+            return false;
+        }
+        $sth = $this->db->prepare("DELETE FROM inquiries WHERE objectid = $id;");
+        try{
+            $sth->execute();
+        }
+        catch (PDOException $e) {
+            $this->db->rollback();
+            return false;
+        }
         $sth = $this->db->prepare("DELETE FROM objects WHERE id = $id;");
-        $sth->execute();
+        try {
+            $sth->execute();
+        }
+        catch (PDOException $e) {
+            $this->db->rollback();
+            return false;
+        }
         $this->db->commit();
+        return true;
     }
 
     function update($id, $data) {

@@ -154,12 +154,12 @@ if($searched){
                             <h5 class="card-title"><?= $title; ?></h5>
                             <div class="card-text"><span class="d-block"><i class="fa-solid fa-location-dot"></i> <?= $adress; ?></span><span class="mt-2 d-block"><i class="fas fa-euro-sign"></i> <?= $price; ?></span></div>
                         </div>
-                        <div class="card-footer">
+                        <div class="card-footer col d-flex flex-row justify-content-between">
                             <!-- detail page button -->
                             <button onclick="open_details(<?= $id; ?>)" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i> Meer details</button>
                             <!-- edit object button -->
                             <?php if($ulsu->get_login_status() > 0){ ?>
-                                <button onclick="edit(<?= $id; ?>)" class="btn btn-primary"><i class="fas fa-edit"></i> Bijwerken</button>
+                                <button onclick="edit(<?= $id; ?>)" class="btn btn-primary"><i class="fas fa-edit"></i></button>
                             <?php } ?>
                         </div>
                     </div>

@@ -120,4 +120,20 @@ class objects_controller extends controller {
         return array("object" => $object_data, "properties" => $properties);
     }
 
+    function delete($id) {
+        $fhu = new file_handler_util();
+        $object = $this->model->get($id);
+        if($this->model->delete($id)){
+            $fhu->delete($object["mainimage"]);
+            $fhu->delete($object["image2"]);
+            $fhu->delete($object["image3"]);
+            $fhu->delete($object["image4"]);
+            $fhu->delete($object["image5"]);
+            return true;
+        }
+        else{
+            throw new Exception("Error: couldn't update data");
+        }
+    }
+
 }
