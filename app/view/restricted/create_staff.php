@@ -21,6 +21,8 @@ require_once __DIR__ . "/../../controller/staff_controller.php";
     }
     $sc = new staff_controller();
     $note = new notification_util();
+
+    // create staff member
     if(isset($_POST["username"]) && isset($_POST["email"]) && isset($_POST["pass"])){
         $admin = 0;
         if(isset($_POST["admin"])){

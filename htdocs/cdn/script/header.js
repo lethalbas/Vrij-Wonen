@@ -1,3 +1,4 @@
+// logout user
 function log_out(){
     $.confirm({
         title: 'Uitloggen',

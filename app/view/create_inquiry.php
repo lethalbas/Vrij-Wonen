@@ -16,6 +16,8 @@ require_once __DIR__ . "/../controller/inquiries_controller.php";
     $ic = new inquiries_controller();
     $note = new notification_util();
     $file_handler_util = new file_handler_util();
+    
+    // create inquiry
     if(isset($_POST["fullname"]) && isset($_POST["replyemail"]) && isset($_POST["message"]) && isset($_POST["object"])){
         $data = array(
             "fullname" => $_POST["fullname"],

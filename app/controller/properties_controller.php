@@ -9,10 +9,12 @@ class properties_controller extends controller {
         $this->model = new properties_model();
     }
 
+    // get all properties for select box
     function get_all() {
         return $this->model->get_all();
     }
 
+    // get all properties by a specific object id
     function get_by_object($id) {
         $data = array("id" => $id);
         return $this->model->get_all_filtered($data);

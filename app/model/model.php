@@ -2,6 +2,7 @@
 
 require_once __DIR__ . "/../util/db_connection_util.php";
 
+// abstract model baseclass
 abstract class model {
     private $connection_util;
     protected $db;

@@ -3,6 +3,8 @@ session_start();
 require_once __DIR__ . "/../controller/objects_controller.php"; 
 require_once __DIR__ . "/../controller/properties_controller.php"; 
 require_once __DIR__ . "/../controller/cities_controller.php"; 
+
+// search functionality
 $searched = (isset($_POST["properties"]) || isset($_POST["citie"]) && $_POST["citie"] != "");
 if(isset($_POST["properties"])){
     $prop = implode(",", $_POST["properties"]);

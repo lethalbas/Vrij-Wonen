@@ -2,6 +2,7 @@
 
 require_once "controller.php";
 require_once __DIR__ . "/../util/file_handler_util.php";
+require_once __DIR__ . "/../util/logging_util.php";
 require_once __DIR__ . "/../model/objects_model.php";
 require_once "properties_controller.php";
 
@@ -11,6 +12,7 @@ class objects_controller extends controller {
         $this->model = new objects_model();
     }
 
+    // get all objects (with optional filters)
     function get_all($filters = NULL) {
         if($filters == NULL){
             return $this->model->get_all();
@@ -20,6 +22,7 @@ class objects_controller extends controller {
         }
     }
 
+    // create object
     function create($data) {
         $formatted_object = array();
         $formatted_object = $data["object"];
@@ -65,6 +68,7 @@ class objects_controller extends controller {
         }
     }
 
+    // update object
     function update($id, $data) {
         $formatted_object = array();
         $formatted_object = $data["object"];
@@ -113,6 +117,7 @@ class objects_controller extends controller {
         }
     }
 
+    // get object details
     function get($id) {
         $pc = new properties_controller();
         $object_data = $this->model->get($id);
@@ -120,18 +125,29 @@ class objects_controller extends controller {
         return array("object" => $object_data, "properties" => $properties);
     }
 
+    // delete object
     function delete($id) {
         $fhu = new file_handler_util();
+        $lu = new logging_util();
         $object = $this->model->get($id);
         if($this->model->delete($id)){
-            $fhu->delete($object["mainimage"]);
-            $fhu->delete($object["image2"]);
-            $fhu->delete($object["image3"]);
-            $fhu->delete($object["image4"]);
-            $fhu->delete($object["image5"]);
-            return true;
+            try{
+                // remove images
+                $fhu->delete($object["mainimage"]);
+                $fhu->delete($object["image2"]);
+                $fhu->delete($object["image3"]);
+                $fhu->delete($object["image4"]);
+                $fhu->delete($object["image5"]);
+                return true;
+            }
+            catch {
+                // couldn't remove object images
+                $lu->create_custom_log("Possible data inconsistency: object was deleted but there was an error trying to delete all linked image files!");
+                return true;
+            }
         }
         else{
+            // couldnt delete data
             throw new Exception("Error: couldn't update data");
         }
     }

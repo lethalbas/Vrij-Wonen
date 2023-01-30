@@ -1,3 +1,4 @@
+// create select2 object
 $(function() {
     $('#js-citie-single').select2({
         placeholder: "Selecteer stad",

@@ -39,7 +39,9 @@ class staff_controller extends controller {
         $this->model->delete($id);
     }
     
+    // create staff member
     function create($data){
+        // hash password
         $hashed = crypt($data["password"], $this->temporary_salt);
         $formatted_data = array(
             "username" => $data["username"],
@@ -51,6 +53,7 @@ class staff_controller extends controller {
             return true;
         }
         else{
+            // error creating staff member
             return false;
         }
     }
