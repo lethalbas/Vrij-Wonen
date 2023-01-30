@@ -56,7 +56,7 @@ require_once __DIR__ . "/../../controller/cities_controller.php";
                     "4" => $_FILES["image4"],
                     "5" => $_FILES["image5"]
                 );
-                $object_properties = strip_tags($_POST["properties"]);
+                $object_properties = $_POST["properties"];
 
                 $data_array = array(
                     "object" => $object_data, 
@@ -66,7 +66,7 @@ require_once __DIR__ . "/../../controller/cities_controller.php";
                 $oc->create($data_array);
                 $note->notify("Voltooid", "Het object is succesvol aangemaakt.");
             } catch (Throwable $e) { 
-                $note->notify("Error", "Fout bij het aanmaken van het object.");
+                $note->notify("Error", "Fout bij het aanmaken van het object. ");
             }
             header('Location: /objecten-overzicht');
             exit;
@@ -80,17 +80,17 @@ require_once __DIR__ . "/../../controller/cities_controller.php";
                     "adress" => strip_tags($_POST["adress"]),
                     "postcode" => strip_tags($_POST["postcode"]),
                     "cityid" => strip_tags($_POST["citie"]),
-                    "description" => strip_tags($_POST["description"]),
+                    "description" => $_POST["description"],
                     "sold" => isset($_POST["sold"])
                 );
-                $object_images = array(
-                    "1" => $_FILES["mainimage"],
-                    "2" => $_FILES["image2"],
-                    "3" => $_FILES["image3"],
-                    "4" => $_FILES["image4"],
-                    "5" => $_FILES["image5"]
-                );
-                $object_properties = strip_tags($_POST["properties"]);
+                $object_images = array();
+                if($_FILES["mainimage"]["size"] > 0){ $object_images["1"] = $_FILES["mainimage"]; }
+                if($_FILES["image2"]["size"] > 0){ $object_images["2"] = $_FILES["image2"]; }
+                if($_FILES["image3"]["size"] > 0){ $object_images["3"] = $_FILES["image3"]; }
+                if($_FILES["image4"]["size"] > 0){ $object_images["4"] = $_FILES["image4"]; }
+                if($_FILES["image5"]["size"] > 0){ $object_images["5"] = $_FILES["image5"]; }
+                
+                $object_properties = $_POST["properties"];
 
                 $data_array = array(
                     "object" => $object_data, 
@@ -100,7 +100,7 @@ require_once __DIR__ . "/../../controller/cities_controller.php";
                 $oc->update($_POST["update_id"], $data_array);
                 $note->notify("Voltooid", "Het object is succesvol bijgewerkt.");
             } catch (Throwable $e) { 
-                $note->notify("Error", "Fout bij het bijwerken van het object.");
+                $note->notify("Error", "Fout bij het bijwerken van het object. ");
             }
             header('Location: /objecten-overzicht');
             exit;
@@ -248,17 +248,33 @@ require_once __DIR__ . "/../../controller/cities_controller.php";
                         <input type="text" name="description" class="form-control" value="<?= $data["object"]["description"] ?>" required />
                     </div>
 
+                    <?php 
+                    $image_path = $file_handler_util->get_cdn_user_img_dir() . "/";
+                    $image_ext = ".jpg";
+
+                    $mainimage = $image_path . $data["object"]["mainimage"] . $image_ext;
+                    $image2 = $image_path . $data["object"]["image2"] . $image_ext;
+                    $image3 = $image_path . $data["object"]["image3"] . $image_ext;
+                    $image4 = $image_path . $data["object"]["image4"] . $image_ext;
+                    $image5 = $image_path . $data["object"]["image5"] . $image_ext;
+                    ?>
+
                     <div class="form-outline mb-4">
-                        <label class="form-label" for="form2Example1">Hoofdafbeelding (.jpg)</label>
-                        <input type="file" name="mainimage" class="form-control" accept="image/jpeg" required />
+                        <label class="form-label" for="form2Example1">Hoofdafbeelding (.jpg)</label> 
+                        <input type="file" name="mainimage" class="form-control" accept="image/jpeg" />
+                        <button type="button" onclick="preview('<?= $mainimage; ?>')" class="btn btn-primary btn-block mt-1">bekijk huidige afbeelding <i class="fa-solid fa-eye"></i></button>
                     </div>
 
                     <div class="form-outline mb-4">
                         <label class="form-label" for="form2Example1">Detail-afbeeldingen (.jpg)</label>
-                        <input type="file" name="image2" class="form-control" accept="image/jpeg" required />
-                        <input type="file" name="image3" class="form-control mt-1" accept="image/jpeg" required />
-                        <input type="file" name="image4" class="form-control mt-1" accept="image/jpeg" required />
-                        <input type="file" name="image5" class="form-control mt-1" accept="image/jpeg" required />
+                        <input type="file" name="image2" class="form-control" accept="image/jpeg" />
+                        <button type="button" onclick="preview('<?= $image2; ?>')" class="btn btn-primary btn-block mt-1">bekijk huidige afbeelding <i class="fa-solid fa-eye"></i></button>
+                        <input type="file" name="image3" class="form-control mt-2" accept="image/jpeg" />
+                        <button type="button" onclick="preview('<?= $image3; ?>')" class="btn btn-primary btn-block mt-1">bekijk huidige afbeelding <i class="fa-solid fa-eye"></i></button>
+                        <input type="file" name="image4" class="form-control mt-2" accept="image/jpeg" />
+                        <button type="button" onclick="preview('<?= $image4; ?>')" class="btn btn-primary btn-block mt-1">bekijk huidige afbeelding <i class="fa-solid fa-eye"></i></button>
+                        <input type="file" name="image5" class="form-control mt-2" accept="image/jpeg" />
+                        <button type="button" onclick="preview('<?= $image5; ?>')" class="btn btn-primary btn-block mt-1">bekijk huidige afbeelding <i class="fa-solid fa-eye"></i></button>
                     </div>
 
                     <div class="form-outline mb-4">
@@ -270,8 +286,13 @@ require_once __DIR__ . "/../../controller/cities_controller.php";
                             foreach($options as $option) {
                                 ?> <option value="<?= $option["id"]; ?>"><?= $option["propertie"]; ?></option> <?php
                             }
-                            ?>
+                        ?>
                         </select>
+                        <?php
+                            foreach ($data["properties"] as $new_prop){
+                                echo "<script>push_select('" . $new_prop["id"] . "');</script>";
+                            }
+                        ?>
                     </div>
 
                     <div class="form-outline mb-4">
@@ -285,7 +306,7 @@ require_once __DIR__ . "/../../controller/cities_controller.php";
                     <hr/>
 
                     <!-- Submit button -->
-                    <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-plus"></i> Bijwerken</button>
+                    <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-edit"></i> Bijwerken</button>
                 </form>
             </div>
         </div>

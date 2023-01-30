@@ -19,3 +19,15 @@ $( window ).on("load", function() {
         cont.addClass("w-100");
     }
 });
+
+// preview image in edit mode
+function preview(image){
+    $.alert({
+        title: 'Huidige afbeelding:',
+        content: '<img src="' + image + '" alt="preview" />'
+    });
+}
+
+function push_select(value){
+    $('#js-properties-multiple').val(value);
+}
