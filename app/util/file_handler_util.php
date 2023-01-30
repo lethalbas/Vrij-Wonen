@@ -46,7 +46,7 @@ class file_handler_util {
         $name = $image["name"];
         $ext = end((explode(".", $name)));
         // check for correct file extension
-        if ($ext != 'jpg' || $ext != 'jpeg') {
+        if ($ext != 'jpg') {
             return false;
         }
         $upload_dir = __DIR__ . "\..\..\htdocs\cdn\img\user_image_uploads\\";
