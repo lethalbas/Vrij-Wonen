@@ -82,7 +82,7 @@ if($searched){
                             <option></option>
                             <?php
                             $cc = new cities_controller();
-                            $options = $cc->get_all();
+                            $options = $cc->get_all_used();
                             foreach($options as $option) {
                                 ?> <option value="<?= $option["id"]; ?>"><?= $option["citiename"]; ?></option> <?php
                             }
