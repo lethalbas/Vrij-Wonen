@@ -57,8 +57,8 @@ class staff_controller extends controller {
             return true;
         }
         else{
-            // error creating staff member
-            return false;
+            // error inserting staff member
+            throw new Exception("Error: couldn't insert data");
         }
     }
 }

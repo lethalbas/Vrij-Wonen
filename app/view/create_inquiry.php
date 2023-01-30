@@ -16,14 +16,14 @@ require_once __DIR__ . "/../controller/inquiries_controller.php";
     $ic = new inquiries_controller();
     $note = new notification_util();
     $file_handler_util = new file_handler_util();
-    
+
     // create inquiry
     if(isset($_POST["fullname"]) && isset($_POST["replyemail"]) && isset($_POST["message"]) && isset($_POST["object"])){
         $data = array(
-            "fullname" => $_POST["fullname"],
-            "replyemail" => $_POST["replyemail"],
-            "message" => $_POST["message"],
-            "object" => $_POST["object"]
+            "fullname" => strip_tags($_POST["fullname"]),
+            "replyemail" => strip_tags($_POST["replyemail"]),
+            "message" => strip_tags($_POST["message"]),
+            "object" => strip_tags($_POST["object"])
         );
         if($ic->create($data)){
             $note->notify("Voltooid", "Uw contactaanvraag is succesvol ingediend.");

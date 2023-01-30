@@ -42,12 +42,12 @@ require_once __DIR__ . "/../../controller/cities_controller.php";
         if($_POST["action-create-edit"] == "create"){
             try{
                 $object_data = array(
-                    "title" => $_POST["title"],
-                    "price" => $_POST["price"],
-                    "adress" => $_POST["adress"],
-                    "postcode" => $_POST["postcode"],
-                    "cityid" => $_POST["citie"],
-                    "description" => $_POST["description"]
+                    "title" => strip_tags($_POST["title"]),
+                    "price" => strip_tags($_POST["price"]),
+                    "adress" => strip_tags($_POST["adress"]),
+                    "postcode" => strip_tags($_POST["postcode"]),
+                    "cityid" => strip_tags($_POST["citie"]),
+                    "description" => strip_tags($_POST["description"])
                 );
                 $object_images = array(
                     "1" => $_FILES["mainimage"],
@@ -56,7 +56,7 @@ require_once __DIR__ . "/../../controller/cities_controller.php";
                     "4" => $_FILES["image4"],
                     "5" => $_FILES["image5"]
                 );
-                $object_properties = $_POST["properties"];
+                $object_properties = strip_tags($_POST["properties"]);
 
                 $data_array = array(
                     "object" => $object_data, 
@@ -75,12 +75,12 @@ require_once __DIR__ . "/../../controller/cities_controller.php";
             // edit object
             try{
                 $object_data = array(
-                    "title" => $_POST["title"],
-                    "price" => $_POST["price"],
-                    "adress" => $_POST["adress"],
-                    "postcode" => $_POST["postcode"],
-                    "cityid" => $_POST["citie"],
-                    "description" => $_POST["description"],
+                    "title" => strip_tags($_POST["title"]),
+                    "price" => strip_tags($_POST["price"]),
+                    "adress" => strip_tags($_POST["adress"]),
+                    "postcode" => strip_tags($_POST["postcode"]),
+                    "cityid" => strip_tags($_POST["citie"]),
+                    "description" => strip_tags($_POST["description"]),
                     "sold" => isset($_POST["sold"])
                 );
                 $object_images = array(
@@ -90,7 +90,7 @@ require_once __DIR__ . "/../../controller/cities_controller.php";
                     "4" => $_FILES["image4"],
                     "5" => $_FILES["image5"]
                 );
-                $object_properties = $_POST["properties"];
+                $object_properties = strip_tags($_POST["properties"]);
 
                 $data_array = array(
                     "object" => $object_data, 

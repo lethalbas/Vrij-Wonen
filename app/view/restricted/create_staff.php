@@ -29,17 +29,18 @@ require_once __DIR__ . "/../../controller/staff_controller.php";
             $admin = 1;
         }
         $data = array(
-            "username" => $_POST["username"],
-            "email" => $_POST["email"],
-            "password" => $_POST["pass"],
+            "username" => strip_tags($_POST["username"]),
+            "email" => strip_tags($_POST["email"]),
+            "password" => strip_tags($_POST["pass"]),
             "admin" => $admin
         );
-        if($sc->create($data)){
+        try{
+            $sc->create($data);
             $note->notify("Voltooid", "De medewerker is succesvol toegevoegd.");
             header('Location: /beheerder/medewerkers-overzicht');
             exit;
         }
-        else{
+        catch (Exception $e) {
             $note->notify("Fout", "Er is een fout opgetreden bij het toevoegen van de medewerker.");
             header('Location: /beheerder/medewerkers-overzicht');
             exit;
