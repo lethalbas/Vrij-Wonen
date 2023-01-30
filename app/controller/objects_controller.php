@@ -140,7 +140,7 @@ class objects_controller extends controller {
                 $fhu->delete($object["image5"]);
                 return true;
             }
-            catch {
+            catch (Exception $e) {
                 // couldn't remove object images
                 $lu->create_custom_log("Possible data inconsistency: object was deleted but there was an error trying to delete all linked image files!");
                 return true;

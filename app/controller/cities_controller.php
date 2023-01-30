@@ -15,7 +15,7 @@ class cities_controller extends controller {
     }
 
     // get all cities that are currently in use by one or more objects
-    function get_all() {
+    function get_all_used() {
         return $this->model->get_all_used();
     }
 }
