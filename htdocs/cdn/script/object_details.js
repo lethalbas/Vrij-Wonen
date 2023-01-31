@@ -29,3 +29,16 @@ function edit(id) {
         "object_id": id
     });
 }
+
+// print object details to pdf
+function print(){
+    $("#printable").print({
+        addGlobalStyles : true,
+        stylesheet : print_stylesheet,
+        rejectWindow : true,
+        noPrintSelector : ".no-print",
+        iframe : true,
+        append : null,
+        prepend : null
+    });
+}
