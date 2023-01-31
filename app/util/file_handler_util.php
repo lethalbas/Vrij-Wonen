@@ -49,8 +49,8 @@ class file_handler_util {
         if ($ext != 'jpg') {
             return "error";
         }
-        $upload_dir = __DIR__ . "\..\..\htdocs\cdn\img\user_image_uploads\\";
-        $glob = glob("$upload_dir\\*.jpg");
+        $upload_dir = __DIR__ . "/../../htdocs/cdn/img/user_image_uploads";
+        $glob = glob("$upload_dir/*.jpg");
         array_push($glob, 0);
         $highest = max(preg_replace("|[^0-9]|", "", $glob));
         $newfile = $highest + 1;
