@@ -32,4 +32,6 @@ Librarys used:
 
 5 - jQuery toast notifications
 
-6 - jQuery confirm
+6 - jQuery print
+
+7 - jQuery confirm
