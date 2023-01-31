@@ -15,8 +15,10 @@ require_once __DIR__ . "/../controller/objects_controller.php";
     $dep->all_dependencies();
     $ulsu = new user_login_session_util();
     $file_handler_util = new file_handler_util();
+    echo "<script>print_stylesheet = '" . $file_handler_util->get_cdn_style_dir() . "/print_styles.css';</script>";
     ?>
     <link rel="stylesheet" href="<?= $file_handler_util->get_cdn_style_dir(); ?>/object_details.css">
+    <script src="<?= $file_handler_util->get_cdn_script_dir(); ?>/vendor/jQuery.print.min.js"></script>
     <script src="<?= $file_handler_util->get_cdn_script_dir(); ?>/object_details.js"></script>
 </head>
 <body>
@@ -30,7 +32,7 @@ require_once __DIR__ . "/../controller/objects_controller.php";
             $id = $data["id"];
             ?>
             <div class="card mt-5 shadow">
-                <div class="container-fluid">
+                <div class="container-fluid" id="printable">
                     <div class="wrapper row">
                         <div class="preview col-md-6 ">
                             
@@ -62,11 +64,12 @@ require_once __DIR__ . "/../controller/objects_controller.php";
                                 <?php } ?>
                             </ul>
                             <div class="mt-3 mb-5">
-                                <button class="btn btn-primary" type="button" onclick="(open_details('<?= $id; ?>'))">Neem contact op over dit object</button>
+                                <button class="btn btn-primary no-print" type="button" onclick="(open_details('<?= $id; ?>'))">Neem contact op over dit object</button>
+                                <button onclick="print()" class="btn btn-primary no-print"><i class="fas fa-print"></i></button>
                                 <!-- edit object button -->
                                 <?php if($ulsu->get_login_status() > 0){ ?>
-                                    <button onclick="edit(<?= $id; ?>)" class="btn btn-primary"><i class="fas fa-edit"></i></button>
-                                    <button onclick="trash(<?= $id; ?>)" class="btn btn-primary"><i class="fas fa-trash"></i></button>
+                                    <button onclick="edit(<?= $id; ?>)" class="btn btn-primary no-print"><i class="fas fa-edit"></i></button>
+                                    <button onclick="trash(<?= $id; ?>)" class="btn btn-primary no-print"><i class="fas fa-trash"></i></button>
                                 <?php } ?>
                             </div>
                         </div>

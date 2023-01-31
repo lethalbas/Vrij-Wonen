@@ -1,0 +1,9 @@
+.main_image {
+    width: 260px;
+    height: 180px;
+    object-fit: cover;
+}
+
+*{
+    line-height: 0.9em;
+}
