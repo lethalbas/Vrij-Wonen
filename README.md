@@ -16,8 +16,10 @@ Setup:
 
 4 - Set htdocs folder as the apache webroot
 
+5 - (optional) in case your shared hosting provider does not name the document root folder "/htdocs" you will have to replace refferences to "/htdocs" to the desired document root folder in "/app/utils/file_handler_util.php" for the application to function properly
 
-Note: when testing on a local environment the Gravatar intergration (specifically the default images) will probably not function properly, this is due to their api and only fixable by running the application on an environment wich is accesible to the public internet. It isn't a game breaking bug but it is something to be aware of.
+
+Note: when testing on a local environment the Gravatar intergration (specifically the default images) will probably not function properly, this is due to their api and only fixable by running the application on an environment which is accesible to the public internet. It isn't a game breaking bug but it is something to be aware of.
 
 
 Librarys used:
