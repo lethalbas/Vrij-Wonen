@@ -43,21 +43,19 @@ class file_handler_util {
 
     // upload image to cdn and return filename without extension
     function upload($image) {
-        $name = $image["name"];
-        $ext = substr(strrchr($name, '.'), 1);
-        // check for correct file extension
-        if ($ext != 'jpg') {
+        $ext = pathinfo($image["name"], PATHINFO_EXTENSION);
+        // Check for correct file extension
+        if ($ext !== 'jpg') {
             return "error";
         }
         $upload_dir = __DIR__ . "/../../htdocs/cdn/img/user_image_uploads";
-        $glob = glob("$upload_dir/*.jpg");
-        array_push($glob, 0);
-        $highest = max(preg_replace("|[^0-9]|", "", $glob));
-        $newfile = $highest + 1;
-        $destination  = "$upload_dir/$newfile.jpg";
+        $img_name = strval(time()) . strval(rand(0, 99999));
+        $destination = "$upload_dir/$img_name.jpg";
         $src = $image["tmp_name"];
-        move_uploaded_file( $src, $destination );
-        return $newfile;
+        if (move_uploaded_file($src, $destination)) {
+            return $img_name;
+        }
+        return 'error';
     }
 
     // delete image from cdn user uploaded images dir
