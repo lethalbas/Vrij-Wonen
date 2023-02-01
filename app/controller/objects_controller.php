@@ -24,126 +24,141 @@ class objects_controller extends controller {
 
     // create object
     function create($data) {
+        $fhu = new file_handler_util();
         $formatted_object = array();
         $formatted_object = $data["object"];
         $formatted_object["sold"] = 0;
-        $fhu = new file_handler_util();
+    
+        // upload images
+        $main_image = null;
+        $image_2 = null;
+        $image_3 = null;
+        $image_4 = null;
+        $image_5 = null;
         foreach($data["images"] as $key => $image){
-            $imgname = $fhu->upload($image);
-            if($imgname == false){
-                throw new Exception("Error: wrong image filetype");
-            }
-            switch ($key){
+            $img_name = $fhu->upload($image);
+            switch ($key) {
                 case "1":
-                    $formatted_object["mainimage"] = $imgname;
+                    $main_image = $img_name;
                     break;
                 case "2":
-                    $formatted_object["image2"] = $imgname;
+                    $image_2 = $img_name;
                     break;
                 case "3":
-                    $formatted_object["image3"] = $imgname;
+                    $image_3 = $img_name;
                     break;
                 case "4":
-                    $formatted_object["image4"] = $imgname;
+                    $image_4 = $img_name;
                     break;
                 case "5":
-                    $formatted_object["image5"] = $imgname;
+                    $image_5 = $img_name;
                     break;
             }
         }
+    
+        $formatted_object["mainimage"] = $main_image;
+        $formatted_object["image2"] = $image_2;
+        $formatted_object["image3"] = $image_3;
+        $formatted_object["image4"] = $image_4;
+        $formatted_object["image5"] = $image_5;
+
         $formatted_data = array(
             "object" => $formatted_object,
             "properties" => $data["properties"]
         );
-        if($this->model->create($formatted_data)){
+    
+        if ($this->model->create($formatted_data)) {
             return true;
-        }
-        else{
-            $fhu->delete($formatted_object["mainimage"]);
-            $fhu->delete($formatted_object["image2"]);
-            $fhu->delete($formatted_object["image3"]);
-            $fhu->delete($formatted_object["image4"]);
-            $fhu->delete($formatted_object["image5"]);
+        } else {
+            // error inserting data, delete uploaded images
+            $fhu->delete("$main_image");
+            $fhu->delete("$image_2");
+            $fhu->delete("$image_3");
+            $fhu->delete("$image_4");
+            $fhu->delete("$image_5");
             throw new Exception("Error: couldn't insert data");
         }
     }
 
     // update object
     function update($id, $data) {
+        $fhu = new file_handler_util();
         $formatted_object = array();
         $old_object = $this->model->get($id);
         $old_images = array(
-            "1" => $old_object["mainimage"], 
-            "2" => $old_object["image2"], 
-            "3" => $old_object["image3"], 
-            "4" => $old_object["image4"], 
-            "5" => $old_object["image5"]
+        "1" => $old_object["mainimage"],
+        "2" => $old_object["image2"],
+        "3" => $old_object["image3"],
+        "4" => $old_object["image4"],
+        "5" => $old_object["image5"]
         );
         $formatted_object = $data["object"];
-        $fhu = new file_handler_util();
-        foreach($old_images as $key => $image){
-            $newimage = array_key_exists($key, $data["images"]);
-            if($newimage){
-                $imgname = $fhu->upload($data["images"][$key]);
-                if($imgname == "error"){
-                    throw new Exception("Error: wrong image filetype");
-                }
-                switch ($key){
-                    case "1":
-                        $formatted_object["mainimage"] = $imgname;
-                        break;
-                    case "2":
-                        $formatted_object["image2"] = $imgname;
-                        break;
-                    case "3":
-                        $formatted_object["image3"] = $imgname;
-                        break;
-                    case "4":
-                        $formatted_object["image4"] = $imgname;
-                        break;
-                    case "5":
-                        $formatted_object["image5"] = $imgname;
-                        break;
-                }
+        foreach($data["images"] as $key => $image) {
+            $img_name = $fhu->upload($image);
+            switch ($key) {
+                case "1":
+                    $formatted_object["mainimage"] = $img_name;
+                    break;
+                case "2":
+                    $formatted_object["image2"] = $img_name;
+                    break;
+                case "3":
+                    $formatted_object["image3"] = $img_name;
+                    break;
+                case "4":
+                    $formatted_object["image4"] = $img_name;
+                    break;
+                case "5":
+                    $formatted_object["image5"] = $img_name;
+                    break;
             }
-            else{
-                switch ($key){
-                    case "1":
+            if(array_key_exists($key, $old_images)){
+                $fhu->delete($old_images[$key]);
+                unset($old_images[$key]);
+            }
+        }
+        foreach($old_images as $key => $value){
+            switch ($key) {
+                case "1":
+                    if (!array_key_exists("1", $data["images"])) {
                         $formatted_object["mainimage"] = $old_images["1"];
-                        unset($old_images["1"]);
-                        break;
-                    case "2":
+                    }
+                    break;
+                case "2":
+                    if (!array_key_exists("2", $data["images"])) {
                         $formatted_object["image2"] = $old_images["2"];
-                        unset($old_images["2"]);
-                        break;
-                    case "3":
+                    }
+                    break;
+                case "3":
+                    if (!array_key_exists("3", $data["images"])) {
                         $formatted_object["image3"] = $old_images["3"];
-                        unset($old_images["3"]);
-                        break;
-                    case "4":
+                    }
+                    break;
+                case "4":
+                    if (!array_key_exists("4", $data["images"])) {
                         $formatted_object["image4"] = $old_images["4"];
-                        unset($old_images["4"]);
-                        break;
-                    case "5":
+                    }
+                    break;
+                case "5":
+                    if (!array_key_exists("5", $data["images"])) {
                         $formatted_object["image5"] = $old_images["5"];
-                        unset($old_images["5"]);
-                        break;
-                }
+                    }
+                    break;
             }
         }
         $formatted_data = array(
             "object" => $formatted_object,
             "properties" => $data["properties"]
         );
-        if($this->model->update($id, $formatted_data)){
-            foreach($old_images as $image){
-                if($image != ""){
-                    $fhu->delete($image);
-                }
-            }
-        }
-        else{
-            $lu->create_custom_log("Possible data inconsistency: object was not updated but there were images uploaded to the user images folder!");
+        if ($this->model->update($id, $formatted_data)) {
+            return true;
+        } else {
+            // error updating data, delete uploaded images
+            $fhu->delete("$main_image");
+            $fhu->delete("$image2");
+            $fhu->delete("$image3");
+            $fhu->delete("$image4");
+            $fhu->delete("$image5");
             throw new Exception("Error: couldn't update data");
         }
     }
