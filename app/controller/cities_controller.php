@@ -47,4 +47,9 @@ class cities_controller extends controller {
     function update($id, $data) {
         return $this->service->updateCity($id, $data);
     }
+
+    // delete city
+    function delete($id) {
+        return $this->service->deleteCity($id);
+    }
 }

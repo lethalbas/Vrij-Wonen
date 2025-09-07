@@ -101,6 +101,18 @@ try {
                         sendError('Invalid JSON input', 400);
                     }
                     break;
+                case 'DELETE':
+                    // Delete city
+                    if (!$id) {
+                        sendError('City ID required for deletion', 400);
+                    }
+                    $result = $controller->delete($id);
+                    if ($result) {
+                        sendResponse(['message' => 'City deleted successfully']);
+                    } else {
+                        sendError('Failed to delete city', 500);
+                    }
+                    break;
                 default:
                     sendError('Method not allowed', 405);
             }

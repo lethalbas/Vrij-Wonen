@@ -89,6 +89,13 @@ if($status < 1){
                             <button class="copy-btn" onclick="copyToClipboard('PUT /api/cities/17')">Kopieer</button>
                         </div>
 
+                        <div class="api-endpoint method-delete">
+                            <span class="method-badge badge-delete">DELETE</span>
+                            <strong>/api/cities/{id}</strong>
+                            <p class="mb-2">Verwijder stad (alleen als niet in gebruik)</p>
+                            <button class="copy-btn" onclick="copyToClipboard('DELETE /api/cities/17')">Kopieer</button>
+                        </div>
+
                         <h5>POST/PUT Request Body:</h5>
                         <div class="code-block">
 {
@@ -503,6 +510,9 @@ curl -X POST http://localhost:8080/api/cities \
 curl -X PUT http://localhost:8080/api/cities/17 \
   -H "Content-Type: application/json" \
   -d '{"citiename":"Amsterdam Updated"}'
+
+# Stad verwijderen
+curl -X DELETE http://localhost:8080/api/cities/17
 
 # Alle objecten
 curl http://localhost:8080/api/objects

@@ -65,4 +65,14 @@ class CitiesService extends BaseService {
         $sanitizedData = $this->sanitizeData($data);
         return $this->repository->update($id, $sanitizedData);
     }
+
+    public function deleteCity(int $id): bool {
+        // Check if city is in use by any objects
+        $objectsUsingCity = $this->repository->findBy(['cityid' => $id]);
+        if (!empty($objectsUsingCity)) {
+            throw new InvalidArgumentException('Cannot delete city: it is currently in use by one or more objects');
+        }
+
+        return $this->repository->delete($id);
+    }
 }
