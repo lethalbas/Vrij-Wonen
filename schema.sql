@@ -60,8 +60,25 @@ CREATE TABLE `staff` (
   `username` varchar(50) NOT NULL,
   `email` varchar(255) NOT NULL,
   `passwordhash` varchar(255) NOT NULL,
-  `sessionkey` varchar(255) NOT NULL DEFAULT '',
-  `admin` tinyint(1) NOT NULL DEFAULT 0
+  `sessionkey` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Table structure for `roles`
+CREATE TABLE `roles` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `priority` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Table structure for `user_roles`
+CREATE TABLE `user_roles` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  `assigned_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `assigned_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Indexes for dumped tables
@@ -94,6 +111,19 @@ ALTER TABLE `staff`
   ADD UNIQUE KEY `username` (`username`),
   ADD UNIQUE KEY `email` (`email`);
 
+-- Indexes for table `roles`
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`),
+  ADD UNIQUE KEY `priority` (`priority`);
+
+-- Indexes for table `user_roles`
+ALTER TABLE `user_roles`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_role_unique` (`user_id`,`role_id`),
+  ADD KEY `role_id` (`role_id`),
+  ADD KEY `assigned_by` (`assigned_by`);
+
 -- AUTO_INCREMENT for dumped tables
 -- AUTO_INCREMENT for table `cities`
 ALTER TABLE `cities`
@@ -115,6 +145,14 @@ ALTER TABLE `properties`
 ALTER TABLE `staff`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
+-- AUTO_INCREMENT for table `roles`
+ALTER TABLE `roles`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+-- AUTO_INCREMENT for table `user_roles`
+ALTER TABLE `user_roles`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 -- Constraints for dumped tables
 -- Constraints for table `connectprop`
 ALTER TABLE `connectprop`
@@ -128,5 +166,11 @@ ALTER TABLE `inquiries`
 -- Constraints for table `objects`
 ALTER TABLE `objects`
   ADD CONSTRAINT `objects_ibfk_1` FOREIGN KEY (`cityid`) REFERENCES `cities` (`id`) ON DELETE RESTRICT;
+
+-- Constraints for table `user_roles`
+ALTER TABLE `user_roles`
+  ADD CONSTRAINT `user_roles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `staff` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `user_roles_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `user_roles_ibfk_3` FOREIGN KEY (`assigned_by`) REFERENCES `staff` (`id`) ON DELETE SET NULL;
 
 COMMIT;

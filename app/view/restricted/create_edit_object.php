@@ -19,8 +19,8 @@ require_once __DIR__ . "/../../controller/cities_controller.php";
     $note = new notification_util();
     $oc = new objects_controller();
     $ulsu = new user_login_session_util();
-    // restricted page
-    if($ulsu->get_login_status() < 1){
+    // restricted page - check if user has management access (not archived)
+    if(!$ulsu->has_management_access()){
         header('Location: /forbidden'); 
         exit;
     }

@@ -1,6 +1,56 @@
 <?php
 session_start();
 require_once __DIR__ . "/../../controller/staff_controller.php"; 
+require_once __DIR__ . "/../../util/file_handler_util.php";
+require_once __DIR__ . "/../../util/user_login_session_util.php";
+require_once __DIR__ . "/../../util/notification_util.php";
+
+// Initialize utilities first
+$ulsu = new user_login_session_util();
+$note = new notification_util();
+
+// Check access control BEFORE any HTML output
+if(!$ulsu->has_management_access() || (!$ulsu->has_role('admin') && !$ulsu->has_role('system_admin') && !$ulsu->has_role('api_admin'))){
+    header('Location: /forbidden'); 
+    exit;
+}
+
+$sc = new staff_controller();
+
+// Get assignable roles for current user
+$assignableRoles = $sc->get_assignable_roles($ulsu->get_user_id());
+
+// Handle POST requests BEFORE any HTML output
+if(isset($_POST["username"]) && isset($_POST["email"]) && isset($_POST["pass"])){
+    // Get selected roles
+    $selectedRoles = [];
+    if(isset($_POST["roles"]) && is_array($_POST["roles"])){
+        $selectedRoles = array_map('intval', $_POST["roles"]);
+    }
+    
+    $data = array(
+        "username" => strip_tags($_POST["username"]),
+        "email" => strip_tags($_POST["email"]),
+        "password" => strip_tags($_POST["pass"]),
+        "roles" => $selectedRoles
+    );
+    try{
+        $sc->create($data);
+        $note->notify("Voltooid", "De medewerker is succesvol toegevoegd.");
+        header('Location: /beheerder/medewerkers-overzicht');
+        exit;
+    }
+    catch (Exception $e) {
+        $note->notify("Fout", "Er is een fout opgetreden bij het toevoegen van de medewerker.");
+        header('Location: /beheerder/medewerkers-overzicht');
+        exit;
+    }
+}
+
+// Now load dependencies AFTER all header() calls
+require_once __DIR__ . "/../../util/dependencies_util.php"; 
+$dep = new dependencies_util();
+$dep->all_dependencies();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,44 +59,6 @@ require_once __DIR__ . "/../../controller/staff_controller.php";
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medewerker aanmaken & bewerken | Vrij Wonen</title>
-    <?php 
-    require_once __DIR__ . "/../../util/dependencies_util.php"; 
-    $dep = new dependencies_util();
-    $dep->all_dependencies();
-    $ulsu = new user_login_session_util();
-    // restricted page
-    if($ulsu->get_login_status() < 2){
-        header('Location: /forbidden'); 
-        exit;
-    }
-    $sc = new staff_controller();
-    $note = new notification_util();
-
-    // create staff member
-    if(isset($_POST["username"]) && isset($_POST["email"]) && isset($_POST["pass"])){
-        $admin = 0;
-        if(isset($_POST["admin"])){
-            $admin = 1;
-        }
-        $data = array(
-            "username" => strip_tags($_POST["username"]),
-            "email" => strip_tags($_POST["email"]),
-            "password" => strip_tags($_POST["pass"]),
-            "admin" => $admin
-        );
-        try{
-            $sc->create($data);
-            $note->notify("Voltooid", "De medewerker is succesvol toegevoegd.");
-            header('Location: /beheerder/medewerkers-overzicht');
-            exit;
-        }
-        catch (Exception $e) {
-            $note->notify("Fout", "Er is een fout opgetreden bij het toevoegen van de medewerker.");
-            header('Location: /beheerder/medewerkers-overzicht');
-            exit;
-        }
-    }
-    ?>
 </head>
 <body>
     <?php require_once __DIR__ . "/../header.php"; ?>
@@ -74,8 +86,22 @@ require_once __DIR__ . "/../../controller/staff_controller.php";
                     </div>
 
                     <div class="form-outline mb-4">
-                        <label class="form-label" for="form2Example1">Beheerder </label>
-                        <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault" name="admin" />
+                        <label class="form-label" for="roles">Rollen</label>
+                        <div class="form-check">
+                            <?php if (empty($assignableRoles)): ?>
+                                <p class="text-muted">Geen rollen beschikbaar voor toewijzing.</p>
+                            <?php else: ?>
+                                <?php foreach ($assignableRoles as $role): ?>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="roles[]" value="<?= $role['id'] ?>" id="role_<?= $role['id'] ?>">
+                                        <label class="form-check-label" for="role_<?= $role['id'] ?>">
+                                            <?= htmlspecialchars($role['name']) ?> 
+                                            <small class="text-muted">(Priority: <?= $role['priority'] ?>)</small>
+                                        </label>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </div>
                     </div>
 
                     <hr/>

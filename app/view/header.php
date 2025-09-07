@@ -16,7 +16,7 @@ $header_ulsu = new user_login_session_util();
                 <li class="nav-item active">
                     <a class="nav-link" href="/objecten-overzicht">Objecten</a>
                 </li>
-                <?php if($header_ulsu->get_login_status() > 0){ ?>
+                <?php if($header_ulsu->has_management_access()){ ?>
                     <li class="nav-item">
                         <a class="nav-link" href="/beheerder">Beheerdersdashboard</a>
                     </li>

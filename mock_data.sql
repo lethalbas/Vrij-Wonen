@@ -2,6 +2,8 @@
 -- This file contains sample data for all tables
 
 -- Clear existing data
+DELETE FROM user_roles;
+DELETE FROM roles;
 DELETE FROM connectprop;
 DELETE FROM inquiries;
 DELETE FROM objects;
@@ -15,6 +17,8 @@ ALTER TABLE properties AUTO_INCREMENT = 1;
 ALTER TABLE objects AUTO_INCREMENT = 1;
 ALTER TABLE staff AUTO_INCREMENT = 1;
 ALTER TABLE inquiries AUTO_INCREMENT = 1;
+ALTER TABLE roles AUTO_INCREMENT = 1;
+ALTER TABLE user_roles AUTO_INCREMENT = 1;
 
 -- Insert Cities (Original Dutch cities list)
 INSERT INTO cities (id, citiename) VALUES
@@ -337,11 +341,34 @@ INSERT INTO properties (id, propertie) VALUES
 (14, 'Sauna'),
 (15, 'Zwembad');
 
--- Insert Staff (with hashed passwords)
-INSERT INTO staff (id, username, email, passwordhash, sessionkey, admin) VALUES
-(1, 'admin', 'admin@vrijwonen.nl', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '', 1),
-(2, 'jan', 'jan@vrijwonen.nl', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '', 0),
-(3, 'marie', 'marie@vrijwonen.nl', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '', 0);
+-- Insert Roles
+INSERT INTO roles (id, name, description, priority) VALUES
+(1, 'api_admin', 'API Administrator - API access only', 1),
+(2, 'system_admin', 'System Administrator - Full system access', 2),
+(3, 'admin', 'Administrator - Full application access', 3),
+(4, 'medewerker', 'Medewerker - Standard employee access', 4),
+(5, 'archived', 'Gearchiveerde medewerker - Geen toegang tot beheersfuncties', 5);
+
+-- Insert Staff (with hashed passwords) - One user per access level
+INSERT INTO staff (id, username, email, passwordhash, sessionkey) VALUES
+(1, 'api_admin', 'api_admin@vrijwonen.nl', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', ''),
+(2, 'system_admin', 'system_admin@vrijwonen.nl', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', ''),
+(3, 'admin', 'admin@vrijwonen.nl', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', ''),
+(4, 'medewerker', 'medewerker@vrijwonen.nl', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', ''),
+(5, 'archived', 'archived@vrijwonen.nl', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '');
+
+-- Assign Roles to Users - Each user gets their specific role
+INSERT INTO user_roles (user_id, role_id, assigned_at) VALUES
+-- API Admin user gets api_admin role
+(1, 1, NOW()), -- api_admin
+-- System Admin user gets system_admin role
+(2, 2, NOW()), -- system_admin
+-- Admin user gets admin role
+(3, 3, NOW()), -- admin
+-- Medewerker user gets medewerker role
+(4, 4, NOW()), -- medewerker
+-- Archived user gets archived role
+(5, 5, NOW()); -- archived
 
 -- Insert Objects (Houses) with local images
 INSERT INTO objects (id, title, price, adress, postcode, cityid, description, mainimage, image2, image3, image4, image5, sold) VALUES

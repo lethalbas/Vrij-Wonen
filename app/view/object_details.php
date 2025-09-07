@@ -67,7 +67,7 @@ require_once __DIR__ . "/../controller/objects_controller.php";
                                 <button class="btn btn-primary no-print" type="button" onclick="(open_details('<?= $id; ?>'))">Neem contact op over dit object</button>
                                 <button onclick="print()" class="btn btn-primary no-print"><i class="fas fa-print"></i></button>
                                 <!-- edit object button -->
-                                <?php if($ulsu->get_login_status() > 0){ ?>
+                                <?php if($ulsu->has_management_access()){ ?>
                                     <button onclick="edit(<?= $id; ?>)" class="btn btn-primary no-print"><i class="fas fa-edit"></i></button>
                                     <button onclick="trash(<?= $id; ?>)" class="btn btn-primary no-print"><i class="fas fa-trash"></i></button>
                                 <?php } ?>

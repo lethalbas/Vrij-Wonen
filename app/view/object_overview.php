@@ -179,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     <hr/>
 
-                    <?php if($ulsu->get_login_status() > 0){ ?>
+                    <?php if($ulsu->has_management_access()){ ?>
                     <div class="d-flex justify-content-between">
                         <!-- Submit button -->
                         <button type="submit" class="btn btn-primary btn-block float-left "><i class="fas fa-search"></i> Zoeken</button>
@@ -247,7 +247,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <!-- detail page button -->
                             <button onclick="open_details(<?= $id; ?>)" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i> Meer details</button>
                             <!-- edit object button -->
-                            <?php if($ulsu->get_login_status() > 0){ ?>
+                            <?php if($ulsu->has_management_access()){ ?>
                                 <button onclick="edit(<?= $id; ?>)" class="btn btn-primary"><i class="fas fa-edit"></i></button>
                             <?php } ?>
                         </div>
