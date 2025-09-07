@@ -93,11 +93,11 @@ try {
                             // Apply filters
                             $filters = [];
                             if (isset($_GET['city'])) {
-                                $filters['cities.id'] = (int)$_GET['city'];
+                                $filters['cityid'] = (int)$_GET['city'];
                             }
                             if (isset($_GET['properties'])) {
                                 $properties = explode(',', $_GET['properties']);
-                                $filters['connectprop.propertieid'] = array_map('intval', $properties);
+                                $filters['properties'] = array_map('intval', $properties);
                             }
                             $objects = $controller->get_all_filtered($filters);
                         } else {

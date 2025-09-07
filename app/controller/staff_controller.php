@@ -1,69 +1,75 @@
 <?php
 
 require_once "controller.php";
-require_once __DIR__ . "/../model/staff_model.php";
+require_once __DIR__ . "/../repository/staff_repository.php";
+require_once __DIR__ . "/../service/staff_service.php";
 
 class staff_controller extends controller {
 
-    // TODO: use real random salt
-    private $temporary_salt = "salt";
+    private $service;
 
     function __construct() {
-        $this->model = new staff_model();
+        $repository = new StaffRepository();
+        $this->service = new StaffService($repository);
     }
 
     // get all staff members
     function get_all() {
-        return $this->model->get_all();
+        return $this->service->getAll();
     }
 
     // get by session key 
     function get_by_session($key) {
-        return $this->model->get_by_session($key);
+        return $this->service->findBySession($key);
     }
 
     // set session key in db
     function set_session($user, $session){
-        $this->model->set_session($user, $session);
+        return $this->service->updateSession($user, $session);
     }
 
     // log in check
     function log_in($user, $pass){
-        $data = $this->model->get_by_user($user);
-        if(password_verify($pass, $data["passwordhash"])){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return $this->service->loginUser($user, $pass);
     }
 
     // delete staff member
     function delete($id){
-        $this->model->delete($id);
+        return $this->service->deleteNonAdmin($id);
     }
     
     // create staff member
     function create($data){
-        // hash password
-        $hashed = password_hash($data["password"], PASSWORD_DEFAULT);
-        $formatted_data = array(
-            "username" => $data["username"],
-            "email" => $data["email"],
-            "passwordhash" => $hashed,
-            "admin" => $data["admin"]
-        );
-        if($this->model->create($formatted_data)){
-            return true;
-        }
-        else{
-            // error inserting staff member
-            throw new Exception("Error: couldn't insert data");
-        }
+        return $this->service->createStaff($data);
     }
 
     // get staff member by id (for API)
     function get_by_id($id) {
-        return $this->model->get_by_id($id);
+        return $this->service->getById($id);
+    }
+
+    // get admins only
+    function get_admins() {
+        return $this->service->getAdmins();
+    }
+
+    // get non-admins only
+    function get_non_admins() {
+        return $this->service->getNonAdmins();
+    }
+
+    // update staff member
+    function update($id, $data) {
+        return $this->service->updateStaff($id, $data);
+    }
+
+    // update password
+    function update_password($id, $password) {
+        return $this->service->updatePassword($id, password_hash($password, PASSWORD_DEFAULT));
+    }
+
+    // logout user
+    function logout($username) {
+        return $this->service->logoutUser($username);
     }
 }

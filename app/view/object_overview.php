@@ -31,8 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         });
         
         if (!empty($properties)) {
-            $prop = implode(",", $properties);
-            $searchfilters["connectprop.propertieid"] = $prop;
+            $searchfilters["properties"] = $properties;
         }
     }
     
@@ -40,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST["citie"]) && !empty($_POST["citie"])) {
         $city = validation_util::sanitizeInteger($_POST["citie"]);
         if ($city !== false && $city > 0) {
-            $searchfilters["cities.id"] = $city;
+            $searchfilters["cityid"] = $city;
         }
     }
     
