@@ -1,5 +1,35 @@
 <?php
 session_start();
+
+// Handle login logic BEFORE any HTML output
+require_once __DIR__ . "/../util/dependencies_util.php"; 
+$dep = new dependencies_util();
+$dep->all_dependencies();
+$file_handler_util = new file_handler_util();
+$ulsu = new user_login_session_util();
+$note = new notification_util();
+
+// Handle logout
+if(isset($_POST["logout"])){
+    $ulsu->log_out();
+    $note->notify("Uitgelogd", "U bent succesvol uitgelogd");
+    header('Location: /log-in'); 
+    exit;
+}
+
+// Handle login
+if(isset($_POST["user"]) && isset($_POST["pass"])){
+    if($ulsu->login_user($_POST["user"], $_POST["pass"])){
+        $note->notify("Ingelogd", "U bent succesvol ingelogd");
+        header('Location: /beheerder'); 
+        exit;
+    }
+    else {
+        $note->notify("Fout", "Helaas waren de inloggegevens niet correct");
+        header('Location: /log-in'); 
+        exit;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,20 +38,6 @@ session_start();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log in | Vrij Wonen</title>
-    <?php 
-    require_once __DIR__ . "/../util/dependencies_util.php"; 
-    $dep = new dependencies_util();
-    $dep->all_dependencies();
-    $file_handler_util = new file_handler_util();
-    $ulsu = new user_login_session_util();
-    $note = new notification_util();
-    if(isset($_POST["logout"])){
-        $ulsu->log_out();
-        $note->notify("Uitgelogd", "U bent succesvol uitgelogd");
-        header('Location: /log-in'); 
-        exit;
-    }
-    ?>
     <script src="<?= $file_handler_util->get_cdn_script_dir(); ?>/log_in.js"></script>
 </head>
 <body>
@@ -29,18 +45,6 @@ session_start();
     require_once "header.php";
     if($ulsu->get_login_status() > 0){
         print_logged_in();
-    }
-    else if(isset($_POST["user"]) && isset($_POST["pass"])){
-        if($ulsu->login_user($_POST["user"], $_POST["pass"])){
-            header('Location: /beheerder'); 
-            $note->notify("Ingelogd", "U bent succesvol ingelogd");
-            exit;
-        }
-        else {
-            $note->notify("Fout", "Helaas waren de inloggegevens niet correct");
-            header('Location: /log-in'); 
-            exit;
-        }
     }
     else{
         print_form();

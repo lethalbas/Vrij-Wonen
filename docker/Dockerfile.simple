@@ -1,0 +1,32 @@
+FROM php:8.2-apache
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    libzip-dev \
+    libonig-dev \
+    unzip \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install PHP extensions
+RUN docker-php-ext-install pdo pdo_mysql mysqli mbstring zip
+
+# Enable mod_rewrite
+RUN a2enmod rewrite
+
+# Configure Apache to allow .htaccess files
+RUN echo '<Directory /var/www/html>' > /etc/apache2/conf-available/rewrite.conf \
+    && echo '    Options Indexes FollowSymLinks' >> /etc/apache2/conf-available/rewrite.conf \
+    && echo '    AllowOverride All' >> /etc/apache2/conf-available/rewrite.conf \
+    && echo '    Require all granted' >> /etc/apache2/conf-available/rewrite.conf \
+    && echo '</Directory>' >> /etc/apache2/conf-available/rewrite.conf \
+    && a2enconf rewrite
+
+# Enable PHP extensions for better image handling
+RUN echo 'extension=curl' >> /usr/local/etc/php/conf.d/docker-php-ext-curl.ini
+
+# Set working directory
+WORKDIR /var/www/html
+
+# Expose port 80
+EXPOSE 80

@@ -21,4 +21,11 @@ class cities_model extends model {
         return $sth->fetchAll();
     }
 
+    // get city by id
+    function get_by_id($id) {
+        $sth = $this->db->prepare("SELECT * FROM cities WHERE id = ?");
+        $sth->execute([$id]);
+        return $sth->fetch();
+    }
+
 }

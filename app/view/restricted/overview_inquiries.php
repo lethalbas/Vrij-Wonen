@@ -65,7 +65,7 @@ require_once __DIR__ . "/../../controller/inquiries_controller.php";
                             $email = $row["replyemail"]; 
                             $status = $row["handled"]; ?>
                             <tr>
-                                <th scope="row"><img src="<?= $gravatar_util->get_gravatar_url($email) ?>" alt="Na" class="avatar"></th>
+                                <th scope="row"><img src="<?= $gravatar_util->get_avatar_with_fallback($email) ?>" alt="Avatar" class="avatar"></th>
                                 <td><a href="#" onclick="object_details('<?= $object; ?>')">refnr: <?= $object; ?></a></td>
                                 <td><?= $email; ?></td>
                                 <td><?= $name; ?></td>

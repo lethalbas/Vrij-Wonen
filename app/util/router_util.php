@@ -46,12 +46,20 @@ class router_util {
             case '/beheerder/aanvraag-details' :
                 require_once  __DIR__ . '/../view/restricted/inquiry_details.php';
                 break;
+            case '/beheerder/api-documentatie' :
+                require_once  __DIR__ . '/../view/restricted/api_documentation.php';
+                break;
             case '/forbidden' :
                 require_once  __DIR__ . '/../view/forbidden.php';
                 break;
             default:
-                http_response_code(404);
-                require_once  __DIR__ . '/../view/404.php';
+                // Check if it's an API request
+                if (strpos($request, '/api/') === 0) {
+                    require_once  __DIR__ . '/../api/api.php';
+                } else {
+                    http_response_code(404);
+                    require_once  __DIR__ . '/../view/404.php';
+                }
                 break;
         }
     }

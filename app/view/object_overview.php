@@ -3,19 +3,49 @@ session_start();
 require_once __DIR__ . "/../controller/objects_controller.php"; 
 require_once __DIR__ . "/../controller/properties_controller.php"; 
 require_once __DIR__ . "/../controller/cities_controller.php"; 
+require_once __DIR__ . "/../util/csrf_util.php";
+require_once __DIR__ . "/../util/validation_util.php";
 
-// search functionality
-$searched = (isset($_POST["properties"]) || isset($_POST["citie"]) && $_POST["citie"] != "");
-if(isset($_POST["properties"])){
-    $prop = implode(",", $_POST["properties"]);
+// Validate CSRF token for POST requests
+try {
+    csrf_util::validateRequest();
+} catch (Exception $e) {
+    header('Location: /forbidden');
+    exit;
 }
-if($searched){
-    $searchfilters = array();
-    if(isset($_POST["properties"])){
-        $searchfilters["connectprop.propertieid"]= $prop;
+
+// search functionality with input validation
+$searched = false;
+$searchfilters = array();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $searched = true;
+    
+    // Validate and sanitize properties
+    if (isset($_POST["properties"]) && is_array($_POST["properties"])) {
+        $properties = validation_util::sanitizeArray($_POST["properties"], function($value) {
+            return validation_util::sanitizeInteger($value);
+        });
+        $properties = array_filter($properties, function($value) {
+            return $value !== false && $value > 0;
+        });
+        
+        if (!empty($properties)) {
+            $searchfilters["properties"] = $properties;
+        }
     }
-    if(isset($_POST["citie"])){
-        $searchfilters["cities.id"]= $_POST["citie"];
+    
+    // Validate and sanitize city
+    if (isset($_POST["citie"]) && !empty($_POST["citie"])) {
+        $city = validation_util::sanitizeInteger($_POST["citie"]);
+        if ($city !== false && $city > 0) {
+            $searchfilters["cityid"] = $city;
+        }
+    }
+    
+    // If no valid filters were provided, don't search
+    if (empty($searchfilters)) {
+        $searched = false;
     }
 }
 ?>
@@ -40,6 +70,54 @@ if($searched){
     ?>
     <link rel="stylesheet" href="<?= $file_handler_util->get_cdn_style_dir(); ?>/object_overview.css">
     <script src="<?= $file_handler_util->get_cdn_script_dir(); ?>/object_overview.js"></script>
+    
+    <script>
+    // Define toggleCities function globally to ensure it's available
+    function toggleCities() {
+        const toggle = document.getElementById('showAllCitiesToggle');
+        const select = document.getElementById('js-citie-single');
+        const currentValue = select.value;
+        
+        // Clear current selection
+        select.innerHTML = '<option></option>';
+        
+        if (toggle.checked) {
+            // Load all cities
+            fetch('/api/cities')
+                .then(response => response.json())
+                .then(cities => {
+                    cities.forEach(city => {
+                        const option = document.createElement('option');
+                        option.value = city.id;
+                        option.textContent = city.citiename;
+                        if (city.id == currentValue) {
+                            option.selected = true;
+                        }
+                        select.appendChild(option);
+                    });
+                    $(select).trigger('change');
+                })
+                .catch(error => console.error('Error loading all cities:', error));
+        } else {
+            // Load only used cities
+            fetch('/api/cities?used=true')
+                .then(response => response.json())
+                .then(cities => {
+                    cities.forEach(city => {
+                        const option = document.createElement('option');
+                        option.value = city.id;
+                        option.textContent = city.citiename;
+                        if (city.id == currentValue) {
+                            option.selected = true;
+                        }
+                        select.appendChild(option);
+                    });
+                    $(select).trigger('change');
+                })
+                .catch(error => console.error('Error loading used cities:', error));
+        }
+    }
+    </script>
 </head>
 <body>
     <?php require_once "header.php"; ?>
@@ -61,7 +139,8 @@ if($searched){
         <!-- search form -->
         <div class="d-flex justify-content-center align-items-center mt-5">
             <div id="form-container-responsive" class="shadow w-50 p-3 border rounded">
-                <form method="post", action="/objecten-overzicht">
+                <form method="post" action="/objecten-overzicht">
+                    <?= csrf_util::getTokenField(); ?>
                     
                     <div class="form-outline mb-4">
                         <label class="form-label" for="form2Example1">Eigenschappen </label>
@@ -77,7 +156,15 @@ if($searched){
                     </div>
 
                     <div class="form-outline mb-4">
-                        <label class="form-label" for="form2Example2">Stad </label>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <label class="form-label mb-0" for="form2Example2">Stad</label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="showAllCitiesToggle" onchange="toggleCities()">
+                                <label class="form-check-label" for="showAllCitiesToggle">
+                                    <small>Toon alle gemeenten</small>
+                                </label>
+                            </div>
+                        </div>
                         <select id="js-citie-single" class="form-select" data-control="select2" name="citie">
                             <option></option>
                             <?php

@@ -60,7 +60,7 @@ require_once __DIR__ . "/../../controller/staff_controller.php";
                 foreach ($data as $row){
                     $id = $row["id"]; ?>
                     <tr>
-                        <th scope="row"><img src="<?= $gravatar_util->get_gravatar_url($row["email"]) ?>" alt="Na" class="avatar"></th>
+                        <th scope="row"><img src="<?= $gravatar_util->get_avatar_with_fallback($row["email"]) ?>" alt="Avatar" class="avatar"></th>
                         <td><?= $row["username"]; ?></td>
                         <td><?= $row["email"]; ?></td>
                         <td><?php if($row["admin"]=='1'){ ?> <i class="fa fa-check" aria-hidden="true"></i> <?php }else{echo "-";} ?></td>

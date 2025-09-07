@@ -27,8 +27,15 @@ class inquiries_model extends model {
 
     // set handled to true so the inquiry temporarily stays archived
     function complete_inquiry($id){
-        $sth = $this->db->prepare("UPDATE inquiries SET handled = 1 WHERE id = $id;");
-        $sth->execute();
+        $sth = $this->db->prepare("UPDATE inquiries SET handled = 1 WHERE id = ?");
+        $sth->execute([$id]);
+    }
+
+    // get inquiry by id
+    function get_by_id($id) {
+        $sth = $this->db->prepare("SELECT * FROM inquiries WHERE id = ?");
+        $sth->execute([$id]);
+        return $sth->fetch();
     }
 
 }

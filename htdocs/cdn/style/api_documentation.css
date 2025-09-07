@@ -1,0 +1,191 @@
+/* API Documentation Styles */
+.api-endpoint {
+    background: #f8f9fa;
+    border-left: 4px solid #007bff;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.method-get { 
+    border-left-color: #28a745; 
+}
+
+.method-post { 
+    border-left-color: #ffc107; 
+}
+
+.method-put { 
+    border-left-color: #17a2b8; 
+}
+
+.method-delete { 
+    border-left-color: #dc3545; 
+}
+
+.method-patch { 
+    border-left-color: #6f42c1; 
+}
+
+.method-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: white;
+    margin-right: 10px;
+}
+
+.badge-get { 
+    background-color: #28a745; 
+}
+
+.badge-post { 
+    background-color: #ffc107; 
+    color: #000; 
+}
+
+.badge-put { 
+    background-color: #17a2b8; 
+}
+
+.badge-patch { 
+    background-color: #6f42c1; 
+}
+
+.badge-delete { 
+    background-color: #dc3545; 
+}
+
+.code-block {
+    background: #2d3748;
+    color: #e2e8f0;
+    padding: 15px;
+    border-radius: 5px;
+    font-family: 'Courier New', monospace;
+    margin: 10px 0;
+    overflow-x: auto;
+}
+
+.response-example {
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.parameter-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+}
+
+.parameter-table th,
+.parameter-table td {
+    border: 1px solid #dee2e6;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.parameter-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+.copy-btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.8em;
+    transition: background-color 0.2s ease;
+}
+
+.copy-btn:hover {
+    background: #0056b3;
+}
+
+.copy-btn:active {
+    background: #004085;
+}
+
+/* API Documentation specific styles */
+.api-docs-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.api-section {
+    margin-bottom: 2rem;
+}
+
+.api-section h3 {
+    color: #495057;
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.api-endpoint h4 {
+    margin-top: 0;
+    color: #212529;
+}
+
+.api-endpoint p {
+    margin-bottom: 0.5rem;
+    color: #6c757d;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .api-endpoint {
+        padding: 10px;
+    }
+    
+    .code-block {
+        padding: 10px;
+        font-size: 0.9em;
+    }
+    
+    .parameter-table {
+        font-size: 0.9em;
+    }
+    
+    .parameter-table th,
+    .parameter-table td {
+        padding: 6px 8px;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .api-endpoint {
+        background: #343a40;
+        border-left-color: #6c757d;
+    }
+    
+    .code-block {
+        background: #1a1a1a;
+        color: #f8f9fa;
+    }
+    
+    .response-example {
+        background: #2d3748;
+        border-color: #4a5568;
+        color: #e2e8f0;
+    }
+    
+    .parameter-table th {
+        background-color: #495057;
+        color: #f8f9fa;
+    }
+    
+    .parameter-table td {
+        background-color: #343a40;
+        color: #f8f9fa;
+    }
+}

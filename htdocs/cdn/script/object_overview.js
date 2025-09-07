@@ -13,6 +13,7 @@ $(function () {
     });
 });
 
+
 let cont = $("#form-container-responsive");
 
 // remove the 50% class off the form container and replace with 100% when screen is too narrow

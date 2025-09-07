@@ -1,0 +1,53 @@
+# Logs
+app/system_logs/*.txt
+app/system_logs/*.log
+!app/system_logs/.gitkeep
+
+# User uploads
+htdocs/cdn/img/user_image_uploads/*
+!htdocs/cdn/img/user_image_uploads/.gitkeep
+!htdocs/cdn/img/user_image_uploads/house_default.jpg
+
+# Default images (keep these)
+!htdocs/cdn/img/default_avatar.jpg
+
+# Docker volumes
+docker-data/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.bak
+*.old
+*.cache
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Node modules (if any)
+node_modules/
+
+# Composer (if any)
+vendor/
+
+# Backup files
+*.backup
+*.sql.backup
+
+# Development files
+dev-*
+test-*
+debug-*
