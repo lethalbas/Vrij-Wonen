@@ -24,4 +24,9 @@ class inquiries_controller extends controller {
         return $this->model->create($data);
     }
 
+    // get inquiry by id (for API)
+    function get_by_id($id) {
+        return $this->model->get_by_id($id);
+    }
+
 }

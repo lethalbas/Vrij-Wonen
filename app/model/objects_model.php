@@ -64,33 +64,33 @@ class objects_model extends model {
         $sth = $this->db->prepare("SELECT objects.*, cities.citiename
         FROM objects
         INNER JOIN cities ON objects.cityid = cities.id
-        WHERE objects.id = $id;");
-        $sth->execute();
+        WHERE objects.id = ?");
+        $sth->execute([$id]);
         return $sth->fetch();
     }
 
     // delete object
     function delete($id) {
         $this->db->beginTransaction();
-        $sth = $this->db->prepare("DELETE FROM connectprop WHERE objectid = $id;");
+        $sth = $this->db->prepare("DELETE FROM connectprop WHERE objectid = ?");
         try{
-            $sth->execute();
+            $sth->execute([$id]);
         }
         catch (PDOException $e) {
             $this->db->rollback();
             return false;
         }
-        $sth = $this->db->prepare("DELETE FROM inquiries WHERE objectid = $id;");
+        $sth = $this->db->prepare("DELETE FROM inquiries WHERE objectid = ?");
         try{
-            $sth->execute();
+            $sth->execute([$id]);
         }
         catch (PDOException $e) {
             $this->db->rollback();
             return false;
         }
-        $sth = $this->db->prepare("DELETE FROM objects WHERE id = $id;");
+        $sth = $this->db->prepare("DELETE FROM objects WHERE id = ?");
         try {
-            $sth->execute();
+            $sth->execute([$id]);
         }
         catch (PDOException $e) {
             $this->db->rollback();
@@ -105,16 +105,16 @@ class objects_model extends model {
         $object_data = $data["object"];
         $object_properties = $data["properties"];
         $this->db->beginTransaction();
-        $sth = $this->db->prepare("DELETE FROM connectprop WHERE objectid = $id;");
+        $sth = $this->db->prepare("DELETE FROM connectprop WHERE objectid = ?");
         try{
-            $sth->execute();
+            $sth->execute([$id]);
         }
         catch (PDOException $e)
         {
             $this->db->rollback();
             return false;
         }
-        $sth = $this->db->prepare("UPDATE objects SET title=?,price=?,adress=?,postcode=?,cityid=?,`description`=?,mainimage=?,image2=?,image3=?,image4=?,image5=?,sold=? WHERE id=?;");
+        $sth = $this->db->prepare("UPDATE objects SET title=?,price=?,adress=?,postcode=?,cityid=?,`description`=?,mainimage=?,image2=?,image3=?,image4=?,image5=?,sold=? WHERE id=?");
         $sold = 0;
         if($object_data["sold"] == true){
             $sold = 1;
@@ -128,7 +128,7 @@ class objects_model extends model {
             return false;
         }
         foreach($object_properties as $propertie){
-            $sth = $this->db->prepare("INSERT INTO connectprop(objectid,propertieid) VALUES(?,?);");
+            $sth = $this->db->prepare("INSERT INTO connectprop(objectid,propertieid) VALUES(?,?)");
             try{
                 $sth->execute([$id, $propertie]);
             }
@@ -146,10 +146,7 @@ class objects_model extends model {
     function create($data): bool
     {
         $object_data = $data['object'];
-        var_dump($object_data);
-        echo "<br>";
         $object_properties = $data['properties'];
-        var_dump($object_properties);
     
         try {
             $this->db->beginTransaction();

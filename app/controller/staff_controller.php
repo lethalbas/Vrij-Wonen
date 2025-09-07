@@ -61,4 +61,9 @@ class staff_controller extends controller {
             throw new Exception("Error: couldn't insert data");
         }
     }
+
+    // get staff member by id (for API)
+    function get_by_id($id) {
+        return $this->model->get_by_id($id);
+    }
 }

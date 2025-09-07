@@ -22,6 +22,16 @@ class objects_controller extends controller {
         }
     }
 
+    // get all objects with filters (for API)
+    function get_all_filtered($filters) {
+        return $this->model->get_all_filtered($filters);
+    }
+
+    // get object by id (for API)
+    function get_by_id($id) {
+        return $this->model->get($id);
+    }
+
     // create object
     function create($data) {
         $fhu = new file_handler_util();

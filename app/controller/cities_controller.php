@@ -18,4 +18,9 @@ class cities_controller extends controller {
     function get_all_used() {
         return $this->model->get_all_used();
     }
+
+    // get city by id
+    function get_by_id($id) {
+        return $this->model->get_by_id($id);
+    }
 }

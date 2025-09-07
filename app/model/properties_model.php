@@ -16,9 +16,16 @@ class properties_model extends model {
         $id = $filters["id"];
         $sth = $this->db->prepare("SELECT properties.id, properties.propertie from properties
             INNER JOIN connectprop ON properties.id = connectprop.propertieid
-            WHERE connectprop.objectid = $id;");
-        $sth->execute();
+            WHERE connectprop.objectid = ?");
+        $sth->execute([$id]);
         return $sth->fetchAll();
+    }
+
+    // get property by id
+    function get_by_id($id) {
+        $sth = $this->db->prepare("SELECT * FROM properties WHERE id = ?");
+        $sth->execute([$id]);
+        return $sth->fetch();
     }
 
 }

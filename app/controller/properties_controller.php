@@ -20,4 +20,9 @@ class properties_controller extends controller {
         return $this->model->get_all_filtered($data);
     }
 
+    // get property by id (for API)
+    function get_by_id($id) {
+        return $this->model->get_by_id($id);
+    }
+
 }
