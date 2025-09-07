@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
 // Handle preflight requests
@@ -70,6 +70,37 @@ try {
                         sendResponse($cities);
                     }
                     break;
+                case 'POST':
+                    // Create new city
+                    $input = json_decode(file_get_contents('php://input'), true);
+                    if ($input) {
+                        $result = $controller->create($input);
+                        if ($result) {
+                            sendResponse($result, 201);
+                        } else {
+                            sendError('Failed to create city', 500);
+                        }
+                    } else {
+                        sendError('Invalid JSON input', 400);
+                    }
+                    break;
+                case 'PUT':
+                    // Update city
+                    if (!$id) {
+                        sendError('City ID required for update', 400);
+                    }
+                    $input = json_decode(file_get_contents('php://input'), true);
+                    if ($input) {
+                        $result = $controller->update($id, $input);
+                        if ($result) {
+                            sendResponse($result);
+                        } else {
+                            sendError('Failed to update city', 500);
+                        }
+                    } else {
+                        sendError('Invalid JSON input', 400);
+                    }
+                    break;
                 default:
                     sendError('Method not allowed', 405);
             }
@@ -106,6 +137,49 @@ try {
                         sendResponse($objects);
                     }
                     break;
+                case 'POST':
+                    // Create new object
+                    $input = json_decode(file_get_contents('php://input'), true);
+                    if ($input) {
+                        $result = $controller->create($input);
+                        if ($result) {
+                            sendResponse($result, 201);
+                        } else {
+                            sendError('Failed to create object', 500);
+                        }
+                    } else {
+                        sendError('Invalid JSON input', 400);
+                    }
+                    break;
+                case 'PUT':
+                    // Update object
+                    if (!$id) {
+                        sendError('Object ID required for update', 400);
+                    }
+                    $input = json_decode(file_get_contents('php://input'), true);
+                    if ($input) {
+                        $result = $controller->update($id, $input);
+                        if ($result) {
+                            sendResponse($result);
+                        } else {
+                            sendError('Failed to update object', 500);
+                        }
+                    } else {
+                        sendError('Invalid JSON input', 400);
+                    }
+                    break;
+                case 'DELETE':
+                    // Delete object
+                    if (!$id) {
+                        sendError('Object ID required for deletion', 400);
+                    }
+                    $result = $controller->delete($id);
+                    if ($result) {
+                        sendResponse(['message' => 'Object deleted successfully']);
+                    } else {
+                        sendError('Failed to delete object', 500);
+                    }
+                    break;
                 default:
                     sendError('Method not allowed', 405);
             }
@@ -129,6 +203,37 @@ try {
                         sendResponse($properties);
                     }
                     break;
+                case 'POST':
+                    // Create new property
+                    $input = json_decode(file_get_contents('php://input'), true);
+                    if ($input) {
+                        $result = $controller->create($input);
+                        if ($result) {
+                            sendResponse($result, 201);
+                        } else {
+                            sendError('Failed to create property', 500);
+                        }
+                    } else {
+                        sendError('Invalid JSON input', 400);
+                    }
+                    break;
+                case 'PUT':
+                    // Update property
+                    if (!$id) {
+                        sendError('Property ID required for update', 400);
+                    }
+                    $input = json_decode(file_get_contents('php://input'), true);
+                    if ($input) {
+                        $result = $controller->update($id, $input);
+                        if ($result) {
+                            sendResponse($result);
+                        } else {
+                            sendError('Failed to update property', 500);
+                        }
+                    } else {
+                        sendError('Invalid JSON input', 400);
+                    }
+                    break;
                 default:
                     sendError('Method not allowed', 405);
             }
@@ -147,9 +252,58 @@ try {
                             sendError('Staff member not found', 404);
                         }
                     } else {
-                        // Get all staff members
-                        $staff = $controller->get_all();
+                        // Get all staff members or filtered
+                        if (isset($_GET['admins']) && $_GET['admins'] === 'true') {
+                            $staff = $controller->get_admins();
+                        } elseif (isset($_GET['non_admins']) && $_GET['non_admins'] === 'true') {
+                            $staff = $controller->get_non_admins();
+                        } else {
+                            $staff = $controller->get_all();
+                        }
                         sendResponse($staff);
+                    }
+                    break;
+                case 'POST':
+                    // Create new staff member
+                    $input = json_decode(file_get_contents('php://input'), true);
+                    if ($input) {
+                        $result = $controller->create($input);
+                        if ($result) {
+                            sendResponse($result, 201);
+                        } else {
+                            sendError('Failed to create staff member', 500);
+                        }
+                    } else {
+                        sendError('Invalid JSON input', 400);
+                    }
+                    break;
+                case 'PUT':
+                    // Update staff member
+                    if (!$id) {
+                        sendError('Staff ID required for update', 400);
+                    }
+                    $input = json_decode(file_get_contents('php://input'), true);
+                    if ($input) {
+                        $result = $controller->update($id, $input);
+                        if ($result) {
+                            sendResponse($result);
+                        } else {
+                            sendError('Failed to update staff member', 500);
+                        }
+                    } else {
+                        sendError('Invalid JSON input', 400);
+                    }
+                    break;
+                case 'DELETE':
+                    // Delete staff member
+                    if (!$id) {
+                        sendError('Staff ID required for deletion', 400);
+                    }
+                    $result = $controller->delete($id);
+                    if ($result) {
+                        sendResponse(['message' => 'Staff member deleted successfully']);
+                    } else {
+                        sendError('Failed to delete staff member', 500);
                     }
                     break;
                 default:
@@ -170,8 +324,16 @@ try {
                             sendError('Inquiry not found', 404);
                         }
                     } else {
-                        // Get all inquiries
-                        $inquiries = $controller->get_all();
+                        // Get all inquiries or filtered
+                        if (isset($_GET['unhandled']) && $_GET['unhandled'] === 'true') {
+                            $inquiries = $controller->get_unhandled();
+                        } elseif (isset($_GET['handled']) && $_GET['handled'] === 'true') {
+                            $inquiries = $controller->get_handled();
+                        } elseif (isset($_GET['with_object_info']) && $_GET['with_object_info'] === 'true') {
+                            $inquiries = $controller->get_inquiries_with_object_info();
+                        } else {
+                            $inquiries = $controller->get_all();
+                        }
                         sendResponse($inquiries);
                     }
                     break;
@@ -187,6 +349,54 @@ try {
                         }
                     } else {
                         sendError('Invalid JSON input', 400);
+                    }
+                    break;
+                case 'PUT':
+                    // Update inquiry
+                    if (!$id) {
+                        sendError('Inquiry ID required for update', 400);
+                    }
+                    $input = json_decode(file_get_contents('php://input'), true);
+                    if ($input) {
+                        $result = $controller->update($id, $input);
+                        if ($result) {
+                            sendResponse($result);
+                        } else {
+                            sendError('Failed to update inquiry', 500);
+                        }
+                    } else {
+                        sendError('Invalid JSON input', 400);
+                    }
+                    break;
+                case 'PATCH':
+                    // Special PATCH endpoints for inquiry actions
+                    if ($id) {
+                        if (isset($_GET['action'])) {
+                            switch ($_GET['action']) {
+                                case 'toggle_handled':
+                                    $result = $controller->toggle_handled($id);
+                                    if ($result) {
+                                        sendResponse($result);
+                                    } else {
+                                        sendError('Failed to toggle handled status', 500);
+                                    }
+                                    break;
+                                case 'complete':
+                                    $result = $controller->complete($id);
+                                    if ($result) {
+                                        sendResponse($result);
+                                    } else {
+                                        sendError('Failed to complete inquiry', 500);
+                                    }
+                                    break;
+                                default:
+                                    sendError('Invalid action', 400);
+                            }
+                        } else {
+                            sendError('Action parameter required for PATCH', 400);
+                        }
+                    } else {
+                        sendError('Inquiry ID required for PATCH', 400);
                     }
                     break;
                 default:

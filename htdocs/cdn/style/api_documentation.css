@@ -23,6 +23,10 @@
     border-left-color: #dc3545; 
 }
 
+.method-patch { 
+    border-left-color: #6f42c1; 
+}
+
 .method-badge {
     display: inline-block;
     padding: 4px 8px;
@@ -44,6 +48,10 @@
 
 .badge-put { 
     background-color: #17a2b8; 
+}
+
+.badge-patch { 
+    background-color: #6f42c1; 
 }
 
 .badge-delete { 
