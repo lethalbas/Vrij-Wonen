@@ -14,7 +14,7 @@ class StaffRepository extends BaseRepository {
     }
 
     public function findByUsername(string $username): ?array {
-        $sth = $this->db->prepare("SELECT id, username, email, passwordhash, admin FROM staff WHERE username = ? LIMIT 1");
+        $sth = $this->db->prepare("SELECT id, username, email, passwordhash FROM staff WHERE username = ? LIMIT 1");
         $sth->execute([$username]);
         $result = $sth->fetch(PDO::FETCH_ASSOC);
         return $result ?: null;
@@ -37,25 +37,13 @@ class StaffRepository extends BaseRepository {
         return $sth->execute([$username]);
     }
 
-    public function deleteNonAdmin(int $id): bool {
-        $sth = $this->db->prepare("DELETE FROM staff WHERE id = ? AND admin = 0");
+    public function delete(int $id): bool {
+        $sth = $this->db->prepare("DELETE FROM staff WHERE id = ?");
         return $sth->execute([$id]);
     }
 
-    public function getAdmins(): array {
-        $sth = $this->db->prepare("SELECT * FROM staff WHERE admin = 1 ORDER BY username");
-        $sth->execute();
-        return $sth->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function getNonAdmins(): array {
-        $sth = $this->db->prepare("SELECT * FROM staff WHERE admin = 0 ORDER BY username");
-        $sth->execute();
-        return $sth->fetchAll(PDO::FETCH_ASSOC);
-    }
-
     public function createStaff(array $data): bool {
-        $sql = "INSERT INTO staff (username, email, passwordhash, sessionkey, admin) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO staff (username, email, passwordhash, sessionkey) VALUES (?, ?, ?, ?)";
         $sth = $this->db->prepare($sql);
         
         try {
@@ -63,8 +51,7 @@ class StaffRepository extends BaseRepository {
                 $data['username'],
                 $data['email'],
                 $data['passwordhash'],
-                $data['sessionkey'] ?? '',
-                $data['admin'] ?? 0
+                $data['sessionkey'] ?? ''
             ]);
         } catch (PDOException $e) {
             return false;
@@ -75,9 +62,12 @@ class StaffRepository extends BaseRepository {
         $sth = $this->db->prepare("UPDATE staff SET passwordhash = ? WHERE id = ?");
         return $sth->execute([$passwordHash, $id]);
     }
-
-    public function updateAdminStatus(int $id, bool $isAdmin): bool {
-        $sth = $this->db->prepare("UPDATE staff SET admin = ? WHERE id = ?");
-        return $sth->execute([$isAdmin ? 1 : 0, $id]);
+    
+    public function getLastInsertId(): int {
+        return (int)$this->db->lastInsertId();
+    }
+    
+    public function getAll(): array {
+        return $this->findAll();
     }
 }

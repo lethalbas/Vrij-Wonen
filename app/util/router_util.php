@@ -3,6 +3,9 @@
 class router_util {
     // use this method in index.php to route to the desired views
     function route($request) {
+        // Remove query string from request for routing
+        $request = parse_url($request, PHP_URL_PATH);
+        
         switch ($request) {
             case '' :
             case '/' :
@@ -48,6 +51,9 @@ class router_util {
                 break;
             case '/beheerder/api-documentatie' :
                 require_once  __DIR__ . '/../view/restricted/api_documentation.php';
+                break;
+            case '/beheerder/rollen-beheer' :
+                require_once  __DIR__ . '/../view/restricted/roles_management.php';
                 break;
             case '/forbidden' :
                 require_once  __DIR__ . '/../view/forbidden.php';

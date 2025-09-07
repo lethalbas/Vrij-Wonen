@@ -2,9 +2,10 @@
 session_start();
 
 // Handle login logic BEFORE any HTML output
-require_once __DIR__ . "/../util/dependencies_util.php"; 
-$dep = new dependencies_util();
-$dep->all_dependencies();
+require_once __DIR__ . "/../util/file_handler_util.php";
+require_once __DIR__ . "/../util/user_login_session_util.php";
+require_once __DIR__ . "/../util/notification_util.php";
+
 $file_handler_util = new file_handler_util();
 $ulsu = new user_login_session_util();
 $note = new notification_util();
@@ -30,6 +31,11 @@ if(isset($_POST["user"]) && isset($_POST["pass"])){
         exit;
     }
 }
+
+// Load dependencies AFTER login logic
+require_once __DIR__ . "/../util/dependencies_util.php"; 
+$dep = new dependencies_util();
+$dep->all_dependencies();
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -11,9 +11,9 @@ class staff_model extends model {
         return $sth->fetchAll();
     }
 
-    // check if staff member is admin by session key
+    // check if staff member exists by session key
     function get_by_session($sess) {
-        $sth = $this->db->prepare("SELECT `admin` FROM staff WHERE sessionkey = ? LIMIT 1");
+        $sth = $this->db->prepare("SELECT id, username, email FROM staff WHERE sessionkey = ? LIMIT 1");
         $sth->execute([$sess]);
         return $sth->fetch();
     }
@@ -25,9 +25,9 @@ class staff_model extends model {
         return $sth->fetch();
     }
 
-    // delete staff member (only delete if the staff member isn't an administrator)
+    // delete staff member
     function delete($id) {
-        $sth = $this->db->prepare("DELETE FROM staff WHERE id = ? AND `admin` = 0");
+        $sth = $this->db->prepare("DELETE FROM staff WHERE id = ?");
         $sth->execute([$id]);
     }
 
@@ -39,9 +39,9 @@ class staff_model extends model {
 
     // create staff member
     function create($data) {
-        $sth = $this->db->prepare("INSERT INTO staff(username,email,passwordhash,`admin`) VALUES(?,?,?,?);");
+        $sth = $this->db->prepare("INSERT INTO staff(username,email,passwordhash) VALUES(?,?,?);");
         try{
-            $sth->execute([$data["username"], $data["email"], $data["passwordhash"], $data["admin"]]);
+            $sth->execute([$data["username"], $data["email"], $data["passwordhash"]]);
         }
         catch (PDOException $e)
         {
